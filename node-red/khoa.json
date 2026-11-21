@@ -1,0 +1,642 @@
+[
+  {
+    "id": "4b33b41269aa03b7",
+    "type": "tab",
+    "label": "Khoa – ID1 ID4 ID5 ID6 ID8",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "19d5b02feebf0df5",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Kết nối hộp",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Online",
+    "valueType": "str",
+    "x": 440,
+    "y": 444,
+    "wires": []
+  },
+  {
+    "id": "8625ac9901618927",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Trạng thái đồng hồ",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đang học",
+    "valueType": "str",
+    "x": 440,
+    "y": 488,
+    "wires": []
+  },
+  {
+    "id": "ad7ae89765730c36",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Môn đang học",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Anh văn",
+    "valueType": "str",
+    "x": 440,
+    "y": 532,
+    "wires": []
+  },
+  {
+    "id": "0c44a75939067152",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Chu kỳ",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "2 / 2",
+    "valueType": "str",
+    "x": 440,
+    "y": 576,
+    "wires": []
+  },
+  {
+    "id": "42ed03e27785dc85",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Thời gian còn lại",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "18:10",
+    "valueType": "str",
+    "x": 440,
+    "y": 620,
+    "wires": []
+  },
+  {
+    "id": "08d3f1a5863fe84b",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "117fa1b68a651cda",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Cảnh báo thiếu sáng",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Không có",
+    "valueType": "str",
+    "x": 440,
+    "y": 664,
+    "wires": []
+  },
+  {
+    "id": "2a12b3146612a39d",
+    "type": "ui-gauge",
+    "z": "4b33b41269aa03b7",
+    "name": "",
+    "group": "f104b8d3c01a8c61",
+    "order": 1,
+    "value": "payload",
+    "valueType": "msg",
+    "width": 0,
+    "height": 4,
+    "gtype": "gauge-half",
+    "gstyle": "needle",
+    "title": "Độ sáng",
+    "alwaysShowTitle": false,
+    "floatingTitlePosition": "top-left",
+    "units": "",
+    "icon": "",
+    "prefix": "",
+    "suffix": "%",
+    "segments": [
+      {
+        "from": 0,
+        "color": "#ea5353"
+      },
+      {
+        "from": 30,
+        "color": "#e6e600"
+      },
+      {
+        "from": 60,
+        "color": "#5cd65c"
+      }
+    ],
+    "min": 0,
+    "max": 100,
+    "sizeThickness": 16,
+    "sizeGap": 4,
+    "sizeKeyThickness": 8,
+    "styleRounded": true,
+    "styleGlow": false,
+    "className": "",
+    "x": 440,
+    "y": 842,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "04c565e381aeafb2",
+    "type": "ui-slider",
+    "z": "4b33b41269aa03b7",
+    "group": "f104b8d3c01a8c61",
+    "name": "",
+    "label": "Ngưỡng cảnh báo thiếu sáng (%)",
+    "tooltip": "",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "outs": "all",
+    "topic": "topic",
+    "topicType": "msg",
+    "thumbLabel": true,
+    "showTicks": "always",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "className": "",
+    "iconPrepend": "",
+    "iconAppend": "",
+    "color": "",
+    "colorTrack": "",
+    "colorThumb": "",
+    "showTextField": false,
+    "x": 520,
+    "y": 890,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "408aa7a21e56ad3b",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "f104b8d3c01a8c61",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Tình trạng",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đủ sáng",
+    "valueType": "str",
+    "x": 490,
+    "y": 790,
+    "wires": []
+  },
+  {
+    "id": "72e1034525f775e2",
+    "type": "ui-table",
+    "z": "4b33b41269aa03b7",
+    "group": "d5665b6e679d2ddb",
+    "name": "",
+    "label": "",
+    "order": 1,
+    "width": 0,
+    "height": 6,
+    "maxrows": 0,
+    "passthru": false,
+    "autocols": true,
+    "showSearch": false,
+    "deselect": true,
+    "selectionType": "none",
+    "columns": [],
+    "mobileBreakpoint": "sm",
+    "mobileBreakpointType": "defaults",
+    "action": "replace",
+    "className": "",
+    "x": 440,
+    "y": 1532,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "002b4ba45f5f2f42",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] Nhật ký",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": "[{\"Giờ\":\"19:02\",\"Môn\":\"Toán\",\"Chu kỳ\":\"1/3\",\"Thời lượng\":\"25/25 phút\",\"Tạm dừng\":\"1 lần (2 phút)\",\"Kết quả\":\"Hoàn thành\"},{\"Giờ\":\"19:34\",\"Môn\":\"Toán\",\"Chu kỳ\":\"2/3\",\"Thời lượng\":\"25/25 phút\",\"Tạm dừng\":\"Không\",\"Kết quả\":\"Hoàn thành\"},{\"Giờ\":\"20:04\",\"Môn\":\"Toán\",\"Chu kỳ\":\"3/3\",\"Thời lượng\":\"14/25 phút\",\"Tạm dừng\":\"3 lần (9 phút)\",\"Kết quả\":\"Bỏ dở\"},{\"Giờ\":\"20:10\",\"Môn\":\"—\",\"Chu kỳ\":\"—\",\"Thời lượng\":\"—\",\"Tạm dừng\":\"—\",\"Kết quả\":\"Cảnh báo thiếu sáng\"},{\"Giờ\":\"20:47\",\"Môn\":\"Anh văn\",\"Chu kỳ\":\"1/2\",\"Thời lượng\":\"25/25 phút\",\"Tạm dừng\":\"Không\",\"Kết quả\":\"Hoàn thành\"}]",
+    "payloadType": "json",
+    "x": 140,
+    "y": 1532,
+    "wires": [
+      [
+        "72e1034525f775e2"
+      ]
+    ]
+  },
+  {
+    "id": "03187ec76d5c58ca",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] Độ sáng",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": 42,
+    "payloadType": "num",
+    "x": 140,
+    "y": 842,
+    "wires": [
+      [
+        "2a12b3146612a39d"
+      ]
+    ]
+  },
+  {
+    "id": "e1545931ecf5a001",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] Ngưỡng cảnh báo thiếu sáng (%)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": 30,
+    "payloadType": "num",
+    "x": 120,
+    "y": 890,
+    "wires": [
+      [
+        "04c565e381aeafb2"
+      ]
+    ]
+  },
+  {
+    "id": "pmdc117fa1b68a651cda",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "▼ Trạng thái hộp  (rộng 6/12 cột)",
+    "info": "",
+    "x": 440,
+    "y": 400,
+    "wires": []
+  },
+  {
+    "id": "pmdti117fa1b68a651cda",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 140,
+    "y": 400,
+    "wires": [
+      [
+        "19d5b02feebf0df5",
+        "8625ac9901618927",
+        "ad7ae89765730c36",
+        "0c44a75939067152",
+        "42ed03e27785dc85",
+        "08d3f1a5863fe84b"
+      ]
+    ]
+  },
+  {
+    "id": "pmdcf104b8d3c01a8c61",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "▼ Độ sáng phòng (LDR)  (rộng 6/12 cột)",
+    "info": "",
+    "x": 410,
+    "y": 730,
+    "wires": []
+  },
+  {
+    "id": "pmdtif104b8d3c01a8c61",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 130,
+    "y": 790,
+    "wires": [
+      [
+        "408aa7a21e56ad3b"
+      ]
+    ]
+  },
+  {
+    "id": "pmdcd5665b6e679d2ddb",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "▼ Nhật ký học hôm nay  (rộng 12/12 cột)",
+    "info": "",
+    "x": 440,
+    "y": 1488,
+    "wires": []
+  },
+  {
+    "id": "9229555ecae062c5",
+    "type": "ui-switch",
+    "z": "4b33b41269aa03b7",
+    "name": "",
+    "label": "Báo về điện thoại khi hoàn thành",
+    "group": "ca782e97f96b9386",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "decouple": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "style": "",
+    "className": "",
+    "layout": "row-spread",
+    "clickableArea": "switch",
+    "onvalue": true,
+    "onvalueType": "bool",
+    "onicon": "",
+    "oncolor": "",
+    "offvalue": false,
+    "offvalueType": "bool",
+    "officon": "",
+    "offcolor": "",
+    "x": 420,
+    "y": 1716,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "7b1554ea9fee7ddc",
+    "type": "ui-text",
+    "z": "4b33b41269aa03b7",
+    "group": "ca782e97f96b9386",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Trạng thái bot",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Chưa kết nối",
+    "valueType": "str",
+    "x": 420,
+    "y": 1760,
+    "wires": []
+  },
+  {
+    "id": "pmdcca782e97f96b9386",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "▼ Thông báo nhanh (Telegram, dự phòng)  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1672,
+    "wires": []
+  },
+  {
+    "id": "pmdtica782e97f96b9386",
+    "type": "inject",
+    "z": "4b33b41269aa03b7",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 1672,
+    "wires": [
+      [
+        "7b1554ea9fee7ddc"
+      ]
+    ]
+  },
+  {
+    "id": "79ef84294c12064e",
+    "type": "link in",
+    "z": "4b33b41269aa03b7",
+    "name": "state",
+    "links": [
+      "a21c76e51afd238d"
+    ],
+    "x": 330,
+    "y": 180,
+    "wires": [
+      []
+    ],
+    "l": true
+  },
+  {
+    "id": "a2691f47a44a09b6",
+    "type": "link in",
+    "z": "4b33b41269aa03b7",
+    "name": "lux",
+    "links": [
+      "e386189a93f8c0b5"
+    ],
+    "x": 490,
+    "y": 180,
+    "wires": [
+      []
+    ],
+    "l": true
+  },
+  {
+    "id": "43887230e58a0da1",
+    "type": "link in",
+    "z": "4b33b41269aa03b7",
+    "name": "session",
+    "links": [
+      "98c2812fadc53de3"
+    ],
+    "x": 650,
+    "y": 180,
+    "wires": [
+      []
+    ],
+    "l": true
+  },
+  {
+    "id": "46f690f23199ac38",
+    "type": "link out",
+    "z": "4b33b41269aa03b7",
+    "name": "to-cmd",
+    "mode": "link",
+    "links": [
+      "b1ac0b246878bd50"
+    ],
+    "x": 910,
+    "y": 180,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "25e4b4cb26a4f7e5",
+    "type": "link out",
+    "z": "4b33b41269aa03b7",
+    "name": "to-ack",
+    "mode": "link",
+    "links": [
+      "276c1d3c6a177ccf"
+    ],
+    "x": 920,
+    "y": 240,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "d933487324610019",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "━━━━ Trang dashboard: Tổng quan ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 360,
+    "wires": []
+  },
+  {
+    "id": "6c6911ba94e7a0f9",
+    "type": "comment",
+    "z": "4b33b41269aa03b7",
+    "name": "━━━━ Trang dashboard: Phụ huynh và cài đặt ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 1632,
+    "wires": []
+  }
+]

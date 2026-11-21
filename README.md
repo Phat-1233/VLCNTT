@@ -25,8 +25,9 @@ VLCNTT/
 │   ├── oled.ino           # ID2  Phát – lệnh web -> OLED
 │   └── buzzer.ino         # ID10 Phát – lệnh web -> buzzer
 ├── node-red/
-│   ├── flows.json         # xương sống MQTT (sẽ tách common/khoa/phat ở Task 0.4)
-│   └── ui_wireframe.json  # khung 4 trang dashboard theo wireframe
+│   ├── common.json        # tab Chung + broker + khung dashboard (đóng băng)
+│   ├── khoa.json          # tab Khoa: ID1 ID3 ID4 ID5 ID6 ID8
+│   └── phat.json          # tab Phát: ID2 ID7 ID9 ID10 ID11
 ├── ai-service/            # ID7 Phát – Flask + logistic regression (numpy) + CSP
 ├── supabase/schema.sql    # ID8 Khoa – schema v2, bật RLS
 ├── docs/lo_trinh_lam_pomodoro.md   # sơ đồ chân, lỗi hay gặp
@@ -79,8 +80,9 @@ VLCNTT/
 3. Menu ☰ → **Manage palette** → **Install** 3 gói:
    `@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`.
 4. Import flow: Menu ☰ → **Import**.
-   - Hiện tại: `node-red/flows.json` (xương sống MQTT) và `node-red/ui_wireframe.json` (khung 4 trang dashboard).
-   - Sau Task 0.4: import theo thứ tự `common.json` → `khoa.json` → `phat.json`; khi Node-RED hỏi trùng node thì chọn **Replace** (không chọn *Import copy*).
+   - Import **đúng thứ tự** `node-red/common.json` → `khoa.json` → `phat.json`; khi Node-RED hỏi trùng node thì chọn **Replace** (không chọn *Import copy*, sẽ đổi id làm đứt link).
+   - `common.json` = tab **Chung** (MQTT vào/ra, link `state`/`lux`/`session`/`to-cmd`/`to-ack`, giả lập `sim-01`) + broker EMQX + toàn bộ khung dashboard (ui-base, theme, 4 page, 20 group). **Đóng băng**: cần sửa thì nhắn nhau trước.
+   - `khoa.json` / `phat.json` = tab riêng của từng người, chỉ nhận/gửi dữ liệu qua các node link.
 5. Mở node cấu hình broker **EMQX Cloud** → *Server* = Address của EMQX, port 8883, bật TLS; tab *Security* nhập user/pass `nodered` → **Deploy**.
 6. Sửa flow xong: chọn tab của mình → Menu ☰ → **Export** → *Current flow* → ghi đè đúng file của mình rồi commit. Không export *All flows*.
 7. Dashboard: `http://localhost:1880/dashboard`.

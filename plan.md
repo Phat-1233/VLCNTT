@@ -107,7 +107,7 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 - [x] **[Khoa]** Tạo deployment **EMQX Cloud Serverless** (Spend Limit = 0); Access Control → Authentication tạo 2 user `esp32`, `nodered`; ghi Address + cổng 8883 vào chỗ riêng (không vào Git). Lưu ý: 30 ngày không có client kết nối thì EMQX tự dừng deployment → vào console bật lại.
 - [x] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
 - [x] **[Phát]** Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại nhận tin → gửi riêng cho Khoa. _(Khoa tạo thay vì tài khoản Telegram mới ở VN bị thu phí SMS; bot `@pomodoros_kp_bot`, `getMe` OK 21/11)_
-- [ ] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED.
+- [x] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED. _(21/11, lưu riêng, nhập vào node email ở Task 4.P2)_
 - [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu). — **Phát ✔ 21/11** (Partition Scheme: Huge APP, Verify `pomodoro.ino` OK)
 - [ ] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`. — **Phát ✔ 21/11** (curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK)
 
@@ -152,14 +152,14 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 **Files:** Create `node-red/common.json`, `node-red/khoa.json` (tab trống), `node-red/phat.json`; Delete `node-red/flows.json`; Modify `README.md` (mục Node-RED).
 
 - [x] **[Khoa]** Export dashboard wireframe đang chạy trên máy Khoa (4 tab `UI – ...`, 4 page, 20 group, inject `[MẪU]`) → `node-red/ui_wireframe.json`. **Không dựng lại UI từ đầu**: import file này, giữ nguyên `ui-base/theme/page/group` (đưa vào `common.json`), chuyển widget của group Khoa (Trạng thái hộp, Độ sáng phòng, Nhật ký học hôm nay, Thông báo nhanh Telegram) sang tab Khoa, còn lại sang tab Phát. Inject `[MẪU]` giữ lại tới khi có dữ liệu thật rồi xóa.
-- [ ] Từ `flows.json` hiện có, dựng tab `Chung` theo mục "Quy tắc 2": switch → link out `state`/`lux`/`session`; link in `to-cmd`/`to-ack` → mqtt out. Đổi giả lập sang `"dev":"sim-01"`.
-- [ ] Chuyển 3 node inject thử + 2 function ID2/ID10 sang tab `Phát`, nối ra link out `to-cmd`.
+- [x] Từ `flows.json` hiện có, dựng tab `Chung` theo mục "Quy tắc 2": switch → link out `state`/`lux`/`session`; link in `to-cmd`/`to-ack` → mqtt out. Đổi giả lập sang `"dev":"sim-01"`.
+- [x] Chuyển 3 node inject thử + 2 function ID2/ID10 sang tab `Phát`, nối ra link out `to-cmd`.
 - [x] (Đã có sẵn trong `ui_wireframe.json` – chỉ cần đổi tên group thêm "(Khoa)"/"(Phát)".) Tạo `ui-base`, 4 `ui-page`: **Tổng quan**, **Lịch học AI**, **Thống kê**, **Phụ huynh và cài đặt**; tạo sẵn `ui-group` trống đúng như wireframe, ghi chủ trong tên group:
   - Tổng quan: `Trạng thái hộp (Khoa)`, `Độ sáng phòng (Khoa)`, `Gửi xuống hộp (Phát)`, `Hôm nay (Phát)`, `Nhật ký học hôm nay (Khoa)`
   - Lịch học AI: `Chọn cách nhập (Phát)`, `Nhập lịch (Phát)`, `Lịch tuần do AI xếp (Phát)`, `Khả năng hoàn thành theo giờ (Phát)`
   - Thống kê: `Chọn khoảng (Phát)`, `Tổng kết (Phát)`, 4 group biểu đồ `(Phát)`
   - Phụ huynh: `Email báo cáo (Phát)`, `Telegram (Khoa)`, `Trạng thái hệ thống (Phát)`, `Lịch sử gửi email (Phát)`
-- [ ] Export 3 file; xóa `flows.json`; sửa README: "Import theo thứ tự common → khoa → phat, chọn Replace khi trùng".
+- [x] Export 3 file; xóa `flows.json`; sửa README: "Import theo thứ tự common → khoa → phat, chọn Replace khi trùng". _(Xong 22/11. Ghi chú: Khoa sửa trong tab Khoa trên máy mình rồi export *Current flow* → `khoa.json`; KHÔNG export *All flows*. `ui_wireframe.json` đã gộp vào 3 file nên xóa luôn.)_
 - [ ] Kiểm tra: import 3 file vào Node-RED trống → Deploy không lỗi; bấm "Giả lập state" thấy bản tin đi qua link `state` (debug); dashboard có 4 trang.
 - [ ] Commit `chung: tach Node-RED thanh common/khoa/phat` → **nhắn Khoa pull**.
 

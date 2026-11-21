@@ -1,0 +1,2355 @@
+[
+  {
+    "id": "926f37b61fb23da8",
+    "type": "tab",
+    "label": "Phát – ID2 ID7 ID9 ID10 ID11",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "injMsg",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Thử lời nhắn",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "Con nhớ ăn cơm rồi học tiếp nhé",
+    "payloadType": "str",
+    "x": 320,
+    "y": 240,
+    "wires": [
+      [
+        "fnMsg"
+      ]
+    ]
+  },
+  {
+    "id": "fnMsg",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID2 – đóng gói lời nhắn (bỏ dấu)",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nmsg.payload = { type: 'msg', text: boDau(msg.payload).slice(0, 150), sec: 10 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 580,
+    "y": 240,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
+  },
+  {
+    "id": "injSub",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Thử đổi môn: Toán",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "Toán",
+    "payloadType": "str",
+    "x": 330,
+    "y": 290,
+    "wires": [
+      [
+        "fnSub"
+      ]
+    ]
+  },
+  {
+    "id": "fnSub",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID2 – đóng gói đổi môn (bỏ dấu)",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nmsg.payload = { type: 'subject', name: boDau(msg.payload).slice(0, 22) };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 580,
+    "y": 290,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
+  },
+  {
+    "id": "injBeep",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Thử Nhắc nhở (beep)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "3",
+    "payloadType": "num",
+    "x": 330,
+    "y": 340,
+    "wires": [
+      [
+        "fnBeep"
+      ]
+    ]
+  },
+  {
+    "id": "fnBeep",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID10 – lệnh kêu còi",
+    "func": "msg.payload = { type: 'beep', times: Number(msg.payload) || 3 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 560,
+    "y": 340,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
+  },
+  {
+    "id": "eada53857a3a3190",
+    "type": "ui-dropdown",
+    "z": "926f37b61fb23da8",
+    "group": "d5cbf295beb14cdd",
+    "name": "",
+    "label": "Môn học (khi học ngoài lịch)",
+    "tooltip": "",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "multiple": false,
+    "chips": false,
+    "clearable": false,
+    "options": [
+      {
+        "label": "Toán",
+        "value": "Toán",
+        "type": "str"
+      },
+      {
+        "label": "Anh văn",
+        "value": "Anh văn",
+        "type": "str"
+      },
+      {
+        "label": "Vật lý",
+        "value": "Vật lý",
+        "type": "str"
+      },
+      {
+        "label": "Khác",
+        "value": "Khác",
+        "type": "str"
+      }
+    ],
+    "payload": "",
+    "topic": "topic",
+    "topicType": "msg",
+    "className": "",
+    "typeIsComboBox": true,
+    "msgTrigger": "onChange",
+    "x": 420,
+    "y": 544,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "8fd176dd2e2204d4",
+    "type": "ui-text-input",
+    "z": "926f37b61fb23da8",
+    "group": "d5cbf295beb14cdd",
+    "name": "",
+    "label": "Lời nhắn hiện trên OLED (10 giây)",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "topic": "topic",
+    "topicType": "msg",
+    "mode": "text",
+    "tooltip": "",
+    "delay": 300,
+    "passthru": true,
+    "sendOnDelay": false,
+    "sendOnBlur": true,
+    "sendOnEnter": true,
+    "className": "",
+    "clearable": false,
+    "sendOnClear": false,
+    "icon": "",
+    "iconPosition": "left",
+    "iconInnerPosition": "inside",
+    "x": 420,
+    "y": 588,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "2d626c49433ec53d",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "d5cbf295beb14cdd",
+    "name": "",
+    "label": "Gửi lời nhắn",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "send",
+    "iconPosition": "left",
+    "payload": "Gửi lời nhắn",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 632,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "857e3656f6f44ce7",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "d5cbf295beb14cdd",
+    "name": "",
+    "label": "Nhắc nhở (buzzer kêu 3 tiếng)",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "bell-ring",
+    "iconPosition": "left",
+    "payload": "Nhắc nhở (buzzer kêu 3 tiếng)",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 676,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "d59dc7e42aef8586",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "71b01169c510bfb5",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Kế hoạch",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "5 chu kỳ",
+    "valueType": "str",
+    "x": 420,
+    "y": 794,
+    "wires": []
+  },
+  {
+    "id": "b3d9b42b53d5a27d",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "71b01169c510bfb5",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Đã hoàn thành",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "3 chu kỳ (60%)",
+    "valueType": "str",
+    "x": 420,
+    "y": 838,
+    "wires": []
+  },
+  {
+    "id": "8f0d36af8ae577bd",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "71b01169c510bfb5",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Tổng thời gian học",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "1 giờ 29 phút",
+    "valueType": "str",
+    "x": 420,
+    "y": 882,
+    "wires": []
+  },
+  {
+    "id": "3577f6b1585cdef4",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "71b01169c510bfb5",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Buổi tiếp theo",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Thứ 4 19:30 – Vật lý 3×25 phút",
+    "valueType": "str",
+    "x": 420,
+    "y": 926,
+    "wires": []
+  },
+  {
+    "id": "6c9a68c0f4ee378a",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "71b01169c510bfb5",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "name": "Cảnh báo thiếu sáng hôm nay",
+    "label": "Cảnh báo thiếu sáng hôm nay",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "1 lần (lúc 20:10)",
+    "valueType": "str",
+    "x": 420,
+    "y": 970,
+    "wires": []
+  },
+  {
+    "id": "pmdcd5cbf295beb14cdd",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Gửi xuống hộp  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 500,
+    "wires": []
+  },
+  {
+    "id": "pmdc71b01169c510bfb5",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Hôm nay  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 750,
+    "wires": []
+  },
+  {
+    "id": "pmdti71b01169c510bfb5",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 750,
+    "wires": [
+      [
+        "d59dc7e42aef8586",
+        "b3d9b42b53d5a27d",
+        "8f0d36af8ae577bd",
+        "3577f6b1585cdef4",
+        "6c9a68c0f4ee378a"
+      ]
+    ]
+  },
+  {
+    "id": "b605f38a29e7f43c",
+    "type": "ui-button-group",
+    "z": "926f37b61fb23da8",
+    "name": "",
+    "group": "d15081d0a559acba",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "label": "Cách nhập lịch",
+    "className": "",
+    "rounded": true,
+    "useThemeColors": true,
+    "passthru": false,
+    "options": [
+      {
+        "label": "Chọn ngày rảnh và môn cần học",
+        "icon": "",
+        "value": "Chọn ngày rảnh và môn cần học",
+        "valueType": "str",
+        "color": ""
+      },
+      {
+        "label": "Gửi thời khóa biểu trên lớp",
+        "icon": "",
+        "value": "Gửi thời khóa biểu trên lớp",
+        "valueType": "str",
+        "color": ""
+      }
+    ],
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 420,
+    "y": 1154,
+    "wires": [
+      [
+        "pmd_fn_toggle"
+      ]
+    ]
+  },
+  {
+    "id": "8bc68a02bc96fede",
+    "type": "ui-form",
+    "z": "926f37b61fb23da8",
+    "name": "Form: ngày rảnh và môn cần học",
+    "group": "52b574d6abab6b56",
+    "label": "",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "options": [
+      {
+        "label": "Thứ 2",
+        "key": "t2",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Thứ 3",
+        "key": "t3",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Thứ 4",
+        "key": "t4",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Thứ 5",
+        "key": "t5",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Thứ 6",
+        "key": "t6",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Thứ 7",
+        "key": "t7",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Chủ nhật",
+        "key": "cn",
+        "type": "checkbox",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Môn cần học (mỗi môn một dòng)",
+        "key": "mon",
+        "type": "multiline",
+        "required": false,
+        "rows": 3
+      },
+      {
+        "label": "Môn ưu tiên",
+        "key": "uutien",
+        "type": "text",
+        "required": false,
+        "rows": null
+      }
+    ],
+    "formValue": {
+      "t2": false,
+      "t3": false,
+      "t4": false,
+      "t5": false,
+      "t6": false,
+      "t7": false,
+      "cn": false,
+      "mon": "",
+      "uutien": ""
+    },
+    "payload": "",
+    "submit": "Sinh lịch tuần bằng AI",
+    "cancel": "Xóa",
+    "resetOnSubmit": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "splitLayout": "",
+    "className": "",
+    "passthru": false,
+    "dropdownOptions": [],
+    "x": 420,
+    "y": 1272,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "f6105c876c4aea65",
+    "type": "ui-form",
+    "z": "926f37b61fb23da8",
+    "name": "Form: thêm tiết vào thời khóa biểu",
+    "group": "2ee8af9ddaae60e6",
+    "label": "",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "options": [
+      {
+        "label": "Thứ",
+        "key": "thu",
+        "type": "text",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Giờ bắt đầu",
+        "key": "bd",
+        "type": "time",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Giờ kết thúc",
+        "key": "kt",
+        "type": "time",
+        "required": false,
+        "rows": null
+      },
+      {
+        "label": "Môn",
+        "key": "mon",
+        "type": "text",
+        "required": false,
+        "rows": null
+      }
+    ],
+    "formValue": {
+      "thu": "",
+      "bd": "",
+      "kt": "",
+      "mon": ""
+    },
+    "payload": "",
+    "submit": "Thêm vào thời khóa biểu",
+    "cancel": "Xóa",
+    "resetOnSubmit": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "splitLayout": "",
+    "className": "",
+    "passthru": false,
+    "dropdownOptions": [],
+    "x": 420,
+    "y": 1390,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "2c0bb099bbbf5875",
+    "type": "ui-table",
+    "z": "926f37b61fb23da8",
+    "group": "2ee8af9ddaae60e6",
+    "name": "",
+    "label": "Thời khóa biểu đã nhập",
+    "order": 2,
+    "width": 0,
+    "height": 4,
+    "maxrows": 0,
+    "passthru": false,
+    "autocols": true,
+    "showSearch": false,
+    "deselect": true,
+    "selectionType": "none",
+    "columns": [],
+    "mobileBreakpoint": "sm",
+    "mobileBreakpointType": "defaults",
+    "action": "replace",
+    "className": "",
+    "x": 420,
+    "y": 1434,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "74b1a14dbf6650a7",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Thời khóa biểu đã nhập",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": "[{\"Thứ\":\"Thứ 2\",\"Bắt đầu\":\"07:00\",\"Kết thúc\":\"11:00\",\"Môn\":\"Giải tích\"},{\"Thứ\":\"Thứ 4\",\"Bắt đầu\":\"07:00\",\"Kết thúc\":\"09:30\",\"Môn\":\"Toán rời rạc\"},{\"Thứ\":\"Thứ 5\",\"Bắt đầu\":\"13:00\",\"Kết thúc\":\"16:00\",\"Môn\":\"Vật lý\"}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 1434,
+    "wires": [
+      [
+        "2c0bb099bbbf5875"
+      ]
+    ]
+  },
+  {
+    "id": "271add1e0236d797",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "2ee8af9ddaae60e6",
+    "name": "",
+    "label": "Tải lên file CSV theo mẫu",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "upload",
+    "iconPosition": "left",
+    "payload": "Tải lên file CSV theo mẫu",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 1478,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "532fbe84324d4a1e",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "2ee8af9ddaae60e6",
+    "name": "",
+    "label": "Sinh lịch tuần bằng AI",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "creation",
+    "iconPosition": "left",
+    "payload": "Sinh lịch tuần bằng AI",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 1522,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "ec8d0b5c6c14bb20",
+    "type": "ui-table",
+    "z": "926f37b61fb23da8",
+    "group": "e7d6198390732105",
+    "name": "",
+    "label": "",
+    "order": 1,
+    "width": 0,
+    "height": 4,
+    "maxrows": 0,
+    "passthru": false,
+    "autocols": true,
+    "showSearch": false,
+    "deselect": true,
+    "selectionType": "none",
+    "columns": [],
+    "mobileBreakpoint": "sm",
+    "mobileBreakpointType": "defaults",
+    "action": "replace",
+    "className": "",
+    "x": 420,
+    "y": 1640,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "af09ff9ec0a824fb",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Lịch tuần",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": "[{\"Ngày\":\"Thứ 3\",\"Giờ\":\"19:00\",\"Môn\":\"Toán\",\"Số chu kỳ\":\"3 × 25 phút\",\"Khả năng hoàn thành\":\"78%\",\"Lý do\":\"Trước tiết Toán rời rạc sáng Thứ 4\"},{\"Ngày\":\"Thứ 3\",\"Giờ\":\"20:45\",\"Môn\":\"Anh văn\",\"Số chu kỳ\":\"2 × 25 phút\",\"Khả năng hoàn thành\":\"71%\",\"Lý do\":\"Môn tuần trước học ít\"},{\"Ngày\":\"Thứ 4\",\"Giờ\":\"19:30\",\"Môn\":\"Vật lý\",\"Số chu kỳ\":\"3 × 25 phút\",\"Khả năng hoàn thành\":\"74%\",\"Lý do\":\"Trước tiết Vật lý chiều Thứ 5\"}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 1640,
+    "wires": [
+      [
+        "ec8d0b5c6c14bb20"
+      ]
+    ]
+  },
+  {
+    "id": "7a8603462a3b5dfc",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "e7d6198390732105",
+    "name": "",
+    "label": "Lưu lịch",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "content-save",
+    "iconPosition": "left",
+    "payload": "Lưu lịch",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 1684,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "16491c3bf68822d1",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "e7d6198390732105",
+    "name": "",
+    "label": "Sinh lại lịch",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "refresh",
+    "iconPosition": "left",
+    "payload": "Sinh lại lịch",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 1728,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "510aa7a50dc73d19",
+    "type": "ui-chart",
+    "z": "926f37b61fb23da8",
+    "group": "c52b7198483b1f1a",
+    "name": "",
+    "label": "Xác suất hoàn thành phiên (%)",
+    "order": 1,
+    "chartType": "bar",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "x",
+    "xAxisPropertyType": "property",
+    "xAxisType": "category",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "y",
+    "yAxisPropertyType": "property",
+    "ymin": "0",
+    "ymax": "",
+    "bins": 10,
+    "action": "replace",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "",
+    "colors": [
+      "#0095FF",
+      "#FF0000",
+      "#FF7F0E",
+      "#2CA02C",
+      "#A347E1",
+      "#D62728",
+      "#FF9896",
+      "#9467BD",
+      "#C5B0D5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 0,
+    "height": 5,
+    "className": "",
+    "interpolation": "linear",
+    "x": 420,
+    "y": 1846,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "eccad0debda30ce9",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Xác suất hoàn thành phiên (%) ·",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Xác suất hoàn thành (%)",
+    "payload": "[{\"x\":\"6h\",\"y\":55},{\"x\":\"7h\",\"y\":58},{\"x\":\"8h\",\"y\":62},{\"x\":\"9h\",\"y\":60},{\"x\":\"10h\",\"y\":52},{\"x\":\"11h\",\"y\":48},{\"x\":\"12h\",\"y\":50},{\"x\":\"13h\",\"y\":53},{\"x\":\"14h\",\"y\":55},{\"x\":\"15h\",\"y\":57},{\"x\":\"16h\",\"y\":60},{\"x\":\"17h\",\"y\":65},{\"x\":\"18h\",\"y\":72},{\"x\":\"19h\",\"y\":78},{\"x\":\"20h\",\"y\":76},{\"x\":\"21h\",\"y\":70},{\"x\":\"22h\",\"y\":60},{\"x\":\"23h\",\"y\":50}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 1846,
+    "wires": [
+      [
+        "510aa7a50dc73d19"
+      ]
+    ]
+  },
+  {
+    "id": "d1a97d149eb97ead",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "c52b7198483b1f1a",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Huấn luyện lần cuối",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "08/11/2026 21:30",
+    "valueType": "str",
+    "x": 420,
+    "y": 1890,
+    "wires": []
+  },
+  {
+    "id": "8644c9f3792aa9be",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "c52b7198483b1f1a",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Độ chính xác (tập kiểm tra 20%)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "81%",
+    "valueType": "str",
+    "x": 420,
+    "y": 1934,
+    "wires": []
+  },
+  {
+    "id": "1c95af4c200848db",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "c52b7198483b1f1a",
+    "name": "",
+    "label": "Huấn luyện lại",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "brain",
+    "iconPosition": "left",
+    "payload": "Huấn luyện lại",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 1978,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "pmdcd15081d0a559acba",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Chọn cách nhập  (rộng 12/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1110,
+    "wires": []
+  },
+  {
+    "id": "pmdc52b574d6abab6b56",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Cách 1: ngày rảnh và môn cần học  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1228,
+    "wires": []
+  },
+  {
+    "id": "pmdc2ee8af9ddaae60e6",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Cách 2: thời khóa biểu trên lớp  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1346,
+    "wires": []
+  },
+  {
+    "id": "pmdce7d6198390732105",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Lịch tuần do AI xếp  (rộng 12/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1596,
+    "wires": []
+  },
+  {
+    "id": "pmdcc52b7198483b1f1a",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Khả năng hoàn thành theo giờ (mô hình AI)  (rộng 12/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 1802,
+    "wires": []
+  },
+  {
+    "id": "pmdtic52b7198483b1f1a",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 1802,
+    "wires": [
+      [
+        "d1a97d149eb97ead",
+        "8644c9f3792aa9be"
+      ]
+    ]
+  },
+  {
+    "id": "pmd_fn_toggle",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Hiện/ẩn cách nhập lịch",
+    "func": "const p = msg.payload;\nconst c1 = '52b574d6abab6b56';\nconst c2 = '2ee8af9ddaae60e6';\nif (p === 'Gửi thời khóa biểu trên lớp') {\n  msg.payload = { groups: { show: [c2], hide: [c1] } };\n} else {\n  msg.payload = { groups: { show: [c1], hide: [c2] } };\n}\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 640,
+    "y": 1154,
+    "wires": [
+      [
+        "pmd_ctl_toggle"
+      ]
+    ]
+  },
+  {
+    "id": "pmd_ctl_toggle",
+    "type": "ui-control",
+    "z": "926f37b61fb23da8",
+    "name": "",
+    "ui": "b554ed0ebaf56bc9",
+    "events": "all",
+    "x": 860,
+    "y": 1154,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "pmd_inj_default2",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] chọn sẵn cách 1",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.5,
+    "topic": "",
+    "payload": "Chọn ngày rảnh và môn cần học",
+    "payloadType": "str",
+    "x": 180,
+    "y": 1154,
+    "wires": [
+      [
+        "b605f38a29e7f43c"
+      ]
+    ]
+  },
+  {
+    "id": "e0f3e357448e83ee",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "4bfb0ab7d187aa70",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Tổng thời gian học",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "5 giờ 25 phút",
+    "valueType": "str",
+    "x": 420,
+    "y": 2162,
+    "wires": []
+  },
+  {
+    "id": "2421cafae1d8d0a7",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "4bfb0ab7d187aa70",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "So với tuần trước",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "+40 phút",
+    "valueType": "str",
+    "x": 420,
+    "y": 2206,
+    "wires": []
+  },
+  {
+    "id": "9e8478a7d880855d",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "4bfb0ab7d187aa70",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Số phiên / tỉ lệ hoàn thành",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "13 / 15 phiên (87%)",
+    "valueType": "str",
+    "x": 420,
+    "y": 2250,
+    "wires": []
+  },
+  {
+    "id": "38443b8d57b97cc9",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "4bfb0ab7d187aa70",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Số lần cảnh báo thiếu sáng",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "3",
+    "valueType": "str",
+    "x": 420,
+    "y": 2294,
+    "wires": []
+  },
+  {
+    "id": "9a349c56b8cfb688",
+    "type": "ui-chart",
+    "z": "926f37b61fb23da8",
+    "group": "e069b8398f56b7d1",
+    "name": "",
+    "label": "Phút học",
+    "order": 1,
+    "chartType": "bar",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "x",
+    "xAxisPropertyType": "property",
+    "xAxisType": "category",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "y",
+    "yAxisPropertyType": "property",
+    "ymin": "0",
+    "ymax": "",
+    "bins": 10,
+    "action": "replace",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "",
+    "colors": [
+      "#0095FF",
+      "#FF0000",
+      "#FF7F0E",
+      "#2CA02C",
+      "#A347E1",
+      "#D62728",
+      "#FF9896",
+      "#9467BD",
+      "#C5B0D5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 0,
+    "height": 5,
+    "className": "",
+    "interpolation": "linear",
+    "x": 420,
+    "y": 2412,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "fee20587287a125a",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Phút học ·",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Phút học",
+    "payload": "[{\"x\":\"T2\",\"y\":75},{\"x\":\"T3\",\"y\":50},{\"x\":\"T4\",\"y\":25},{\"x\":\"T5\",\"y\":75},{\"x\":\"T6\",\"y\":25},{\"x\":\"T7\",\"y\":50},{\"x\":\"CN\",\"y\":25}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 2412,
+    "wires": [
+      [
+        "9a349c56b8cfb688"
+      ]
+    ]
+  },
+  {
+    "id": "c4eec28fa767e890",
+    "type": "ui-chart",
+    "z": "926f37b61fb23da8",
+    "group": "d5b4cda160b93206",
+    "name": "",
+    "label": "Theo môn",
+    "order": 1,
+    "chartType": "bar",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "x",
+    "xAxisPropertyType": "property",
+    "xAxisType": "category",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "y",
+    "yAxisPropertyType": "property",
+    "ymin": "0",
+    "ymax": "180",
+    "bins": 10,
+    "action": "replace",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "",
+    "colors": [
+      "#0095FF",
+      "#FF0000",
+      "#FF7F0E",
+      "#2CA02C",
+      "#A347E1",
+      "#D62728",
+      "#FF9896",
+      "#9467BD",
+      "#C5B0D5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 0,
+    "height": 5,
+    "className": "",
+    "interpolation": "linear",
+    "x": 420,
+    "y": 2530,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "84bd8840fd8a7a97",
+    "type": "ui-chart",
+    "z": "926f37b61fb23da8",
+    "group": "05065804b415b14c",
+    "name": "",
+    "label": "Số buổi",
+    "order": 1,
+    "chartType": "bar",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "x",
+    "xAxisPropertyType": "property",
+    "xAxisType": "category",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "y",
+    "yAxisPropertyType": "property",
+    "ymin": "0",
+    "ymax": "",
+    "bins": 10,
+    "action": "append",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "7",
+    "colors": [
+      "#0095FF",
+      "#2CA02C",
+      "#FF7F0E",
+      "#2CA02C",
+      "#A347E1",
+      "#D62728",
+      "#FF9896",
+      "#9467BD",
+      "#C5B0D5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 0,
+    "height": 5,
+    "className": "",
+    "interpolation": "linear",
+    "x": 420,
+    "y": 2648,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "5e5f57b31529dce9",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Số buổi ·",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Kế hoạch",
+    "payload": "[{\"x\":\"T2\",\"y\":3},{\"x\":\"T3\",\"y\":2},{\"x\":\"T4\",\"y\":2},{\"x\":\"T5\",\"y\":3},{\"x\":\"T6\",\"y\":2},{\"x\":\"T7\",\"y\":2},{\"x\":\"CN\",\"y\":1}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 2648,
+    "wires": [
+      [
+        "84bd8840fd8a7a97"
+      ]
+    ]
+  },
+  {
+    "id": "40983333f673a555",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Số buổi ·",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Thực tế",
+    "payload": "[{\"x\":\"T2\",\"y\":3},{\"x\":\"T3\",\"y\":2},{\"x\":\"T4\",\"y\":1},{\"x\":\"T5\",\"y\":3},{\"x\":\"T6\",\"y\":1},{\"x\":\"T7\",\"y\":2},{\"x\":\"CN\",\"y\":1}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 2648,
+    "wires": [
+      [
+        "84bd8840fd8a7a97"
+      ]
+    ]
+  },
+  {
+    "id": "ac26683323344c21",
+    "type": "ui-chart",
+    "z": "926f37b61fb23da8",
+    "group": "9e4bf3cc5ed0192e",
+    "name": "",
+    "label": "Độ sáng (%)",
+    "order": 1,
+    "chartType": "line",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "x",
+    "xAxisPropertyType": "property",
+    "xAxisType": "category",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "y",
+    "yAxisPropertyType": "property",
+    "ymin": "",
+    "ymax": "",
+    "bins": 10,
+    "action": "replace",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "",
+    "colors": [
+      "#0095FF",
+      "#FF0000",
+      "#FF7F0E",
+      "#2CA02C",
+      "#A347E1",
+      "#D62728",
+      "#FF9896",
+      "#9467BD",
+      "#C5B0D5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 0,
+    "height": 5,
+    "className": "",
+    "interpolation": "linear",
+    "x": 420,
+    "y": 2766,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "feb5a2a3107cd105",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Độ sáng (%)",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Độ sáng TB (%)",
+    "payload": "[{\"x\":\"6h\",\"y\":35},{\"x\":\"7h\",\"y\":45},{\"x\":\"8h\",\"y\":60},{\"x\":\"9h\",\"y\":70},{\"x\":\"10h\",\"y\":75},{\"x\":\"11h\",\"y\":70},{\"x\":\"12h\",\"y\":65},{\"x\":\"13h\",\"y\":60},{\"x\":\"14h\",\"y\":62},{\"x\":\"15h\",\"y\":65},{\"x\":\"16h\",\"y\":60},{\"x\":\"17h\",\"y\":55},{\"x\":\"18h\",\"y\":50},{\"x\":\"19h\",\"y\":48},{\"x\":\"20h\",\"y\":45},{\"x\":\"21h\",\"y\":40},{\"x\":\"22h\",\"y\":38},{\"x\":\"23h\",\"y\":35}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 2766,
+    "wires": [
+      [
+        "ac26683323344c21"
+      ]
+    ]
+  },
+  {
+    "id": "pmdsubj00000001",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] Theo môn",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "Phút học",
+    "payload": "[{\"x\":\"Toán\",\"y\":150},{\"x\":\"Anh văn\",\"y\":100},{\"x\":\"Vật lý\",\"y\":75}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 2530,
+    "wires": [
+      [
+        "c4eec28fa767e890"
+      ]
+    ]
+  },
+  {
+    "id": "pmdc4bfb0ab7d187aa70",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Tổng kết tuần  (rộng 12/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2118,
+    "wires": []
+  },
+  {
+    "id": "pmdti4bfb0ab7d187aa70",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 2118,
+    "wires": [
+      [
+        "e0f3e357448e83ee",
+        "2421cafae1d8d0a7",
+        "9e8478a7d880855d",
+        "38443b8d57b97cc9"
+      ]
+    ]
+  },
+  {
+    "id": "pmdce069b8398f56b7d1",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Giờ học mỗi ngày (phút)  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2368,
+    "wires": []
+  },
+  {
+    "id": "pmdcd5b4cda160b93206",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Thời gian học theo môn  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2486,
+    "wires": []
+  },
+  {
+    "id": "pmdc05065804b415b14c",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Kế hoạch so với thực tế (số buổi)  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2604,
+    "wires": []
+  },
+  {
+    "id": "pmdc9e4bf3cc5ed0192e",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Độ sáng trung bình theo giờ  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2722,
+    "wires": []
+  },
+  {
+    "id": "pmd_bg_period",
+    "type": "ui-button-group",
+    "z": "926f37b61fb23da8",
+    "name": "",
+    "group": "pmd_g_period",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "label": "Xem thống kê theo",
+    "className": "",
+    "rounded": true,
+    "useThemeColors": true,
+    "passthru": false,
+    "options": [
+      {
+        "label": "Tuần này",
+        "icon": "",
+        "value": "tuan",
+        "valueType": "str",
+        "color": ""
+      },
+      {
+        "label": "Tháng này",
+        "icon": "",
+        "value": "thang",
+        "valueType": "str",
+        "color": ""
+      }
+    ],
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 420,
+    "y": 2488,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "pmd_inj_default3",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] chọn sẵn tuần này",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.5,
+    "topic": "",
+    "payload": "tuan",
+    "payloadType": "str",
+    "x": 180,
+    "y": 2488,
+    "wires": [
+      [
+        "pmd_bg_period"
+      ]
+    ]
+  },
+  {
+    "id": "2dd6df33cbedee1b",
+    "type": "ui-text-input",
+    "z": "926f37b61fb23da8",
+    "group": "9eef8dfd3b96df0a",
+    "name": "",
+    "label": "Email phụ huynh (nhiều địa chỉ, cách nhau bằng dấu phẩy)",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "topic": "topic",
+    "topicType": "msg",
+    "mode": "text",
+    "tooltip": "",
+    "delay": 300,
+    "passthru": true,
+    "sendOnDelay": false,
+    "sendOnBlur": true,
+    "sendOnEnter": true,
+    "className": "",
+    "clearable": false,
+    "sendOnClear": false,
+    "icon": "",
+    "iconPosition": "left",
+    "iconInnerPosition": "inside",
+    "x": 420,
+    "y": 2950,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "7816cd7f9c625ab6",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "9eef8dfd3b96df0a",
+    "name": "",
+    "label": "Lưu email",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "content-save",
+    "iconPosition": "left",
+    "payload": "Lưu email",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 2994,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "20f97421b3e1d7b7",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "9eef8dfd3b96df0a",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Tự động gửi",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "20:00 tối Chủ nhật",
+    "valueType": "str",
+    "x": 420,
+    "y": 3038,
+    "wires": []
+  },
+  {
+    "id": "1409db283234bfbf",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "9eef8dfd3b96df0a",
+    "name": "",
+    "label": "Gửi thử báo cáo tuần này",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "email-fast",
+    "iconPosition": "left",
+    "payload": "Gửi thử báo cáo tuần này",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "textColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 420,
+    "y": 3082,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "60905e2b1768cbaa",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "9eef8dfd3b96df0a",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Lần gửi gần nhất",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Chủ nhật 08/11, 20:00",
+    "valueType": "str",
+    "x": 420,
+    "y": 3126,
+    "wires": []
+  },
+  {
+    "id": "76af5313576c052b",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "81356f266ab752fe",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "EMQX Cloud (MQTT)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đã kết nối",
+    "valueType": "str",
+    "x": 420,
+    "y": 3406,
+    "wires": []
+  },
+  {
+    "id": "e140368cf1cdf5da",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "81356f266ab752fe",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Supabase (cloud)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đã kết nối",
+    "valueType": "str",
+    "x": 420,
+    "y": 3450,
+    "wires": []
+  },
+  {
+    "id": "acdcd46a37caf11a",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "81356f266ab752fe",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Dịch vụ AI (Flask)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đang chạy",
+    "valueType": "str",
+    "x": 420,
+    "y": 3494,
+    "wires": []
+  },
+  {
+    "id": "d0031051fd5b0614",
+    "type": "ui-text",
+    "z": "926f37b61fb23da8",
+    "group": "81356f266ab752fe",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Gmail SMTP",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "Helvetica",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": true,
+    "className": "",
+    "value": "Đã cấu hình",
+    "valueType": "str",
+    "x": 420,
+    "y": 3538,
+    "wires": []
+  },
+  {
+    "id": "f0a7137b1ce85b21",
+    "type": "ui-table",
+    "z": "926f37b61fb23da8",
+    "group": "46e893fb41a92586",
+    "name": "",
+    "label": "",
+    "order": 1,
+    "width": 0,
+    "height": 4,
+    "maxrows": 0,
+    "passthru": false,
+    "autocols": true,
+    "showSearch": false,
+    "deselect": true,
+    "selectionType": "none",
+    "columns": [],
+    "mobileBreakpoint": "sm",
+    "mobileBreakpointType": "defaults",
+    "action": "replace",
+    "className": "",
+    "x": 420,
+    "y": 3656,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "56a7c196c08609a8",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] email_reports",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 1.5,
+    "topic": "",
+    "payload": "[{\"Tuần\":\"02/11 – 08/11\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:00\",\"Trạng thái\":\"Thành công\"},{\"Tuần\":\"26/10 – 01/11\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:30\",\"Trạng thái\":\"Thành công (gửi lại lần 1)\"},{\"Tuần\":\"19/10 – 25/10\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:00\",\"Trạng thái\":\"Thành công\"}]",
+    "payloadType": "json",
+    "x": 120,
+    "y": 3656,
+    "wires": [
+      [
+        "f0a7137b1ce85b21"
+      ]
+    ]
+  },
+  {
+    "id": "pmdc9eef8dfd3b96df0a",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Email báo cáo hằng tuần  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 2906,
+    "wires": []
+  },
+  {
+    "id": "pmdti9eef8dfd3b96df0a",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 2906,
+    "wires": [
+      [
+        "20f97421b3e1d7b7",
+        "60905e2b1768cbaa"
+      ]
+    ]
+  },
+  {
+    "id": "pmdc81356f266ab752fe",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Trạng thái hệ thống  (rộng 6/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 3362,
+    "wires": []
+  },
+  {
+    "id": "pmdti81356f266ab752fe",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "[MẪU] hiện chữ cho các ô chữ",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "ok",
+    "payloadType": "str",
+    "x": 120,
+    "y": 3362,
+    "wires": [
+      [
+        "76af5313576c052b",
+        "e140368cf1cdf5da",
+        "acdcd46a37caf11a",
+        "d0031051fd5b0614"
+      ]
+    ]
+  },
+  {
+    "id": "pmdc46e893fb41a92586",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "▼ Lịch sử gửi email  (rộng 12/12 cột)",
+    "info": "",
+    "x": 420,
+    "y": 3612,
+    "wires": []
+  },
+  {
+    "id": "be664bbe08ed9e42",
+    "type": "link in",
+    "z": "926f37b61fb23da8",
+    "name": "state",
+    "links": [
+      "a21c76e51afd238d"
+    ],
+    "x": 280,
+    "y": 160,
+    "wires": [
+      []
+    ],
+    "l": true
+  },
+  {
+    "id": "dd85fea5e188378c",
+    "type": "link in",
+    "z": "926f37b61fb23da8",
+    "name": "session",
+    "links": [
+      "98c2812fadc53de3"
+    ],
+    "x": 470,
+    "y": 160,
+    "wires": [
+      []
+    ],
+    "l": true
+  },
+  {
+    "id": "083316ae5717ecb8",
+    "type": "link out",
+    "z": "926f37b61fb23da8",
+    "name": "to-cmd",
+    "mode": "link",
+    "links": [
+      "b1ac0b246878bd50"
+    ],
+    "x": 690,
+    "y": 160,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "0c2aa59d1271592f",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "ID2 / ID10 – nút thử gửi lệnh xuống hộp (sẽ thay bằng widget dashboard)",
+    "info": "",
+    "x": 480,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "89b9ef2baaf189ff",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "━━━━ Trang dashboard: Tổng quan ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "d6a851ad5b0202e1",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "━━━━ Trang dashboard: Lịch học AI ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 1070,
+    "wires": []
+  },
+  {
+    "id": "d7c8086ead646777",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "━━━━ Trang dashboard: Thống kê ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 2078,
+    "wires": []
+  },
+  {
+    "id": "826ed6df070ab47c",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "━━━━ Trang dashboard: Phụ huynh và cài đặt ━━━━",
+    "info": "",
+    "x": 260,
+    "y": 2866,
+    "wires": []
+  }
+]

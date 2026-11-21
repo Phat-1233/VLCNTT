@@ -1,0 +1,847 @@
+[
+  {
+    "id": "tabPomo",
+    "type": "tab",
+    "label": "Chung",
+    "disabled": false,
+    "info": "Giai đoạn 1–2: kiểm tra ESP32 <-> EMQX Cloud <-> Node-RED.\nSau khi import: mở node cấu hình 'EMQX Cloud', sửa Server và tab Security (user/pass nodered)."
+  },
+  {
+    "id": "tlsHive",
+    "type": "tls-config",
+    "name": "EMQX TLS",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "",
+    "keyname": "",
+    "caname": "",
+    "servername": "",
+    "verifyservercert": true,
+    "alpnprotocol": ""
+  },
+  {
+    "id": "brokerHive",
+    "type": "mqtt-broker",
+    "name": "EMQX Cloud",
+    "broker": "xxxxxxxx.ala.asia-southeast1.emqxsl.com",
+    "port": "8883",
+    "tls": "tlsHive",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": true,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+  {
+    "id": "b554ed0ebaf56bc9",
+    "type": "ui-base",
+    "name": "My Dashboard",
+    "path": "/dashboard",
+    "appIcon": "",
+    "includeClientData": true,
+    "acceptsClientConfig": [
+      "ui-notification",
+      "ui-control"
+    ],
+    "showPathInSidebar": false,
+    "headerContent": "page",
+    "navigationStyle": "default",
+    "titleBarStyle": "default",
+    "showReconnectNotification": true,
+    "notificationDisplayTime": 1,
+    "showDisconnectNotification": true,
+    "allowInstall": false
+  },
+  {
+    "id": "0f3712c0131548e0",
+    "type": "ui-theme",
+    "name": "Default Theme",
+    "colors": {
+      "surface": "#fcfcfd",
+      "primary": "#0d74ce",
+      "bgPage": "#f9f9fb",
+      "groupBg": "#ffffff",
+      "groupOutline": "#d9d9e0"
+    },
+    "sizes": {
+      "density": "default",
+      "pagePadding": "12px",
+      "groupGap": "12px",
+      "groupBorderRadius": "4px",
+      "widgetGap": "12px"
+    }
+  },
+  {
+    "id": "f912b8334447048b",
+    "type": "ui-page",
+    "name": "Tổng quan",
+    "ui": "b554ed0ebaf56bc9",
+    "path": "/tong-quan",
+    "icon": "home",
+    "layout": "grid",
+    "theme": "0f3712c0131548e0",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": 0,
+        "cols": 3
+      },
+      {
+        "name": "Tablet",
+        "px": 576,
+        "cols": 6
+      },
+      {
+        "name": "Small Desktop",
+        "px": 768,
+        "cols": 9
+      },
+      {
+        "name": "Desktop",
+        "px": 1024,
+        "cols": 12
+      }
+    ],
+    "tabs": [],
+    "order": 1,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "117fa1b68a651cda",
+    "type": "ui-group",
+    "name": "Trạng thái hộp (Khoa)",
+    "page": "f912b8334447048b",
+    "width": "6",
+    "height": "1",
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "f104b8d3c01a8c61",
+    "type": "ui-group",
+    "name": "Độ sáng phòng (LDR) (Khoa)",
+    "page": "f912b8334447048b",
+    "width": "6",
+    "height": "1",
+    "order": 2,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "d5cbf295beb14cdd",
+    "type": "ui-group",
+    "name": "Gửi xuống hộp (Phát)",
+    "page": "f912b8334447048b",
+    "width": "6",
+    "height": "1",
+    "order": 3,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "71b01169c510bfb5",
+    "type": "ui-group",
+    "name": "Hôm nay (Phát)",
+    "page": "f912b8334447048b",
+    "width": "6",
+    "height": "1",
+    "order": 4,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "d5665b6e679d2ddb",
+    "type": "ui-group",
+    "name": "Nhật ký học hôm nay (Khoa)",
+    "page": "f912b8334447048b",
+    "width": "12",
+    "height": "1",
+    "order": 5,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "ac2164dda9b60ec0",
+    "type": "ui-page",
+    "name": "Lịch học AI",
+    "ui": "b554ed0ebaf56bc9",
+    "path": "/lich-hoc",
+    "icon": "calendar",
+    "layout": "grid",
+    "theme": "0f3712c0131548e0",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": 0,
+        "cols": 3
+      },
+      {
+        "name": "Tablet",
+        "px": 576,
+        "cols": 6
+      },
+      {
+        "name": "Small Desktop",
+        "px": 768,
+        "cols": 9
+      },
+      {
+        "name": "Desktop",
+        "px": 1024,
+        "cols": 12
+      }
+    ],
+    "tabs": [],
+    "order": 2,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "d15081d0a559acba",
+    "type": "ui-group",
+    "name": "Chọn cách nhập (Phát)",
+    "page": "ac2164dda9b60ec0",
+    "width": "12",
+    "height": "1",
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "52b574d6abab6b56",
+    "type": "ui-group",
+    "name": "Cách 1: ngày rảnh và môn cần học (Phát)",
+    "page": "ac2164dda9b60ec0",
+    "width": "12",
+    "height": "1",
+    "order": 2,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "2ee8af9ddaae60e6",
+    "type": "ui-group",
+    "name": "Cách 2: thời khóa biểu trên lớp (Phát)",
+    "page": "ac2164dda9b60ec0",
+    "width": "12",
+    "height": "1",
+    "order": 3,
+    "showTitle": true,
+    "className": "",
+    "visible": "false",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "e7d6198390732105",
+    "type": "ui-group",
+    "name": "Lịch tuần do AI xếp (Phát)",
+    "page": "ac2164dda9b60ec0",
+    "width": "12",
+    "height": "1",
+    "order": 4,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "c52b7198483b1f1a",
+    "type": "ui-group",
+    "name": "Khả năng hoàn thành theo giờ (mô hình AI) (Phát)",
+    "page": "ac2164dda9b60ec0",
+    "width": "12",
+    "height": "1",
+    "order": 5,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "7cbd5ef79bc1d250",
+    "type": "ui-page",
+    "name": "Thống kê",
+    "ui": "b554ed0ebaf56bc9",
+    "path": "/thong-ke",
+    "icon": "chart-bar",
+    "layout": "grid",
+    "theme": "0f3712c0131548e0",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": 0,
+        "cols": 3
+      },
+      {
+        "name": "Tablet",
+        "px": 576,
+        "cols": 6
+      },
+      {
+        "name": "Small Desktop",
+        "px": 768,
+        "cols": 9
+      },
+      {
+        "name": "Desktop",
+        "px": 1024,
+        "cols": 12
+      }
+    ],
+    "tabs": [],
+    "order": 3,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "4bfb0ab7d187aa70",
+    "type": "ui-group",
+    "name": "Tổng kết tuần (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "12",
+    "height": "1",
+    "order": 2,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "e069b8398f56b7d1",
+    "type": "ui-group",
+    "name": "Giờ học mỗi ngày (phút) (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "6",
+    "height": "1",
+    "order": 3,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "d5b4cda160b93206",
+    "type": "ui-group",
+    "name": "Thời gian học theo môn (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "6",
+    "height": "1",
+    "order": 4,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "05065804b415b14c",
+    "type": "ui-group",
+    "name": "Kế hoạch so với thực tế (số buổi) (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "6",
+    "height": "1",
+    "order": 5,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "9e4bf3cc5ed0192e",
+    "type": "ui-group",
+    "name": "Độ sáng trung bình theo giờ (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "6",
+    "height": "1",
+    "order": 6,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "a68a8fcbd86441f6",
+    "type": "ui-page",
+    "name": "Phụ huynh và cài đặt",
+    "ui": "b554ed0ebaf56bc9",
+    "path": "/cai-dat",
+    "icon": "cog",
+    "layout": "grid",
+    "theme": "0f3712c0131548e0",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": 0,
+        "cols": 3
+      },
+      {
+        "name": "Tablet",
+        "px": 576,
+        "cols": 6
+      },
+      {
+        "name": "Small Desktop",
+        "px": 768,
+        "cols": 9
+      },
+      {
+        "name": "Desktop",
+        "px": 1024,
+        "cols": 12
+      }
+    ],
+    "tabs": [],
+    "order": 4,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "9eef8dfd3b96df0a",
+    "type": "ui-group",
+    "name": "Email báo cáo hằng tuần (Phát)",
+    "page": "a68a8fcbd86441f6",
+    "width": "6",
+    "height": "1",
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "ca782e97f96b9386",
+    "type": "ui-group",
+    "name": "Thông báo nhanh (Telegram, dự phòng) (Khoa)",
+    "page": "a68a8fcbd86441f6",
+    "width": "6",
+    "height": "1",
+    "order": 2,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "81356f266ab752fe",
+    "type": "ui-group",
+    "name": "Trạng thái hệ thống (Phát)",
+    "page": "a68a8fcbd86441f6",
+    "width": "6",
+    "height": "1",
+    "order": 3,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "46e893fb41a92586",
+    "type": "ui-group",
+    "name": "Lịch sử gửi email (Phát)",
+    "page": "a68a8fcbd86441f6",
+    "width": "12",
+    "height": "1",
+    "order": 4,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "pmd_g_period",
+    "type": "ui-group",
+    "name": "Khoảng thời gian (Phát)",
+    "page": "7cbd5ef79bc1d250",
+    "width": "12",
+    "height": "1",
+    "order": 1,
+    "showTitle": false,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "c1",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "① NHẬN từ ESP32: pomodoro/# (state, lux, session)",
+    "info": "",
+    "x": 230,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "mqttIn",
+    "type": "mqtt in",
+    "z": "tabPomo",
+    "name": "pomodoro/#",
+    "topic": "pomodoro/#",
+    "qos": "1",
+    "datatype": "json",
+    "broker": "brokerHive",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 120,
+    "y": 100,
+    "wires": [
+      [
+        "dbgAll",
+        "swTopic"
+      ]
+    ]
+  },
+  {
+    "id": "dbgAll",
+    "type": "debug",
+    "z": "tabPomo",
+    "name": "Tất cả bản tin",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 340,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "swTopic",
+    "type": "switch",
+    "z": "tabPomo",
+    "name": "Chia theo topic",
+    "property": "topic",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "pomodoro/state",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "pomodoro/lux",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "pomodoro/session",
+        "vt": "str"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 3,
+    "x": 340,
+    "y": 120,
+    "wires": [
+      [
+        "a21c76e51afd238d"
+      ],
+      [
+        "e386189a93f8c0b5"
+      ],
+      [
+        "98c2812fadc53de3"
+      ]
+    ]
+  },
+  {
+    "id": "c2",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "② GỬI xuống ESP32: link in to-cmd / to-ack (nhận từ tab Phát, Khoa) → mqtt out",
+    "info": "Bấm nút bên trái các node inject để thử.\nSau này thay inject bằng ui-text-input / ui-dropdown / ui-button của Dashboard 2.0.",
+    "x": 330,
+    "y": 240,
+    "wires": []
+  },
+  {
+    "id": "mqttOut",
+    "type": "mqtt out",
+    "z": "tabPomo",
+    "name": "pomodoro/cmd",
+    "topic": "pomodoro/cmd",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "brokerHive",
+    "x": 650,
+    "y": 350,
+    "wires": []
+  },
+  {
+    "id": "c3",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "③ Giả lập ESP32 (dùng khi chưa có mạch): gửi thử 1 bản tin state",
+    "info": "",
+    "x": 290,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "injFake",
+    "type": "inject",
+    "z": "tabPomo",
+    "name": "Giả lập state",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"dev\":\"sim-01\",\"event\":\"start\",\"state\":\"study\",\"subject\":\"Toan\",\"cycle\":1,\"total\":4,\"remain\":1500}",
+    "payloadType": "json",
+    "x": 130,
+    "y": 540,
+    "wires": [
+      [
+        "fnTs"
+      ]
+    ]
+  },
+  {
+    "id": "fnTs",
+    "type": "function",
+    "z": "tabPomo",
+    "name": "gắn ts hiện tại",
+    "func": "msg.payload.ts = Math.floor(Date.now() / 1000);\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 330,
+    "y": 540,
+    "wires": [
+      [
+        "mqttFake"
+      ]
+    ]
+  },
+  {
+    "id": "mqttFake",
+    "type": "mqtt out",
+    "z": "tabPomo",
+    "name": "pomodoro/state",
+    "topic": "pomodoro/state",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "brokerHive",
+    "x": 530,
+    "y": 540,
+    "wires": []
+  },
+  {
+    "id": "a21c76e51afd238d",
+    "type": "link out",
+    "z": "tabPomo",
+    "name": "state",
+    "mode": "link",
+    "links": [
+      "79ef84294c12064e",
+      "be664bbe08ed9e42"
+    ],
+    "x": 670,
+    "y": 100,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "e386189a93f8c0b5",
+    "type": "link out",
+    "z": "tabPomo",
+    "name": "lux",
+    "mode": "link",
+    "links": [
+      "a2691f47a44a09b6"
+    ],
+    "x": 660,
+    "y": 140,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "98c2812fadc53de3",
+    "type": "link out",
+    "z": "tabPomo",
+    "name": "session",
+    "mode": "link",
+    "links": [
+      "43887230e58a0da1",
+      "dd85fea5e188378c"
+    ],
+    "x": 700,
+    "y": 180,
+    "wires": [],
+    "l": true
+  },
+  {
+    "id": "b1ac0b246878bd50",
+    "type": "link in",
+    "z": "tabPomo",
+    "name": "to-cmd",
+    "links": [
+      "46f690f23199ac38",
+      "083316ae5717ecb8"
+    ],
+    "x": 790,
+    "y": 300,
+    "wires": [
+      [
+        "mqttOut"
+      ]
+    ],
+    "l": true
+  },
+  {
+    "id": "276c1d3c6a177ccf",
+    "type": "link in",
+    "z": "tabPomo",
+    "name": "to-ack",
+    "links": [
+      "25e4b4cb26a4f7e5"
+    ],
+    "x": 830,
+    "y": 380,
+    "wires": [
+      [
+        "75df966c287039dc"
+      ]
+    ],
+    "l": true
+  },
+  {
+    "id": "75df966c287039dc",
+    "type": "mqtt out",
+    "z": "tabPomo",
+    "name": "pomodoro/ack",
+    "topic": "pomodoro/ack",
+    "qos": "1",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "brokerHive",
+    "x": 980,
+    "y": 380,
+    "wires": []
+  }
+]
