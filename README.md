@@ -7,6 +7,8 @@
 | Nguyễn Hoàng Đăng Khoa | 24127187 | ID1, ID3, ID4, ID5, ID6, ID8 |
 | Nguyễn Thành Phát | 24127483 | ID2, ID7, ID9, ID10, ID11 |
 
+**Kế hoạch + tick tiến độ:** [plan.md](plan.md) (thứ tự làm, ai làm gì, file nào của ai).
+
 ## Cấu trúc
 
 ```
