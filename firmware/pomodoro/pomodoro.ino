@@ -1,9 +1,11 @@
 // =====================================================================
 //  Pomodoro Để Bàn – Nhóm 6 (Khoa 24127187, Phát 24127483)
-//  File chính: WiFi + giờ NTP + MQTT (HiveMQ Cloud, TLS) + chia lệnh.
+//  File chính: WiFi + giờ NTP + MQTT (EMQX Cloud Serverless, TLS 8883) + chia lệnh.
 //
 //  Mỗi chức năng nằm ở một tab riêng để 2 người sửa không đụng nhau:
 //    timer_button.ino  – ID1  (Khoa)  nút nhấn + máy trạng thái đồng hồ
+//    session_queue.ino – ID8  (Khoa)  hàng đợi phiên học, gửi bù khi mất mạng
+//    wifi_setup.ino    – ID3  (Khoa)  kết nối WiFi (sau này: WiFiManager)
 //    knob_7seg.ino     – ID4  (Khoa)  núm xoay -> màn hình 7 đoạn
 //    ldr.ino           – ID5  (Khoa)  cảm biến ánh sáng -> MQTT
 //    oled.ino          – ID2  (Phát)  lệnh từ web -> OLED
@@ -27,21 +29,7 @@ TimerState timerState;
 WiFiClientSecure net;
 PubSubClient mqtt(net);
 
-// ------------------------------- WiFi --------------------------------
-void connectWiFi() {
-  // TODO(Khoa – ID3): thay đoạn này bằng WiFiManager: wm.autoConnect("Pomodoro-Setup")
-  WiFi.mode(WIFI_STA);
-  WiFi.setAutoReconnect(true);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  Serial.print("Dang ket noi WiFi");
-  uint32_t t0 = millis();
-  while (WiFi.status() != WL_CONNECTED && millis() - t0 < 20000) {
-    delay(300);
-    Serial.print(".");
-  }
-  Serial.println(WiFi.status() == WL_CONNECTED ? " OK, IP: " + WiFi.localIP().toString()
-                                               : " THAT BAI (se thu lai sau)");
-}
+// WiFi: connectWiFi() nằm ở tab wifi_setup.ino (Khoa – ID3)
 
 // --------------------------- Giờ thực (NTP) --------------------------
 void syncTime() {
@@ -52,6 +40,7 @@ void syncTime() {
 }
 
 uint32_t nowTs() { return (uint32_t)time(nullptr); }
+bool timeValid() { return time(nullptr) > 1700000000; }
 
 // ------------------------------- MQTT --------------------------------
 bool mqttOnline() { return mqtt.connected(); }
@@ -89,7 +78,7 @@ void onMqttMessage(char* topic, byte* payload, unsigned int len) {
   if (strcmp(topic, T_CMD) == 0) {
     handleCommand(doc);
   } else if (strcmp(topic, T_ACK) == 0) {
-    // TODO(Khoa – ID8): xóa bản ghi phiên đã lưu tạm có start_ts == doc["start_ts"]
+    sessionAck(doc["start_ts"] | 0);              // ID8: xóa phiên đã lưu tạm
   }
 }
 
@@ -100,7 +89,7 @@ void mqttMaintain() {
   lastTry = millis();
 
   String clientId = String(DEVICE_ID) + "-" + String((uint32_t)ESP.getEfuseMac(), HEX);
-  Serial.print("Ket noi HiveMQ... ");
+  Serial.print("Ket noi MQTT (EMQX)... ");
   if (mqtt.connect(clientId.c_str(), MQTT_USER, MQTT_PASS)) {
     Serial.println("OK");
     mqtt.subscribe(T_CMD, 1);
@@ -138,6 +127,7 @@ void loop() {
   mqtt.loop();      // phải chạy liên tục -> KHÔNG dùng delay() dài ở bất kỳ tab nào
 
   timerLoop();      // ID1
+  sessionQueueLoop(); // ID8
   knobLoop();       // ID4
   ldrLoop();        // ID5
   oledLoop();       // ID2

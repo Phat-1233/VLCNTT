@@ -6,7 +6,7 @@
 
 **Mục tiêu:** hoàn thiện 11 chức năng ID1–ID11 trong proposal, chạy được demo trọn vẹn trên 1 hộp + 1 dashboard.
 
-**Kiến trúc:** ESP32 ⇄ MQTT (HiveMQ Cloud, TLS 8883) ⇄ Node-RED (back-end + Dashboard 2) ⇄ Supabase (REST). Node-RED gọi dịch vụ AI Flask (`localhost:5000`), Telegram Bot và Gmail SMTP.
+**Kiến trúc:** ESP32 ⇄ MQTT (**EMQX Cloud Serverless**, TLS 8883 – thay HiveMQ Cloud vì HiveMQ đã ngừng cho tạo cluster Serverless free, khai tử 31/12/2026) ⇄ Node-RED (back-end + Dashboard 2) ⇄ Supabase (REST). Node-RED gọi dịch vụ AI Flask (`localhost:5000`), Telegram Bot và Gmail SMTP.
 
 **Công nghệ:** Arduino ESP32 (PubSubClient, ArduinoJson v7, Adafruit SSD1306/GFX, TM1637Display, WiFiManager) · Node-RED + `@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot` · Supabase (PostgreSQL) · Python 3 + Flask + numpy.
 
@@ -59,7 +59,7 @@
 
 ### 2. Node-RED tách 3 file, nối nhau bằng node `link`
 
-- `common.json`: broker HiveMQ, TLS, `mqtt in pomodoro/#` → `switch` theo topic → 3 node **link out** tên `state`, `lux`, `session`; 2 node **link in** tên `to-cmd`, `to-ack` → `mqtt out`. Thêm `ui-base`, `ui-theme`, 4 `ui-page` và **tất cả `ui-group`** (khung trống) của dashboard.
+- `common.json`: broker EMQX, TLS, `mqtt in pomodoro/#` → `switch` theo topic → 3 node **link out** tên `state`, `lux`, `session`; 2 node **link in** tên `to-cmd`, `to-ack` → `mqtt out`. Thêm `ui-base`, `ui-theme`, 4 `ui-page` và **tất cả `ui-group`** (khung trống) của dashboard.
 - Mỗi người có **1 tab riêng** (`Khoa – ID1 ID4 ID5 ID6 ID8` / `Phát – ID2 ID7 ID9 ID10 ID11`), chỉ lấy dữ liệu qua `link in` (`state`/`lux`/`session`) và gửi lệnh qua `link out` (`to-cmd`/`to-ack`). **Không kéo dây sang tab người kia.**
 - Export: chọn đúng tab của mình → Menu ☰ → Export → *Current flow* → ghi đè `node-red/<tên>.json`. Import: chọn **Replace** khi Node-RED hỏi trùng node (không chọn *Import copy*, vì sẽ đổi id làm đứt link).
 - Bí mật không bao giờ nằm trong flow: dùng biến môi trường `SUPABASE_URL`, `SUPABASE_KEY`, `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`, `AI_URL` (đặt 1 lần bằng `setx`, khởi động lại Node-RED). Trong function đọc bằng `env.get("SUPABASE_URL")`. Mật khẩu Gmail nằm trong credentials của node email (không bị export).
@@ -104,8 +104,8 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 
 ### Task 0.1 – Tài khoản và công cụ [Cả 2]
 
-- [ ] **[Khoa]** Tạo cluster HiveMQ Cloud free; tạo 2 user `esp32`, `nodered`; ghi host + cổng 8883 vào chỗ riêng (không vào Git).
-- [ ] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
+- [x] **[Khoa]** Tạo deployment **EMQX Cloud Serverless** (Spend Limit = 0); Access Control → Authentication tạo 2 user `esp32`, `nodered`; ghi Address + cổng 8883 vào chỗ riêng (không vào Git). Lưu ý: 30 ngày không có client kết nối thì EMQX tự dừng deployment → vào console bật lại.
+- [x] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
 - [ ] **[Phát]** Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại nhận tin → gửi riêng cho Khoa.
 - [ ] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED.
 - [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu).
@@ -117,13 +117,14 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 
 **Files:** Modify `supabase/schema.sql`.
 
-- [ ] Sửa bảng `sessions` thành: `dev, start_ts timestamptz not null, end_ts timestamptz, subject text, cycle int, total int, planned_min int, focus_min int, pauses int default 0, pause_sec int default 0, completed boolean, unique (dev, start_ts)`.
-- [ ] Thêm vào `plans`: `score real, reason text`.
-- [ ] Thêm vào `email_reports`: `week text, attempt int default 1`.
-- [ ] Thêm bảng `settings (key text primary key, value jsonb, updated_at timestamptz default now())` và 3 dòng mặc định: `lux_threshold=30`, `parent_emails=""`, `telegram_enabled=true`.
-- [ ] Thêm index: `events (ts)`, `lux_readings (ts)`, `sessions (start_ts)`.
-- [ ] Đầu file thêm `drop table if exists ... cascade;` cho cả 6 bảng (chưa có dữ liệu thật nên chạy lại an toàn) → chạy trong SQL Editor.
-- [ ] Kiểm tra: `curl "$SUPABASE_URL/rest/v1/settings" -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY"` trả về 3 dòng.
+- [x] (Đã viết sẵn trong `schema.sql` – Khoa chỉ cần chạy và kiểm tra.) Sửa bảng `sessions` thành: `dev, start_ts timestamptz not null, end_ts timestamptz, subject text, cycle int, total int, planned_min int, focus_min int, pauses int default 0, pause_sec int default 0, completed boolean, unique (dev, start_ts)`.
+- [x] Thêm vào `plans`: `score real, reason text`.
+- [x] Thêm vào `email_reports`: `week text, attempt int default 1`.
+- [x] Thêm bảng `settings (key text primary key, value jsonb, updated_at timestamptz default now())` và 3 dòng mặc định: `lux_threshold=30`, `parent_emails=""`, `telegram_enabled=true`.
+- [x] Thêm index: `events (ts)`, `lux_readings (ts)`, `sessions (start_ts)`.
+- [x] Cuối file bật RLS cho 6 bảng (không policy → chỉ service_role đọc/ghi được).
+- [x] Đầu file thêm `drop table if exists ... cascade;` cho cả 6 bảng (chưa có dữ liệu thật nên chạy lại an toàn) → chạy trong SQL Editor.
+- [x] Kiểm tra: `curl "$SUPABASE_URL/rest/v1/settings" -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY"` trả về 3 dòng.
 - [ ] Commit `ID8: schema v2`.
 
 ### Task 0.3 – Chốt file chung của firmware [Khoa]
@@ -140,19 +141,20 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - `bool timeValid();` → `time(nullptr) > 1700000000`
 - `void connectWiFi();` chuyển sang `wifi_setup.ino` (ID3 sẽ thay ruột hàm này)
 
-- [ ] Thêm các khai báo trên vào `config.h`.
-- [ ] `pomodoro.ino`: nhánh `T_ACK` gọi `sessionAck(doc["start_ts"] | 0)`; `loop()` gọi thêm `sessionQueueLoop()`; thêm `timeValid()`; chuyển nguyên hàm `connectWiFi()` (bản ghi cứng hiện tại) sang `wifi_setup.ino`.
-- [ ] Tạo `session_queue.ino` với 3 hàm rỗng.
-- [ ] Biên dịch không lỗi; nạp board, Serial in "Ket noi HiveMQ... OK".
+- [x] Thêm các khai báo trên vào `config.h`.
+- [x] `pomodoro.ino`: nhánh `T_ACK` gọi `sessionAck(doc["start_ts"] | 0)`; `loop()` gọi thêm `sessionQueueLoop()`; thêm `timeValid()`; chuyển nguyên hàm `connectWiFi()` (bản ghi cứng hiện tại) sang `wifi_setup.ino`.
+- [x] Tạo `session_queue.ino` với 3 hàm rỗng.
+- [ ] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK".
 - [ ] Commit `chung: chot config.h + pomodoro.ino cho ID3/ID8` → **nhắn Phát pull**.
 
 ### Task 0.4 – Tách Node-RED + khung dashboard [Phát]
 
 **Files:** Create `node-red/common.json`, `node-red/khoa.json` (tab trống), `node-red/phat.json`; Delete `node-red/flows.json`; Modify `README.md` (mục Node-RED).
 
+- [x] **[Khoa]** Export dashboard wireframe đang chạy trên máy Khoa (4 tab `UI – ...`, 4 page, 20 group, inject `[MẪU]`) → `node-red/ui_wireframe.json`. **Không dựng lại UI từ đầu**: import file này, giữ nguyên `ui-base/theme/page/group` (đưa vào `common.json`), chuyển widget của group Khoa (Trạng thái hộp, Độ sáng phòng, Nhật ký học hôm nay, Thông báo nhanh Telegram) sang tab Khoa, còn lại sang tab Phát. Inject `[MẪU]` giữ lại tới khi có dữ liệu thật rồi xóa.
 - [ ] Từ `flows.json` hiện có, dựng tab `Chung` theo mục "Quy tắc 2": switch → link out `state`/`lux`/`session`; link in `to-cmd`/`to-ack` → mqtt out. Đổi giả lập sang `"dev":"sim-01"`.
 - [ ] Chuyển 3 node inject thử + 2 function ID2/ID10 sang tab `Phát`, nối ra link out `to-cmd`.
-- [ ] Tạo `ui-base`, 4 `ui-page`: **Tổng quan**, **Lịch học AI**, **Thống kê**, **Phụ huynh và cài đặt**; tạo sẵn `ui-group` trống đúng như wireframe, ghi chủ trong tên group:
+- [x] (Đã có sẵn trong `ui_wireframe.json` – chỉ cần đổi tên group thêm "(Khoa)"/"(Phát)".) Tạo `ui-base`, 4 `ui-page`: **Tổng quan**, **Lịch học AI**, **Thống kê**, **Phụ huynh và cài đặt**; tạo sẵn `ui-group` trống đúng như wireframe, ghi chủ trong tên group:
   - Tổng quan: `Trạng thái hộp (Khoa)`, `Độ sáng phòng (Khoa)`, `Gửi xuống hộp (Phát)`, `Hôm nay (Phát)`, `Nhật ký học hôm nay (Khoa)`
   - Lịch học AI: `Chọn cách nhập (Phát)`, `Nhập lịch (Phát)`, `Lịch tuần do AI xếp (Phát)`, `Khả năng hoàn thành theo giờ (Phát)`
   - Thống kê: `Chọn khoảng (Phát)`, `Tổng kết (Phát)`, 4 group biểu đồ `(Phát)`
@@ -365,7 +367,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 - [ ] `connectWiFi()`: nếu **giữ nút SW của núm xoay lúc cắm điện** → `wm.resetSettings()`; `wm.setConfigPortalTimeout(180)`; `wm.autoConnect("Pomodoro-Setup")`. Hết giờ mà chưa cấu hình → chạy offline (đồng hồ, núm, 7 đoạn vẫn dùng được), MQTT thử lại như cũ.
 - [ ] Khi mở portal: `oledShowMessage("Ket noi WiFi Pomodoro-Setup, mo 192.168.4.1", 60)` rồi gọi `oledLoop()` 1 lần để vẽ.
-- [ ] Bỏ `WIFI_SSID/WIFI_PASS` khỏi `secrets.example.h` (giữ HiveMQ).
+- [ ] Bỏ `WIFI_SSID/WIFI_PASS` khỏi `secrets.example.h` (giữ phần MQTT).
 - [ ] Kiểm tra: giữ SW lúc cắm điện → điện thoại thấy WiFi "Pomodoro-Setup" → 192.168.4.1 → chọn WiFi → hộp khởi động lại và online; rút điện cắm lại → tự vào WiFi cũ, không mở portal.
 - [ ] Commit `ID3: WiFiManager`.
 
@@ -403,7 +405,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/phat.json`.
 
-- [ ] Group **Trạng thái hệ thống**: HiveMQ (node `status` theo dõi `mqtt in` của tab Chung), Supabase (GET `settings?limit=1` mỗi 60 s), Dịch vụ AI (`GET /health` mỗi 30 s), Gmail ("Đã cấu hình" nếu đã lưu email + lần gửi gần nhất thành công).
+- [ ] Group **Trạng thái hệ thống**: MQTT – EMQX Cloud (node `status` theo dõi `mqtt in` của tab Chung), Supabase (GET `settings?limit=1` mỗi 60 s), Dịch vụ AI (`GET /health` mỗi 30 s), Gmail ("Đã cấu hình" nếu đã lưu email + lần gửi gần nhất thành công).
 - [ ] Kiểm tra: tắt Flask → trong ≤ 30 s hiện "Không chạy"; bật lại → "Đang chạy".
 - [ ] Commit `dashboard: trang thai he thong`.
 
@@ -420,7 +422,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] **[Khoa]** Hiệu chuẩn lại `LUX_INVERT` và ngưỡng mặc định khi LDR đã nằm trong hộp (ánh sáng qua lỗ nhỏ tối hơn lúc trên breadboard).
 
 ### Task 5.2 – Bảo mật bản nộp [Khoa]
-- [ ] `net.setCACert(rootCA)` thay `setInsecure()` (root CA của HiveMQ Cloud) trong `pomodoro.ino` — báo Phát pull.
+- [ ] `net.setCACert(rootCA)` thay `setInsecure()` (CA của EMQX Serverless: tải `https://assets.emqx.com/data/emqxsl-ca.crt`, dán vào chuỗi `rootCA`) trong `pomodoro.ino` — báo Phát pull.
 - [ ] Rà Git: `git log -p | grep -iE "service_role|apikey|token|password"` không ra bí mật thật.
 
 ### Task 5.3 – Kịch bản demo [Cả 2]
@@ -435,6 +437,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] Chạy trọn kịch bản 2 lần liên tiếp không lỗi.
 
 ### Task 5.4 – Báo cáo và proposal [Cả 2]
+- [ ] **[Phát]** Đổi mọi chữ "HiveMQ Cloud" → "EMQX Cloud" trong proposal/báo cáo (bảng chức năng, Hình 9 "Trạng thái hệ thống", Hình 10 cột "MQTT Broker"), thêm 1 câu lý do: HiveMQ ngừng gói Serverless free.
 - [ ] **[Phát]** Sửa proposal theo [docs/lo_trinh_lam_pomodoro.md §9](docs/lo_trinh_lam_pomodoro.md): bỏ câu thừa ở ID2 và ID10, **sửa bảng điểm mục 4** (nâng cao tối đa 4,0, tổng tối đa 10,0).
 - [ ] **[Khoa]** Chụp ảnh/quay video phần cứng + Serial cho ID1, ID3, ID4, ID5, ID6, ID8.
 - [ ] **[Phát]** Chụp 4 trang dashboard thật (đối chiếu wireframe Hình 6–9) cho ID2, ID7, ID9, ID10, ID11.

@@ -6,8 +6,9 @@
 #define WIFI_SSID "TenWiFiNha"
 #define WIFI_PASS "MatKhauWiFi"
 
-// HiveMQ Cloud: Clusters -> Overview -> URL ; Access Management -> tạo user "esp32"
-#define MQTT_HOST "xxxxxxxxxxxxxxxx.s1.eu.hivemq.cloud"
+// EMQX Cloud Serverless: Overview -> Address (chỉ tên miền, không có mqtts:// và :8883)
+//                        Access Control -> Authentication -> Add user "esp32"
+#define MQTT_HOST "xxxxxxxx.ala.asia-southeast1.emqxsl.com"
 #define MQTT_PORT 8883
 #define MQTT_USER "esp32"
 #define MQTT_PASS "MatKhauMQTT"

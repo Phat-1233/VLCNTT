@@ -4,12 +4,12 @@
     "type": "tab",
     "label": "Pomodoro – xương sống MQTT",
     "disabled": false,
-    "info": "Giai đoạn 1–2: kiểm tra ESP32 <-> HiveMQ <-> Node-RED.\nSau khi import: mở node cấu hình 'HiveMQ Cloud', sửa Server và tab Security (user/pass nodered)."
+    "info": "Giai đoạn 1–2: kiểm tra ESP32 <-> EMQX Cloud <-> Node-RED.\nSau khi import: mở node cấu hình 'EMQX Cloud', sửa Server và tab Security (user/pass nodered)."
   },
   {
     "id": "tlsHive",
     "type": "tls-config",
-    "name": "HiveMQ TLS",
+    "name": "EMQX TLS",
     "cert": "",
     "key": "",
     "ca": "",
@@ -23,8 +23,8 @@
   {
     "id": "brokerHive",
     "type": "mqtt-broker",
-    "name": "HiveMQ Cloud",
-    "broker": "xxxxxxxxxxxxxxxx.s1.eu.hivemq.cloud",
+    "name": "EMQX Cloud",
+    "broker": "xxxxxxxx.ala.asia-southeast1.emqxsl.com",
     "port": "8883",
     "tls": "tlsHive",
     "clientid": "",

@@ -42,11 +42,31 @@ struct TimerState {
 };
 extern TimerState timerState;
 
+// ------------------ Bản ghi 1 chu kỳ học (ID1 -> ID8) -----------------
+// Timer (ID1) tạo khi hết/dừng 1 pha học, hàng đợi (ID8) gửi lên pomodoro/session
+// và giữ lại tới khi nhận pomodoro/ack. Xem hợp đồng v2 trong plan.md.
+struct SessionRec {
+  uint32_t startMs;      // millis() lúc bắt đầu (dùng khi chưa có giờ NTP)
+  uint32_t startTs;      // Unix giây (UTC); 0 = chưa biết, tính lại lúc gửi
+  uint32_t endTs;
+  char     subject[24];
+  uint8_t  cycle, total;
+  uint16_t plannedMin, focusMin, pauses, pauseSec;
+  bool     completed;
+};
+
 // ------------------------- Khai báo hàm các tab ------------------------
 // pomodoro.ino (chung)
 uint32_t nowTs();
+bool timeValid();      // true khi đã có giờ NTP
 bool mqttPublish(const char* topic, JsonDocument& doc);
 bool mqttOnline();
+// wifi_setup.ino (Khoa – ID3)
+void connectWiFi();
+// session_queue.ino (Khoa – ID8)
+void sessionPush(const SessionRec& r);
+void sessionQueueLoop();
+void sessionAck(uint32_t startTs);
 // timer_button.ino (Khoa – ID1)
 void timerSetup();
 void timerLoop();
