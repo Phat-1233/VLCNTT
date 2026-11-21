@@ -1,0 +1,429 @@
+[
+  {
+    "id": "tabPomo",
+    "type": "tab",
+    "label": "Pomodoro – xương sống MQTT",
+    "disabled": false,
+    "info": "Giai đoạn 1–2: kiểm tra ESP32 <-> HiveMQ <-> Node-RED.\nSau khi import: mở node cấu hình 'HiveMQ Cloud', sửa Server và tab Security (user/pass nodered)."
+  },
+  {
+    "id": "tlsHive",
+    "type": "tls-config",
+    "name": "HiveMQ TLS",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "",
+    "keyname": "",
+    "caname": "",
+    "servername": "",
+    "verifyservercert": true,
+    "alpnprotocol": ""
+  },
+  {
+    "id": "brokerHive",
+    "type": "mqtt-broker",
+    "name": "HiveMQ Cloud",
+    "broker": "xxxxxxxxxxxxxxxx.s1.eu.hivemq.cloud",
+    "port": "8883",
+    "tls": "tlsHive",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": true,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+  {
+    "id": "c1",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "① NHẬN từ ESP32: pomodoro/# (state, lux, session)",
+    "info": "",
+    "x": 230,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "mqttIn",
+    "type": "mqtt in",
+    "z": "tabPomo",
+    "name": "pomodoro/#",
+    "topic": "pomodoro/#",
+    "qos": "1",
+    "datatype": "json",
+    "broker": "brokerHive",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 120,
+    "y": 100,
+    "wires": [
+      [
+        "dbgAll",
+        "swTopic"
+      ]
+    ]
+  },
+  {
+    "id": "dbgAll",
+    "type": "debug",
+    "z": "tabPomo",
+    "name": "Tất cả bản tin",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 340,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "swTopic",
+    "type": "switch",
+    "z": "tabPomo",
+    "name": "Chia theo topic",
+    "property": "topic",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "pomodoro/state",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "pomodoro/lux",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "pomodoro/session",
+        "vt": "str"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 3,
+    "x": 340,
+    "y": 120,
+    "wires": [
+      [
+        "dbgState"
+      ],
+      [
+        "dbgLux"
+      ],
+      [
+        "dbgSession"
+      ]
+    ]
+  },
+  {
+    "id": "dbgState",
+    "type": "debug",
+    "z": "tabPomo",
+    "name": "state → ID1 dashboard, ID6 Telegram, ID8 events (Khoa)",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": true,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "payload.state",
+    "statusType": "msg",
+    "x": 680,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "dbgLux",
+    "type": "debug",
+    "z": "tabPomo",
+    "name": "lux → ID5 gauge, ID8 lux_readings (Khoa)",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": true,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "payload.lux",
+    "statusType": "msg",
+    "x": 640,
+    "y": 120,
+    "wires": []
+  },
+  {
+    "id": "dbgSession",
+    "type": "debug",
+    "z": "tabPomo",
+    "name": "session → ID8 sessions + ack (Khoa)",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 630,
+    "y": 160,
+    "wires": []
+  },
+  {
+    "id": "c2",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "② GỬI xuống ESP32: pomodoro/cmd (ID2 lời nhắn, đổi môn – ID10 beep) – Phát",
+    "info": "Bấm nút bên trái các node inject để thử.\nSau này thay inject bằng ui-text-input / ui-dropdown / ui-button của Dashboard 2.0.",
+    "x": 330,
+    "y": 240,
+    "wires": []
+  },
+  {
+    "id": "injMsg",
+    "type": "inject",
+    "z": "tabPomo",
+    "name": "Thử lời nhắn",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "Con nhớ ăn cơm rồi học tiếp nhé",
+    "payloadType": "str",
+    "x": 130,
+    "y": 300,
+    "wires": [
+      [
+        "fnMsg"
+      ]
+    ]
+  },
+  {
+    "id": "fnMsg",
+    "type": "function",
+    "z": "tabPomo",
+    "name": "ID2 – đóng gói lời nhắn (bỏ dấu)",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nmsg.payload = { type: 'msg', text: boDau(msg.payload).slice(0, 150), sec: 10 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 300,
+    "wires": [
+      [
+        "mqttOut"
+      ]
+    ]
+  },
+  {
+    "id": "injSub",
+    "type": "inject",
+    "z": "tabPomo",
+    "name": "Thử đổi môn: Toán",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "Toán",
+    "payloadType": "str",
+    "x": 140,
+    "y": 350,
+    "wires": [
+      [
+        "fnSub"
+      ]
+    ]
+  },
+  {
+    "id": "fnSub",
+    "type": "function",
+    "z": "tabPomo",
+    "name": "ID2 – đóng gói đổi môn (bỏ dấu)",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nmsg.payload = { type: 'subject', name: boDau(msg.payload).slice(0, 22) };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 350,
+    "wires": [
+      [
+        "mqttOut"
+      ]
+    ]
+  },
+  {
+    "id": "injBeep",
+    "type": "inject",
+    "z": "tabPomo",
+    "name": "Thử Nhắc nhở (beep)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "3",
+    "payloadType": "num",
+    "x": 140,
+    "y": 400,
+    "wires": [
+      [
+        "fnBeep"
+      ]
+    ]
+  },
+  {
+    "id": "fnBeep",
+    "type": "function",
+    "z": "tabPomo",
+    "name": "ID10 – lệnh kêu còi",
+    "func": "msg.payload = { type: 'beep', times: Number(msg.payload) || 3 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 370,
+    "y": 400,
+    "wires": [
+      [
+        "mqttOut"
+      ]
+    ]
+  },
+  {
+    "id": "mqttOut",
+    "type": "mqtt out",
+    "z": "tabPomo",
+    "name": "pomodoro/cmd",
+    "topic": "pomodoro/cmd",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "brokerHive",
+    "x": 650,
+    "y": 350,
+    "wires": []
+  },
+  {
+    "id": "c3",
+    "type": "comment",
+    "z": "tabPomo",
+    "name": "③ Giả lập ESP32 (dùng khi chưa có mạch): gửi thử 1 bản tin state",
+    "info": "",
+    "x": 290,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "injFake",
+    "type": "inject",
+    "z": "tabPomo",
+    "name": "Giả lập state",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"dev\":\"pomo-01\",\"event\":\"start\",\"state\":\"study\",\"subject\":\"Toan\",\"cycle\":1,\"total\":4,\"remain\":1500}",
+    "payloadType": "json",
+    "x": 130,
+    "y": 540,
+    "wires": [
+      [
+        "fnTs"
+      ]
+    ]
+  },
+  {
+    "id": "fnTs",
+    "type": "function",
+    "z": "tabPomo",
+    "name": "gắn ts hiện tại",
+    "func": "msg.payload.ts = Math.floor(Date.now() / 1000);\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 330,
+    "y": 540,
+    "wires": [
+      [
+        "mqttFake"
+      ]
+    ]
+  },
+  {
+    "id": "mqttFake",
+    "type": "mqtt out",
+    "z": "tabPomo",
+    "name": "pomodoro/state",
+    "topic": "pomodoro/state",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "brokerHive",
+    "x": 530,
+    "y": 540,
+    "wires": []
+  }
+]

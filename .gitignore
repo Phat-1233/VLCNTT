@@ -1,0 +1,20 @@
+# Bí mật – không đẩy lên GitHub
+firmware/pomodoro/secrets.h
+.env
+*.env
+
+# Python
+ai-service/.venv/
+ai-service/model_weights.json
+__pycache__/
+*.pyc
+
+# Node-RED (chỉ giữ flows.json, không giữ file credential)
+node-red/*_cred*.json
+node-red/.config*.json
+
+# Hệ điều hành / editor
+.DS_Store
+Thumbs.db
+.vscode/
+build/
