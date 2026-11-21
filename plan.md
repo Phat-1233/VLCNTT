@@ -106,10 +106,10 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 
 - [x] **[Khoa]** Tạo deployment **EMQX Cloud Serverless** (Spend Limit = 0); Access Control → Authentication tạo 2 user `esp32`, `nodered`; ghi Address + cổng 8883 vào chỗ riêng (không vào Git). Lưu ý: 30 ngày không có client kết nối thì EMQX tự dừng deployment → vào console bật lại.
 - [x] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
-- [ ] **[Phát]** Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại nhận tin → gửi riêng cho Khoa.
+- [x] **[Phát]** Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại nhận tin → gửi riêng cho Khoa. _(Khoa tạo thay vì tài khoản Telegram mới ở VN bị thu phí SMS; bot `@pomodoros_kp_bot`, `getMe` OK 21/11)_
 - [ ] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED.
-- [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu).
-- [ ] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`.
+- [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu). — **Phát ✔ 21/11** (Partition Scheme: Huge APP, Verify `pomodoro.ino` OK)
+- [ ] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`. — **Phát ✔ 21/11** (curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK)
 
 **Xong khi:** cả 2 máy mở được `http://localhost:1880` và Arduino IDE biên dịch được `pomodoro.ino` (với `secrets.h` đã điền).
 

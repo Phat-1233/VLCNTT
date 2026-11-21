@@ -17,15 +17,20 @@ VLCNTT/
 │   ├── pomodoro.ino       # chung: WiFi, NTP, MQTT, chia lệnh pomodoro/cmd
 │   ├── config.h           # chung: sơ đồ chân, topic, struct trạng thái đồng hồ
 │   ├── secrets.example.h  # mẫu -> chép thành secrets.h (đã gitignore)
-│   ├── timer_button.ino   # ID1  Khoa – nút nhấn + máy trạng thái (TODO)
-│   ├── knob_7seg.ino      # ID4  Khoa – núm xoay -> 7 đoạn (TODO)
-│   ├── ldr.ino            # ID5  Khoa – LDR -> MQTT (TODO)
-│   ├── oled.ino           # ID2  Phát – lệnh web -> OLED (đã có)
-│   └── buzzer.ino         # ID10 Phát – lệnh web -> buzzer (đã có)
-├── node-red/flows.json    # Import vào Node-RED (Menu ☰ -> Import)
+│   ├── wifi_setup.ino     # ID3  Khoa – kết nối WiFi (sau này WiFiManager)
+│   ├── timer_button.ino   # ID1  Khoa – nút nhấn + máy trạng thái
+│   ├── session_queue.ino  # ID8  Khoa – lưu tạm phiên học, gửi bù khi có ack
+│   ├── knob_7seg.ino      # ID4  Khoa – núm xoay -> 7 đoạn
+│   ├── ldr.ino            # ID5  Khoa – LDR -> MQTT
+│   ├── oled.ino           # ID2  Phát – lệnh web -> OLED
+│   └── buzzer.ino         # ID10 Phát – lệnh web -> buzzer
+├── node-red/
+│   ├── flows.json         # xương sống MQTT (sẽ tách common/khoa/phat ở Task 0.4)
+│   └── ui_wireframe.json  # khung 4 trang dashboard theo wireframe
 ├── ai-service/            # ID7 Phát – Flask + logistic regression (numpy) + CSP
-├── supabase/schema.sql    # ID8 Khoa – tạo bảng trên Supabase
-└── docs/lo_trinh_lam_pomodoro.md   # thứ tự làm, hợp đồng MQTT/JSON, lỗi hay gặp
+├── supabase/schema.sql    # ID8 Khoa – schema v2, bật RLS
+├── docs/lo_trinh_lam_pomodoro.md   # sơ đồ chân, lỗi hay gặp
+└── plan.md                # KẾ HOẠCH CHÍNH: task từng giai đoạn, hợp đồng v2, ai làm gì
 ```
 
 ## Topic MQTT (hợp đồng chung)
@@ -40,32 +45,81 @@ VLCNTT/
 
 Đổi JSON thì phải sửa cả 2 phía (ESP32 và Node-RED) và báo người kia. Hợp đồng đầy đủ (v2): xem mục "Hợp đồng v2" trong [plan.md](plan.md). Bản tin giả lập dùng `"dev":"sim-01"` và không được ghi lên Supabase.
 
-## Chạy thử
+## Cài đặt (mỗi máy làm 1 lần)
 
-### 1. Firmware (ESP32)
-1. Arduino IDE → Boards Manager → cài **esp32 by Espressif**; chọn board **ESP32 Dev Module**.
-2. Library Manager → cài **PubSubClient**, **ArduinoJson** (v7), **Adafruit SSD1306**, **Adafruit GFX Library**.
-3. Chép `secrets.example.h` thành `secrets.h`, điền WiFi + EMQX (host, user `esp32`).
-4. Mở `firmware/pomodoro/pomodoro.ino` → Upload → Serial Monitor 115200.
+### 1. Arduino IDE – firmware ESP32
+1. **File → Preferences** → ô *Additional boards manager URLs* dán:
+   `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
+2. **Boards Manager** → cài **esp32 by Espressif Systems**. Không cài nhầm gói *Arduino ESP32 Boards* (by Arduino): gói đó dành cho Arduino Nano ESP32.
+3. **Library Manager** → cài đúng tác giả:
+
+   | Thư viện | Tác giả | Dùng cho |
+   |---|---|---|
+   | PubSubClient | Nick O'Leary | MQTT |
+   | ArduinoJson (v7) | Benoit Blanchon | JSON |
+   | Adafruit SSD1306 (chọn *Install all*) | Adafruit | ID2 OLED |
+   | Adafruit GFX Library | Adafruit | ID2 OLED |
+   | TM1637 | Avishay Orpaz | ID4 7 đoạn |
+   | WiFiManager | tzapu | ID3 |
+
+4. **Tools → Board → ESP32 Dev Module**.
+5. **Tools → Partition Scheme → Huge APP (3MB No OTA/1MB SPIFFS)**. Cả nhóm phải chọn giống nhau: phân vùng mặc định chỉ 1,3 MB, code đã chiếm 85%; với Huge APP còn khoảng 35%.
+6. Chép `firmware/pomodoro/secrets.example.h` thành `secrets.h`, điền WiFi + EMQX (Address, user `esp32`). `secrets.h` đã gitignore.
+7. Mở `firmware/pomodoro/pomodoro.ino` → **✓ Verify** → **Upload** → Serial Monitor 115200, thấy `Ket noi MQTT (EMQX)... OK` là được.
+   - Không thấy cổng COM: cài driver **CH340** hoặc **CP210x** (tùy chip USB trên board).
 
 ### 2. Node-RED
-1. `node-red` → mở `http://localhost:1880`.
-2. Menu ☰ → Import → chọn `node-red/flows.json`.
-3. Mở node cấu hình broker **EMQX Cloud** → sửa Server (port 8883, bật TLS), tab Security nhập user/pass `nodered` → Deploy.
-4. Bấm các node inject “Thử lời nhắn”, “Thử Nhắc nhở” để gửi lệnh xuống ESP32.
-5. Sửa flow xong: Menu ☰ → Export → All flows → ghi đè `node-red/flows.json` rồi commit.
+1. Cần Node.js ≥ 18 (`node -v`). Chưa có thì cài bản LTS ở nodejs.org.
+2. Cài và chạy:
+   ```
+   npm install -g --unsafe-perm node-red
+   node-red
+   ```
+   Mở `http://localhost:1880`.
+3. Menu ☰ → **Manage palette** → **Install** 3 gói:
+   `@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`.
+4. Import flow: Menu ☰ → **Import**.
+   - Hiện tại: `node-red/flows.json` (xương sống MQTT) và `node-red/ui_wireframe.json` (khung 4 trang dashboard).
+   - Sau Task 0.4: import theo thứ tự `common.json` → `khoa.json` → `phat.json`; khi Node-RED hỏi trùng node thì chọn **Replace** (không chọn *Import copy*).
+5. Mở node cấu hình broker **EMQX Cloud** → *Server* = Address của EMQX, port 8883, bật TLS; tab *Security* nhập user/pass `nodered` → **Deploy**.
+6. Sửa flow xong: chọn tab của mình → Menu ☰ → **Export** → *Current flow* → ghi đè đúng file của mình rồi commit. Không export *All flows*.
+7. Dashboard: `http://localhost:1880/dashboard`.
 
-### 3. AI service (ID7)
-```bash
+> EMQX Serverless tự dừng deployment nếu 30 ngày không có client kết nối → vào console EMQX bật lại.
+
+### 3. Biến môi trường (bí mật – không ghi vào Git, không ghi vào flow)
+Mở **CMD**, chạy (thay giá trị thật):
+```
+setx SUPABASE_URL "https://xxxxxxxx.supabase.co"
+setx SUPABASE_KEY "eyJ..."
+setx AI_URL "http://localhost:5000"
+setx TELEGRAM_TOKEN "123456789:AA..."
+setx TELEGRAM_CHAT_ID "123456789"
+```
+Sau đó **đóng hết CMD, mở CMD mới** (`echo %SUPABASE_URL%` để kiểm tra) và **khởi động lại Node-RED**. Trong node function đọc bằng `env.get("SUPABASE_URL")`.
+
+| Biến | Lấy ở đâu | Ai giữ |
+|---|---|---|
+| `SUPABASE_URL`, `SUPABASE_KEY` | Supabase → Project Settings → API (*Project URL*, **service_role / secret key**). Các bảng đã bật RLS nên key *anon/public* sẽ bị chặn | Khoa |
+| `TELEGRAM_TOKEN` | @BotFather khi tạo bot | Khoa |
+| `TELEGRAM_CHAT_ID` | Nhắn bot 1 tin rồi mở `https://api.telegram.org/bot<TOKEN>/getUpdates`, lấy `chat.id` | Khoa |
+| `AI_URL` | Cố định `http://localhost:5000` | — |
+| App Password Gmail | myaccount.google.com/apppasswords (cần bật xác minh 2 bước). Nhập vào node email, **không** đặt biến môi trường | Phát |
+
+> Tài khoản Telegram **mới** đăng ký ở Việt Nam hiện bị thu phí SMS (mua Premium 1 tuần). Dùng tài khoản đã có sẵn để tạo bot.
+
+### 4. AI service (ID7)
+```
 cd ai-service
 python -m venv .venv
-.venv\Scripts\activate        # Windows
+.venv\Scripts\activate
 pip install -r requirements.txt
-python app.py                 # http://localhost:5000
+python app.py
 ```
+Chạy tại `http://localhost:5000`. Thử nhanh: `http://localhost:5000/health`. Chi tiết API: `ai-service/README.md`.
 
-### 4. Supabase (ID8)
-SQL Editor → dán `supabase/schema.sql` → Run.
+### 5. Supabase (ID8)
+Supabase → **SQL Editor** → **New query** → dán `supabase/schema.sql` → **Run** (file tự xóa và tạo lại 6 bảng, bật RLS).
 
 ## Quy ước làm việc
 - Mỗi người chỉ sửa tab/file của mình; sửa `config.h` hoặc `pomodoro.ino` thì báo trước.
