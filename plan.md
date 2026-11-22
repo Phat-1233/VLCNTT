@@ -160,8 +160,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
   - Thống kê: `Chọn khoảng (Phát)`, `Tổng kết (Phát)`, 4 group biểu đồ `(Phát)`
   - Phụ huynh: `Email báo cáo (Phát)`, `Telegram (Khoa)`, `Trạng thái hệ thống (Phát)`, `Lịch sử gửi email (Phát)`
 - [x] Export 3 file; xóa `flows.json`; sửa README: "Import theo thứ tự common → khoa → phat, chọn Replace khi trùng". _(Xong 22/11. Ghi chú: Khoa sửa trong tab Khoa trên máy mình rồi export *Current flow* → `khoa.json`; KHÔNG export *All flows*. `ui_wireframe.json` đã gộp vào 3 file nên xóa luôn.)_
-- [ ] Kiểm tra: import 3 file vào Node-RED trống → Deploy không lỗi; bấm "Giả lập state" thấy bản tin đi qua link `state` (debug); dashboard có 4 trang.
-- [ ] Commit `chung: tach Node-RED thanh common/khoa/phat` → **nhắn Khoa pull**.
+- [x] Kiểm tra: import 3 file vào Node-RED trống → Deploy không lỗi; bấm "Giả lập state" thấy bản tin đi qua link `state` (debug); dashboard có 4 trang.
+- [x] Commit `chung: tach Node-RED thanh common/khoa/phat` → **nhắn Khoa pull**.
 
 ### ✅ Mốc M0 [Cả 2]
 - [ ] Cả 2 pull về, import 3 file Node-RED, nạp firmware: ESP32 gửi `online` → thấy ở debug Node-RED; bấm inject "Thử lời nhắn" → OLED hiện chữ.
