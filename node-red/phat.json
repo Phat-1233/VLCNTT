@@ -174,6 +174,21 @@
         "type": "str"
       },
       {
+        "label": "Hóa học",
+        "value": "Hóa học",
+        "type": "str"
+      },
+      {
+        "label": "Ngữ văn",
+        "value": "Ngữ Văn",
+        "type": "str"
+      },
+      {
+        "label": "Sinh học",
+        "value": "Sinh học",
+        "type": "str"
+      },
+      {
         "label": "Khác",
         "value": "Khác",
         "type": "str"
@@ -188,7 +203,9 @@
     "x": 420,
     "y": 544,
     "wires": [
-      []
+      [
+        "718e7796befc63ad"
+      ]
     ]
   },
   {
@@ -219,7 +236,9 @@
     "x": 420,
     "y": 588,
     "wires": [
-      []
+      [
+        "a2a0a365167abe35"
+      ]
     ]
   },
   {
@@ -256,7 +275,9 @@
     "x": 420,
     "y": 632,
     "wires": [
-      []
+      [
+        "c91aa2646fb39ffc"
+      ]
     ]
   },
   {
@@ -2269,7 +2290,9 @@
     "x": 280,
     "y": 160,
     "wires": [
-      []
+      [
+        "1acd02496fbea802"
+      ]
     ],
     "l": true
   },
@@ -2297,8 +2320,8 @@
     "links": [
       "b1ac0b246878bd50"
     ],
-    "x": 690,
-    "y": 160,
+    "x": 930,
+    "y": 300,
     "wires": [],
     "l": true
   },
@@ -2351,5 +2374,80 @@
     "x": 260,
     "y": 2866,
     "wires": []
+  },
+  {
+    "id": "1acd02496fbea802",
+    "type": "debug",
+    "z": "926f37b61fb23da8",
+    "name": "debug 1",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 320,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "a2a0a365167abe35",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Lưu lời nhắn tạm",
+    "func": "flow.set('loiNhan', msg.payload);\nreturn null;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 690,
+    "y": 580,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "c91aa2646fb39ffc",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID2 – gửi lời nhắn",
+    "func": "const boDau = s => String(s).normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst text = String(flow.get('loiNhan') || '').trim();\nif (!text) { node.warn('Lời nhắn rỗng, không gửi'); return null; }\nmsg.payload = { type: 'msg', text: boDau(text).slice(0, 150), sec: 10 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 690,
+    "y": 640,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
+  },
+  {
+    "id": "718e7796befc63ad",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID2 – đổi môn",
+    "func": "const boDau = s => String(s).normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nif (!msg.payload) return null;\nmsg.payload = { type: 'subject', name: boDau(msg.payload).slice(0, 22) };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 680,
+    "y": 540,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
   }
 ]

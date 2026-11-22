@@ -194,8 +194,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/phat.json`, (nếu cần) `firmware/pomodoro/oled.ino`.
 
-- [ ] Group **Gửi xuống hộp**: `ui-dropdown` môn (Toán, Lý, Hóa, Anh văn, Văn, Sinh, Khác), `ui-text-input` lời nhắn, `ui-button` "Gửi lời nhắn" → function bỏ dấu (dùng lại function có sẵn), cắt còn 150 ký tự → `{"type":"msg","text":...,"sec":10}` → link out `to-cmd`. Chọn môn → `{"type":"subject","name":...}`.
-- [ ] Bỏ qua lời nhắn rỗng (function trả `null`).
+- [x] Group **Gửi xuống hộp**: `ui-dropdown` môn (Toán, Lý, Hóa, Anh văn, Văn, Sinh, Khác), `ui-text-input` lời nhắn, `ui-button` "Gửi lời nhắn" → function bỏ dấu (dùng lại function có sẵn), cắt còn 150 ký tự → `{"type":"msg","text":...,"sec":10}` → link out `to-cmd`. Chọn môn → `{"type":"subject","name":...}`.
+- [x] Bỏ qua lời nhắn rỗng (function trả `null`).
 - [ ] Buổi ghép có board: OLED hiện lời nhắn đúng 10 s rồi quay về đồng hồ; "Con học bài nhé" hiện "Con hoc bai nhe"; chuỗi 150 ký tự không tràn khỏi màn (nếu tràn thì giảm còn 120 ở function).
 - [ ] Đổi môn trên web → dòng trên OLED đổi tên môn và dashboard Khoa nhận event `subject`.
 - [ ] Export `phat.json`, commit `ID2: dashboard gui loi nhan + doi mon`.
