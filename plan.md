@@ -106,10 +106,10 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 
 - [x] **[Khoa]** Tạo deployment **EMQX Cloud Serverless** (Spend Limit = 0); Access Control → Authentication tạo 2 user `esp32`, `nodered`; ghi Address + cổng 8883 vào chỗ riêng (không vào Git). Lưu ý: 30 ngày không có client kết nối thì EMQX tự dừng deployment → vào console bật lại.
 - [x] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
-- [x] **[Phát]** Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại nhận tin → gửi riêng cho Khoa. _(Khoa tạo thay vì tài khoản Telegram mới ở VN bị thu phí SMS; bot `@pomodoros_kp_bot`, `getMe` OK 21/11)_
+- [x] **[Khoa]** (đổi từ Phát vì tài khoản Telegram mới ở VN bị thu phí SMS) Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại Khoa → đặt `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`. _(bot `@pomodoros_kp_bot`, `getMe` OK 21/11; nhớ `/revoke` đổi token trước khi nộp)_
 - [x] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED. _(21/11, lưu riêng, nhập vào node email ở Task 4.P2)_
-- [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu). — **Phát ✔ 21/11** (Partition Scheme: Huge APP, Verify `pomodoro.ino` OK)
-- [ ] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`. — **Phát ✔ 21/11** (curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK)
+- [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu). — **Phát ✔ 21/11** (Partition Scheme: Huge APP, Verify `pomodoro.ino` OK) — **Khoa**: Node-RED + 3 palette ✔, còn thư viện Arduino
+- [x] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`. — **Phát ✔ 21/11** (curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK) — **Khoa ✔ 21/11** (đủ 5 biến)
 
 **Xong khi:** cả 2 máy mở được `http://localhost:1880` và Arduino IDE biên dịch được `pomodoro.ino` (với `secrets.h` đã điền).
 
@@ -125,7 +125,7 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 - [x] Cuối file bật RLS cho 6 bảng (không policy → chỉ service_role đọc/ghi được).
 - [x] Đầu file thêm `drop table if exists ... cascade;` cho cả 6 bảng (chưa có dữ liệu thật nên chạy lại an toàn) → chạy trong SQL Editor.
 - [x] Kiểm tra: `curl "$SUPABASE_URL/rest/v1/settings" -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY"` trả về 3 dòng.
-- [ ] Commit `ID8: schema v2`.
+- [x] Commit `ID8: schema v2` (gộp vào commit `6010f06`).
 
 ### Task 0.3 – Chốt file chung của firmware [Khoa]
 
@@ -145,7 +145,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] `pomodoro.ino`: nhánh `T_ACK` gọi `sessionAck(doc["start_ts"] | 0)`; `loop()` gọi thêm `sessionQueueLoop()`; thêm `timeValid()`; chuyển nguyên hàm `connectWiFi()` (bản ghi cứng hiện tại) sang `wifi_setup.ino`.
 - [x] Tạo `session_queue.ino` với 3 hàm rỗng.
 - [ ] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK".
-- [ ] Commit `chung: chot config.h + pomodoro.ino cho ID3/ID8` → **nhắn Phát pull**.
+- [x] Commit `chung: chot config.h + pomodoro.ino cho ID3/ID8` (gộp vào `6010f06`) → **nhắn Phát pull**.
 
 ### Task 0.4 – Tách Node-RED + khung dashboard [Phát]
 
