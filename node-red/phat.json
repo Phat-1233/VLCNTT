@@ -2415,7 +2415,7 @@
     "type": "function",
     "z": "926f37b61fb23da8",
     "name": "ID2 – gửi lời nhắn",
-    "func": "const boDau = s => String(s).normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst text = String(flow.get('loiNhan') || '').trim();\nif (!text) { node.warn('Lời nhắn rỗng, không gửi'); return null; }\nmsg.payload = { type: 'msg', text: boDau(text).slice(0, 150), sec: 10 };\nreturn msg;",
+    "func": "const boDau = s => String(s).normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst text = String(flow.get('loiNhan') || '').trim();\nif (!text) { node.warn('Lời nhắn rỗng, không gửi'); return null; }\nmsg.payload = { type: 'msg', text: boDau(text).slice(0, 120), sec: 10 };\nreturn msg;",
     "outputs": 1,
     "timeout": 0,
     "noerr": 0,

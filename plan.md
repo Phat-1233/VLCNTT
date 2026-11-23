@@ -149,7 +149,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Thêm các khai báo trên vào `config.h`.
 - [x] `pomodoro.ino`: nhánh `T_ACK` gọi `sessionAck(doc["start_ts"] | 0)`; `loop()` gọi thêm `sessionQueueLoop()`; thêm `timeValid()`; chuyển nguyên hàm `connectWiFi()` (bản ghi cứng hiện tại) sang `wifi_setup.ino`.
 - [x] Tạo `session_queue.ino` với 3 hàm rỗng.
-- [x] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK". _(23/11: board dùng chip CP2102 → cần driver Silicon Labs; WiFi phải 2.4 GHz/WPA2 – iPhone bật "Tối đa hóa tương thích")_
+- [x] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK". _(23/11: board dùng chip CP2102 → cần driver Silicon Labs; WiFi phải 2.4 GHz/WPA2 – iPhone bật "Tối đa hóa tương thích"; board không tự vào chế độ nạp → giữ nút BOOT lúc `Connecting...`; Partition Huge APP, 35% flash)_
 - [x] Commit `chung: chot config.h + pomodoro.ino cho ID3/ID8` (gộp vào `6010f06`) → **nhắn Phát pull**.
 
 ### Task 0.4 – Tách Node-RED + khung dashboard [Phát]
@@ -169,10 +169,12 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `chung: tach Node-RED thanh common/khoa/phat` → **nhắn Khoa pull**.
 
 ### ✅ Mốc M0 [Cả 2]
-- [ ] **[Cả 2]** Pull về, import `common` → `khoa` → `phat` vào Node-RED của máy mình (xóa tab cũ), điền lại Address + mật khẩu `nodered` cho broker → 3 node MQTT **connected**.
+- [x] **[Cả 2]** Pull về, import `common` → `khoa` → `phat` vào Node-RED của máy mình (xóa tab cũ), điền lại Address + mật khẩu `nodered` cho broker → 3 node MQTT **connected**.
   - [x] Khoa _(23/11: 168 node, 3 tab Chung/Khoa/Phát, broker connected)_
-  - [ ] Phát
-- [x] _(23/11, máy Khoa: MQTT OK, inject "Thử lời nhắn" → Serial `OLED loi nhan: ...`)_ Nạp firmware (máy đang giữ board): ESP32 gửi `online` → thấy ở debug Node-RED của **cả 2 máy**; bấm inject "Thử lời nhắn" → Serial in `<- pomodoro/cmd`, OLED hiện chữ.
+  - [x] Phát _(22/11: 3 tab Chung/Phát/Khoa, broker EMQX connected, Giả lập state đi qua link `state`)_
+- [x] Nạp firmware (máy đang giữ board): ESP32 gửi `online` → thấy ở debug Node-RED của **cả 2 máy**; bấm inject "Thử lời nhắn" → Serial in `<- pomodoro/cmd`, OLED hiện chữ.
+  - [x] Khoa _(23/11, máy Khoa: MQTT OK, inject "Thử lời nhắn" → Serial `OLED loi nhan: ...`)_
+  - [x] Phát _(23/11, máy Phát: board COM4, bấm "Thử lời nhắn" → ESP32 nhận `pomodoro/cmd`, OLED hiện LOI NHAN)_
 - [x] **[Khoa]** Cập nhật bảng topic trong `README.md` theo hợp đồng v2.
 
 ---
@@ -204,14 +206,14 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 - [x] Group **Gửi xuống hộp**: `ui-dropdown` môn (Toán, Lý, Hóa, Anh văn, Văn, Sinh, Khác), `ui-text-input` lời nhắn, `ui-button` "Gửi lời nhắn" → function bỏ dấu (dùng lại function có sẵn), cắt còn 150 ký tự → `{"type":"msg","text":...,"sec":10}` → link out `to-cmd`. Chọn môn → `{"type":"subject","name":...}`.
 - [x] Bỏ qua lời nhắn rỗng (function trả `null`).
-- [ ] Buổi ghép có board: OLED hiện lời nhắn đúng 10 s rồi quay về đồng hồ; "Con học bài nhé" hiện "Con hoc bai nhe"; chuỗi 150 ký tự không tràn khỏi màn (nếu tràn thì giảm còn 120 ở function).
-- [ ] Đổi môn trên web → dòng trên OLED đổi tên môn và dashboard Khoa nhận event `subject`.
-- [ ] Export `phat.json`, commit `ID2: dashboard gui loi nhan + doi mon`.
+- [x] Buổi ghép có board: OLED hiện lời nhắn đúng 10 s rồi quay về đồng hồ; "Con học bài nhé" hiện "Con hoc bai nhe"; chuỗi 150 ký tự không tràn khỏi màn (nếu tràn thì giảm còn 120 ở function). _(23/11: chuỗi 159 ký tự bị cắt còn 120 → nằm gọn 6 dòng (OLED 21 ký tự × 6 dòng ≈ 126); "Con học bài nhé" → "Con hoc bai nhe", ~10 s rồi về đồng hồ)_
+- [x] Đổi môn trên web → dòng trên OLED đổi tên môn và dashboard Khoa nhận event `subject`. _(23/11: chọn "Hóa học" → OLED dòng trên đổi "Hoa hoc". Phần dashboard Khoa nhận event `subject`: firmware đã gửi `publishState("subject")`, Khoa kiểm tra lại khi xong ID1)_
+- [x] Export `phat.json`, commit `ID2: dashboard gui loi nhan + doi mon`. _(commit ebce08c)_
 
 ### ✅ Mốc M1 – ghép lần 1 [Cả 2, có board]
 - [ ] Bấm nút trên hộp → dashboard đổi trạng thái trong < 2 s.
 - [ ] Gõ lời nhắn trên web → OLED hiện, 10 s sau trở lại đồng hồ, đồng hồ **không bị đứng** trong lúc hiện lời nhắn.
-- [ ] Tắt WiFi router 30 s rồi bật lại → hộp vẫn đếm, tự kết nối lại MQTT.
+- [x] Tắt WiFi router 30 s rồi bật lại → hộp vẫn đếm, tự kết nối lại MQTT. _(23/11, Phát: tắt hotspot 30 s → chấm MQTT trên OLED chuyển rỗng; bật lại → tự đặc lại, gửi lời nhắn vẫn tới. Phần "vẫn đếm" kiểm tra lại khi có ID1)_
 
 ---
 
