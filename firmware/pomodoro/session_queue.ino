@@ -6,9 +6,23 @@
 // =====================================================================
 
 void sessionPush(const SessionRec& r) {
-  // TODO(Khoa – Task 3.K2): thêm r vào mảng vòng 10 phần tử rồi gửi ngay
-  Serial.printf("sessionPush: chu ky %u/%u, %u phut, completed=%d\n",
-                r.cycle, r.total, r.focusMin, r.completed);
+  // ponytail: gửi 1 lần, mất mạng là mất. Task 3.K2 thêm mảng vòng 10 phần tử + gửi lại tới khi có ack.
+  uint32_t startTs = r.startTs ? r.startTs : (timeValid() ? nowTs() - (millis() - r.startMs) / 1000 : 0);
+  JsonDocument d;
+  d["dev"] = DEVICE_ID;
+  d["start_ts"] = startTs;
+  d["end_ts"] = r.endTs ? r.endTs : (timeValid() ? nowTs() : 0);
+  d["subject"] = r.subject;
+  d["cycle"] = r.cycle;
+  d["total"] = r.total;
+  d["planned_min"] = r.plannedMin;
+  d["focus_min"] = r.focusMin;
+  d["pauses"] = r.pauses;
+  d["pause_sec"] = r.pauseSec;
+  d["completed"] = r.completed;
+  bool ok = startTs && mqttPublish(T_SESSION, d);
+  Serial.printf("[ID8] session %u/%u %u phut completed=%d -> %s\n",
+                r.cycle, r.total, r.focusMin, r.completed, ok ? "da gui" : "CHUA GUI");
 }
 
 void sessionQueueLoop() {

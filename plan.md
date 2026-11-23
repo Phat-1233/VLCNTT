@@ -85,7 +85,7 @@ Thay đổi so với README cũ: **`pomodoro/session` gửi theo từng chu kỳ
 
 | Topic | Chiều | JSON | Khi nào gửi |
 |---|---|---|---|
-| `pomodoro/state` | ESP32 → NR | `{"dev":"pomo-01","ts":U,"event":"start","state":"study","subject":"Toan","cycle":1,"total":4,"remain":1500}` | Mỗi lần đổi trạng thái. `event` ∈ `online, start, pause, resume, stop, phase_end, done, subject` |
+| `pomodoro/state` | ESP32 → NR | `{"dev":"pomo-01","ts":U,"event":"start","state":"study","subject":"Toan","cycle":1,"total":4,"remain":1500}` | Mỗi lần đổi trạng thái. `event` ∈ `online, start, pause, resume, stop, phase_end, done, subject`, thêm `tick` (nhịp tim mỗi 30 s, không đổi trạng thái – ID8 **không** ghi `tick` vào `events`) |
 | `pomodoro/lux` | ESP32 → NR | `{"dev":"pomo-01","ts":U,"lux":1830}` | Mỗi 2 giây, `lux` = ADC thô 0–4095 |
 | `pomodoro/session` | ESP32 → NR | `{"dev":"pomo-01","start_ts":U,"end_ts":U,"subject":"Toan","cycle":2,"total":3,"planned_min":25,"focus_min":25,"pauses":1,"pause_sec":120,"completed":true}` | Hết 1 pha học (`completed:true`) hoặc bị giữ nút dừng giữa pha học (`completed:false`). Pha nghỉ không gửi |
 | `pomodoro/ack` | NR → ESP32 | `{"start_ts":U}` | Sau khi Supabase upsert trả 2xx |
@@ -191,13 +191,13 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Interfaces:** Consumes `timerState`, `publishState()`, `sessionPush()` (Task 0.3). Produces: `timerState` luôn đúng để OLED (Phát) và 7 đoạn đọc.
 
-- [ ] Nút: chống rung 50 ms bằng `millis()`; **bấm nhả** (< 2 s): `idle/done → study` (cycle = 1, `start`), `study/break → paused` (`pause`, nhớ pha trước), `paused → pha trước` (`resume`). **Giữ ≥ 2 s**: `→ idle` (`stop`), báo ngay lúc đủ 2 s, lúc nhả **không** tính thêm 1 lần bấm.
-- [ ] Đếm ngược mỗi 1 s theo `millis()` khi `study`/`break`; đếm `pauses`, `pause_sec` của pha học hiện tại.
-- [ ] Hết giờ: `study → break` (`phase_end`, gọi `sessionPush(completed=true)`); `break → study`, `cycle++`; vượt `totalCycles` → `done` (`done`).
-- [ ] Dừng giữa pha học đã học ≥ 1 phút → `sessionPush(completed=false)`.
-- [ ] Node-RED tab Khoa: link in `state` → group **Trạng thái hộp**: Kết nối hộp (Offline nếu > 70 s không có bản tin), Trạng thái đồng hồ, Môn, Chu kỳ `2 / 4`, Thời gian còn lại `mm:ss`.
-- [ ] Group **Nhật ký học hôm nay** (`ui-table`): tạm thời đổ từ link in `state` (giờ, sự kiện, môn, chu kỳ); Task 4.K3 sẽ đổi sang đọc `sessions`.
-- [ ] Kiểm tra với `studyMin = 1`, `breakMin = 1`, 2 chu kỳ: chạy hết → dashboard đi `study → break → study → break → done`; bấm khi đang học → `paused`, bấm lại → tiếp tục đúng số giây; giữ 2 s → `idle` và chỉ có 1 bản tin `stop`.
+- [x] Nút: chống rung 50 ms bằng `millis()`; **bấm nhả** (< 2 s): `idle/done → study` (cycle = 1, `start`), `study → paused` (`pause`), `paused → study` (`resume`); **đang `break` thì bấm không có tác dụng** (giờ giải lao không tạm dừng). **Giữ ≥ 2 s**: `→ idle` (`stop`); **đang `break` thì bỏ nghỉ → `study` chu kỳ tiếp theo** (`phase_end`); báo ngay lúc đủ 2 s, lúc nhả **không** tính thêm 1 lần bấm.
+- [x] Đếm ngược mỗi 1 s theo `millis()` khi `study`/`break`; đếm `pauses`, `pause_sec` của pha học hiện tại.
+- [x] Hết giờ: `study → break` (`phase_end`, gọi `sessionPush(completed=true)`); `break → study`, `cycle++`; hết pha học của chu kỳ cuối → `done` luôn, không nghỉ (`done`).
+- [x] Dừng giữa pha học đã học ≥ 1 phút → `sessionPush(completed=false)`.
+- [x] Node-RED tab Khoa: link in `state` → group **Trạng thái hộp**: Kết nối hộp (Offline nếu > 70 s không có bản tin; hộp gửi nhịp tim `event:"tick"` mỗi 30 s – ID8 bỏ qua `tick` khi ghi `events`), Trạng thái đồng hồ, Môn, Chu kỳ `2 / 4`, Thời gian còn lại `mm:ss`.
+- [x] Group **Nhật ký học hôm nay** (`ui-table`): tạm thời đổ từ link in `session` (Giờ, Môn, Chu kỳ, Thời lượng, Tạm dừng, Kết quả – giữ trong bộ nhớ Node-RED); Task 4.K3 sẽ đổi sang đọc `sessions`.
+- [ ] Kiểm tra với `studyMin = 1`, `breakMin = 1`, 2 chu kỳ: chạy hết → dashboard đi `study → break → study → done`; bấm khi đang học → `paused`, bấm lại → tiếp tục đúng số giây; giữ 2 s → `idle` và chỉ có 1 bản tin `stop`.
 - [ ] Export `khoa.json`, commit `ID1: may trang thai + dashboard trang thai`.
 
 ### Task 1.P – ID2 Dashboard → OLED [Phát]
@@ -211,8 +211,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Export `phat.json`, commit `ID2: dashboard gui loi nhan + doi mon`. _(commit ebce08c)_
 
 ### ✅ Mốc M1 – ghép lần 1 [Cả 2, có board]
-- [ ] Bấm nút trên hộp → dashboard đổi trạng thái trong < 2 s.
-- [ ] Gõ lời nhắn trên web → OLED hiện, 10 s sau trở lại đồng hồ, đồng hồ **không bị đứng** trong lúc hiện lời nhắn.
+- [x] Bấm nút trên hộp → dashboard đổi trạng thái trong < 2 s. _(23/11, Khoa: nút thật GPIO27, dashboard đổi ngay)_
+- [x] Gõ lời nhắn trên web → OLED hiện, 10 s sau trở lại đồng hồ, đồng hồ **không bị đứng** trong lúc hiện lời nhắn. _(23/11, Khoa: lời nhắn hiện giữa pha học, chu kỳ vẫn hết đúng 1 phút và gửi session)_
 - [x] Tắt WiFi router 30 s rồi bật lại → hộp vẫn đếm, tự kết nối lại MQTT. _(23/11, Phát: tắt hotspot 30 s → chấm MQTT trên OLED chuyển rỗng; bật lại → tự đặc lại, gửi lời nhắn vẫn tới. Phần "vẫn đếm" kiểm tra lại khi có ID1)_
 
 ---
