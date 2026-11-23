@@ -238,7 +238,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Chỉ chỉnh khi `phase == PH_IDLE` hoặc `PH_DONE`. Chế độ "phút": `studyMin` 1..60 (cho phép 1 để demo). Nhấn SW (chống rung) → chế độ "chu kỳ": `totalCycles` 1..8. Chỉnh xong cập nhật `remainSec = studyMin*60`.
 - [x] Hiển thị: chế độ phút `"  25"`, chế độ chu kỳ `"C  3"`; đang chạy hiện `mm:ss` còn lại có dấu hai chấm.
 - [x] Kiểm tra: vặn phải/trái 10 nấc → số tăng/giảm đúng 10; đang học vặn núm → không đổi. _(23/11, Khoa: chặn đúng 1–60 phút / 1–8 chu kỳ)_
-- [ ] Commit `ID4: num xoay + 7 doan`.
+- [x] Commit `ID4: num xoay + 7 doan`.
 
 ### Task 2.K2 – ID5 LDR → Dashboard [Khoa]
 
@@ -248,7 +248,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Node-RED: function đổi ADC → %: `pct = LUX_INVERT ? 100 - raw/40.95 : raw/40.95` (đặt `LUX_INVERT` ở đầu function; che tay mà % tăng thì đảo lại). Ghi chú `// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật`.
 - [x] Group **Độ sáng phòng**: `ui-gauge` 0–100 (đỏ < ngưỡng, vàng, xanh), `ui-slider` "Ngưỡng cảnh báo thiếu sáng (%)", text "Tình trạng: Đủ sáng/Thiếu sáng". Tạm lưu ngưỡng ở `flow` context (Task 3.K2 chuyển sang bảng `settings`).
 - [x] Kiểm tra: che LDR → gauge tụt dưới ngưỡng trong ≤ 4 s và hiện "Thiếu sáng"; bỏ tay → "Đủ sáng". _(23/11, Khoa: module 4 chân, `LUX_INVERT = true`; phòng sáng ~86%, che tay ~16–24%, đổi trong ≤ 2 s)_
-- [ ] Commit `ID5: LDR -> gauge`.
+- [x] Commit `ID5: LDR -> gauge`.
 
 ### Task 2.P1 – ID10 Nút "Nhắc nhở" → Buzzer [Phát]
 
