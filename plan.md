@@ -1,7 +1,8 @@
 # Pomodoro Để Bàn – Kế hoạch thực hiện (plan.md)
 
 > Cách dùng: làm xong bước nào thì đổi `- [ ]` thành `- [x]` rồi commit cùng code của bước đó.
-> Nhãn người làm: **[Khoa]** = Nguyễn Hoàng Đăng Khoa · **[Phát]** = Nguyễn Thành Phát · **[Cả 2]** = ngồi làm chung.
+> Nhãn người làm: **[Khoa]** = Nguyễn Hoàng Đăng Khoa · **[Phát]** = Nguyễn Thành Phát · **[Cả 2]** = cả 2 cùng phải làm.
+> Việc **[Cả 2]** mà mỗi người tự làm trên máy mình có **2 ô con** `Khoa` / `Phát`: ai xong thì tick ô của mình; **ô cha chỉ tick khi cả 2 ô con đã tick**. Việc ngồi làm chung một lúc (các Mốc ghép, hàn mạch, demo) chỉ có 1 ô.
 > Làm **theo thứ tự giai đoạn**. Trong một giai đoạn, cột Khoa và cột Phát chạy **song song**. Hết giai đoạn có **Mốc ghép**: chưa đạt mốc thì chưa sang giai đoạn sau.
 
 **Mục tiêu:** hoàn thiện 11 chức năng ID1–ID11 trong proposal, chạy được demo trọn vẹn trên 1 hộp + 1 dashboard.
@@ -108,8 +109,12 @@ Bảng `settings` (key → value jsonb): `lux_threshold` (số %, mặc định 
 - [x] **[Khoa]** Tạo project Supabase; lấy `Project URL` + `service_role key`.
 - [x] **[Khoa]** (đổi từ Phát vì tài khoản Telegram mới ở VN bị thu phí SMS) Tạo Telegram bot với @BotFather (lấy token), lấy `chat_id` của điện thoại Khoa → đặt `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`. _(bot `@pomodoros_kp_bot`, `getMe` OK 21/11; nhớ `/revoke` đổi token trước khi nộp)_
 - [x] **[Phát]** Bật xác minh 2 bước Gmail, tạo **App Password** cho Node-RED. _(21/11, lưu riêng, nhập vào node email ở Task 4.P2)_
-- [ ] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu). — **Phát ✔ 21/11** (Partition Scheme: Huge APP, Verify `pomodoro.ino` OK) — **Khoa**: Node-RED + 3 palette ✔, còn thư viện Arduino
-- [x] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`. — **Phát ✔ 21/11** (curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK) — **Khoa ✔ 21/11** (đủ 5 biến)
+- [x] **[Cả 2]** Cài Node-RED + 3 palette (`@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`); cài Arduino IDE + core esp32 + thư viện: PubSubClient, ArduinoJson v7, Adafruit SSD1306, Adafruit GFX, TM1637Display (avishorp), WiFiManager (tzapu).
+  - [x] Khoa _(23/11: Node-RED + 3 palette, core esp32 3.3.12, 6 thư viện; compile Huge APP OK: 33% flash, 15% RAM)_
+  - [x] Phát _(21/11: Partition Scheme Huge APP, Verify `pomodoro.ino` OK)_
+- [x] **[Cả 2]** Mỗi máy đặt biến môi trường: `setx SUPABASE_URL "..."`, `setx SUPABASE_KEY "..."`, `setx AI_URL "http://localhost:5000"`, `setx TELEGRAM_TOKEN "..."`, `setx TELEGRAM_CHAT_ID "..."`.
+  - [x] Khoa _(21/11: đủ 5 biến)_
+  - [x] Phát _(21/11: curl Supabase `settings` ra 3 dòng, Telegram `getMe` OK, Node-RED `env.get` OK)_
 
 **Xong khi:** cả 2 máy mở được `http://localhost:1880` và Arduino IDE biên dịch được `pomodoro.ino` (với `secrets.h` đã điền).
 
@@ -164,8 +169,11 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `chung: tach Node-RED thanh common/khoa/phat` → **nhắn Khoa pull**.
 
 ### ✅ Mốc M0 [Cả 2]
-- [ ] Cả 2 pull về, import 3 file Node-RED, nạp firmware: ESP32 gửi `online` → thấy ở debug Node-RED; bấm inject "Thử lời nhắn" → OLED hiện chữ.
-- [ ] **[Khoa]** Cập nhật bảng topic trong `README.md` theo hợp đồng v2.
+- [ ] **[Cả 2]** Pull về, import `common` → `khoa` → `phat` vào Node-RED của máy mình (xóa tab cũ), điền lại Address + mật khẩu `nodered` cho broker → 3 node MQTT **connected**.
+  - [x] Khoa _(23/11: 168 node, 3 tab Chung/Khoa/Phát, broker connected)_
+  - [ ] Phát
+- [ ] Nạp firmware (máy đang giữ board): ESP32 gửi `online` → thấy ở debug Node-RED của **cả 2 máy**; bấm inject "Thử lời nhắn" → Serial in `<- pomodoro/cmd`, OLED hiện chữ.
+- [x] **[Khoa]** Cập nhật bảng topic trong `README.md` theo hợp đồng v2.
 
 ---
 
@@ -442,6 +450,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] **[Khoa]** Chụp ảnh/quay video phần cứng + Serial cho ID1, ID3, ID4, ID5, ID6, ID8.
 - [ ] **[Phát]** Chụp 4 trang dashboard thật (đối chiếu wireframe Hình 6–9) cho ID2, ID7, ID9, ID10, ID11.
 - [ ] **[Cả 2]** Mỗi người tự giải thích được luồng dữ liệu của **mọi** ID (vấn đáp), không chỉ phần mình.
+  - [ ] Khoa
+  - [ ] Phát
 - [ ] **[Cả 2]** Export lần cuối 3 file Node-RED từ máy chính, commit, tag `v1.0`.
 
 ---
