@@ -197,8 +197,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Dừng giữa pha học đã học ≥ 1 phút → `sessionPush(completed=false)`.
 - [x] Node-RED tab Khoa: link in `state` → group **Trạng thái hộp**: Kết nối hộp (Offline nếu > 70 s không có bản tin; hộp gửi nhịp tim `event:"tick"` mỗi 30 s – ID8 bỏ qua `tick` khi ghi `events`), Trạng thái đồng hồ, Môn, Chu kỳ `2 / 4`, Thời gian còn lại `mm:ss`.
 - [x] Group **Nhật ký học hôm nay** (`ui-table`): tạm thời đổ từ link in `session` (Giờ, Môn, Chu kỳ, Thời lượng, Tạm dừng, Kết quả – giữ trong bộ nhớ Node-RED); Task 4.K3 sẽ đổi sang đọc `sessions`.
-- [ ] Kiểm tra với `studyMin = 1`, `breakMin = 1`, 2 chu kỳ: chạy hết → dashboard đi `study → break → study → done`; bấm khi đang học → `paused`, bấm lại → tiếp tục đúng số giây; giữ 2 s → `idle` và chỉ có 1 bản tin `stop`.
-- [ ] Export `khoa.json`, commit `ID1: may trang thai + dashboard trang thai`.
+- [x] Kiểm tra với `studyMin = 1`, `breakMin = 1`, 2 chu kỳ: chạy hết → dashboard đi `study → break → study → done`; bấm khi đang học → `paused`, bấm lại → tiếp tục đúng số giây; giữ 2 s → `idle` và chỉ có 1 bản tin `stop`.
+- [x] Export `khoa.json`, commit `ID1: may trang thai + dashboard trang thai`.
 
 ### Task 1.P – ID2 Dashboard → OLED [Phát]
 
