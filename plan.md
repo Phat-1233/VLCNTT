@@ -149,7 +149,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Thêm các khai báo trên vào `config.h`.
 - [x] `pomodoro.ino`: nhánh `T_ACK` gọi `sessionAck(doc["start_ts"] | 0)`; `loop()` gọi thêm `sessionQueueLoop()`; thêm `timeValid()`; chuyển nguyên hàm `connectWiFi()` (bản ghi cứng hiện tại) sang `wifi_setup.ino`.
 - [x] Tạo `session_queue.ino` với 3 hàm rỗng.
-- [ ] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK".
+- [x] Biên dịch không lỗi; nạp board, Serial in "Ket noi MQTT (EMQX)... OK". _(23/11: board dùng chip CP2102 → cần driver Silicon Labs; WiFi phải 2.4 GHz/WPA2 – iPhone bật "Tối đa hóa tương thích")_
 - [x] Commit `chung: chot config.h + pomodoro.ino cho ID3/ID8` (gộp vào `6010f06`) → **nhắn Phát pull**.
 
 ### Task 0.4 – Tách Node-RED + khung dashboard [Phát]
@@ -172,7 +172,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] **[Cả 2]** Pull về, import `common` → `khoa` → `phat` vào Node-RED của máy mình (xóa tab cũ), điền lại Address + mật khẩu `nodered` cho broker → 3 node MQTT **connected**.
   - [x] Khoa _(23/11: 168 node, 3 tab Chung/Khoa/Phát, broker connected)_
   - [ ] Phát
-- [ ] Nạp firmware (máy đang giữ board): ESP32 gửi `online` → thấy ở debug Node-RED của **cả 2 máy**; bấm inject "Thử lời nhắn" → Serial in `<- pomodoro/cmd`, OLED hiện chữ.
+- [x] _(23/11, máy Khoa: MQTT OK, inject "Thử lời nhắn" → Serial `OLED loi nhan: ...`)_ Nạp firmware (máy đang giữ board): ESP32 gửi `online` → thấy ở debug Node-RED của **cả 2 máy**; bấm inject "Thử lời nhắn" → Serial in `<- pomodoro/cmd`, OLED hiện chữ.
 - [x] **[Khoa]** Cập nhật bảng topic trong `README.md` theo hợp đồng v2.
 
 ---
