@@ -11,7 +11,11 @@
 
 **Công nghệ:** Arduino ESP32 (PubSubClient, ArduinoJson v7, Adafruit SSD1306/GFX, TM1637Display, WiFiManager) · Node-RED + `@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot` · Supabase (PostgreSQL) · Python 3 + Flask + numpy.
 
-**Tài liệu gốc:** proposal `6_24127187_24127483_PROPOSAL.pdf` và [docs/lo_trinh_lam_pomodoro.md](docs/lo_trinh_lam_pomodoro.md) (sơ đồ chân, lỗi hay gặp). Nếu plan này khác lộ trình thì **làm theo plan này** (plan đã chốt hợp đồng v2 ở Giai đoạn 0).
+**Tài liệu gốc:** proposal `6_24127187_24127483_PROPOSAL.pdf` và [docs/lo_trinh_lam_pomodoro.md](docs/lo_trinh_lam_pomodoro.md) (sơ đồ chân, lỗi hay gặp).
+
+**Sơ đồ cắm dây:** [docs/cam_day.md](docs/cam_day.md) – **bắt buộc**: ai cắm thêm/đổi linh kiện thì cập nhật file này cùng commit đó.
+
+Nếu plan này khác lộ trình thì **làm theo plan này** (plan đã chốt hợp đồng v2 ở Giai đoạn 0).
 
 ---
 
@@ -50,6 +54,7 @@
 | `firmware/pomodoro/config.h`, `pomodoro.ino` | **Khoa** (chỉ sửa ở Task 0.3 và 5.2) | Sau Task 0.3 coi như **đóng băng**. Cần sửa thì nhắn trước, 1 người sửa, người kia pull ngay |
 | `timer_button.ino`, `knob_7seg.ino`, `ldr.ino`, `session_queue.ino`, `wifi_setup.ino` | Khoa | Chỉ đọc |
 | `oled.ino`, `buzzer.ino` | Phát | Chỉ đọc |
+| `docs/cam_day.md` | Ai cắm linh kiện nào thì sửa phần linh kiện đó | Sửa phần của mình, không sửa phần người kia |
 | `supabase/schema.sql` (bảng) | Khoa | Chỉ đọc |
 | `supabase/views.sql`, `supabase/seed.sql` | Phát | Chỉ đọc |
 | `node-red/common.json` | Phát (chỉ sửa ở Task 0.4) | Đóng băng sau Task 0.4 |
@@ -228,21 +233,21 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `firmware/pomodoro/knob_7seg.ino`.
 
-- [ ] Khởi tạo `TM1637Display(PIN_TM_CLK, PIN_TM_DIO)`, độ sáng 5.
-- [ ] Đọc encoder bằng so cạnh CLK/DT trong `knobLoop()` (chưa dùng ngắt; nếu vặn nhanh bị mất bước mới chuyển sang ngắt).
-- [ ] Chỉ chỉnh khi `phase == PH_IDLE` hoặc `PH_DONE`. Chế độ "phút": `studyMin` 1..60 (cho phép 1 để demo). Nhấn SW (chống rung) → chế độ "chu kỳ": `totalCycles` 1..8. Chỉnh xong cập nhật `remainSec = studyMin*60`.
-- [ ] Hiển thị: chế độ phút `"  25"`, chế độ chu kỳ `"C  3"`; đang chạy hiện `mm:ss` còn lại có dấu hai chấm.
-- [ ] Kiểm tra: vặn phải/trái 10 nấc → số tăng/giảm đúng 10; đang học vặn núm → không đổi.
+- [x] Khởi tạo `TM1637Display(PIN_TM_CLK, PIN_TM_DIO)`, độ sáng 5.
+- [x] Đọc encoder bằng so cạnh CLK/DT trong `knobLoop()` (chưa dùng ngắt; nếu vặn nhanh bị mất bước mới chuyển sang ngắt).
+- [x] Chỉ chỉnh khi `phase == PH_IDLE` hoặc `PH_DONE`. Chế độ "phút": `studyMin` 1..60 (cho phép 1 để demo). Nhấn SW (chống rung) → chế độ "chu kỳ": `totalCycles` 1..8. Chỉnh xong cập nhật `remainSec = studyMin*60`.
+- [x] Hiển thị: chế độ phút `"  25"`, chế độ chu kỳ `"C  3"`; đang chạy hiện `mm:ss` còn lại có dấu hai chấm.
+- [x] Kiểm tra: vặn phải/trái 10 nấc → số tăng/giảm đúng 10; đang học vặn núm → không đổi. _(23/11, Khoa: chặn đúng 1–60 phút / 1–8 chu kỳ)_
 - [ ] Commit `ID4: num xoay + 7 doan`.
 
 ### Task 2.K2 – ID5 LDR → Dashboard [Khoa]
 
 **Files:** Modify `firmware/pomodoro/ldr.ino`, `node-red/khoa.json`.
 
-- [ ] Firmware: mỗi 2 s đọc trung bình 8 mẫu `analogRead(PIN_LDR)` → publish `pomodoro/lux` theo hợp đồng.
-- [ ] Node-RED: function đổi ADC → %: `pct = LUX_INVERT ? 100 - raw/40.95 : raw/40.95` (đặt `LUX_INVERT` ở đầu function; che tay mà % tăng thì đảo lại). Ghi chú `// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật`.
-- [ ] Group **Độ sáng phòng**: `ui-gauge` 0–100 (đỏ < ngưỡng, vàng, xanh), `ui-slider` "Ngưỡng cảnh báo thiếu sáng (%)", text "Tình trạng: Đủ sáng/Thiếu sáng". Tạm lưu ngưỡng ở `flow` context (Task 3.K2 chuyển sang bảng `settings`).
-- [ ] Kiểm tra: che LDR → gauge tụt dưới ngưỡng trong ≤ 4 s và hiện "Thiếu sáng"; bỏ tay → "Đủ sáng".
+- [x] Firmware: mỗi 2 s đọc trung bình 8 mẫu `analogRead(PIN_LDR)` → publish `pomodoro/lux` theo hợp đồng.
+- [x] Node-RED: function đổi ADC → %: `pct = LUX_INVERT ? 100 - raw/40.95 : raw/40.95` (đặt `LUX_INVERT` ở đầu function; che tay mà % tăng thì đảo lại). Ghi chú `// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật`.
+- [x] Group **Độ sáng phòng**: `ui-gauge` 0–100 (đỏ < ngưỡng, vàng, xanh), `ui-slider` "Ngưỡng cảnh báo thiếu sáng (%)", text "Tình trạng: Đủ sáng/Thiếu sáng". Tạm lưu ngưỡng ở `flow` context (Task 3.K2 chuyển sang bảng `settings`).
+- [x] Kiểm tra: che LDR → gauge tụt dưới ngưỡng trong ≤ 4 s và hiện "Thiếu sáng"; bỏ tay → "Đủ sáng". _(23/11, Khoa: module 4 chân, `LUX_INVERT = true`; phòng sáng ~86%, che tay ~16–24%, đổi trong ≤ 2 s)_
 - [ ] Commit `ID5: LDR -> gauge`.
 
 ### Task 2.P1 – ID10 Nút "Nhắc nhở" → Buzzer [Phát]

@@ -7,13 +7,17 @@ void ldrSetup() {
   analogReadResolution(12);  // 0..4095
 }
 
+// Mỗi 2 giây: trung bình 8 lần đọc ADC (chân AO của module) -> {"dev","ts","lux":0..4095} lên T_LUX.
+// Đổi ra % và so ngưỡng làm ở Node-RED (tab Khoa), firmware chỉ gửi số thô.
 void ldrLoop() {
-  // TODO(Khoa – ID5): mỗi 2 giây đọc analogRead(PIN_LDR) rồi gửi:
-  //   {"dev":"pomo-01","ts":<nowTs()>,"lux":<giá trị 0..4095>}  lên T_LUX
-  // Gợi ý:
-  //   static uint32_t last = 0;
-  //   if (millis() - last < 2000) return;
-  //   last = millis();
-  //   JsonDocument d; d["dev"] = DEVICE_ID; d["ts"] = nowTs(); d["lux"] = analogRead(PIN_LDR);
-  //   mqttPublish(T_LUX, d);
+  static uint32_t last = 0;
+  if (millis() - last < 2000) return;
+  last = millis();
+  uint32_t sum = 0;
+  for (int i = 0; i < 8; i++) sum += analogRead(PIN_LDR);
+  JsonDocument d;
+  d["dev"] = DEVICE_ID;
+  d["ts"] = nowTs();
+  d["lux"] = sum / 8;
+  mqttPublish(T_LUX, d);
 }

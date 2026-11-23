@@ -228,8 +228,8 @@
         "height":  0,
         "passthru":  false,
         "outs":  "all",
-        "topic":  "topic",
-        "topicType":  "msg",
+        "topic":  "threshold",
+        "topicType":  "str",
         "thumbLabel":  true,
         "showTicks":  "always",
         "min":  0,
@@ -246,7 +246,7 @@
         "y":  890,
         "wires":  [
                       [
-
+                          "k5lux0000000001"
                       ]
                   ]
     },
@@ -308,64 +308,6 @@
                   ]
     },
     {
-        "id":  "03187ec76d5c58ca",
-        "type":  "inject",
-        "z":  "4b33b41269aa03b7",
-        "name":  "[MẪU] Độ sáng",
-        "props":  [
-                      {
-                          "p":  "payload"
-                      },
-                      {
-                          "p":  "topic",
-                          "vt":  "str"
-                      }
-                  ],
-        "repeat":  "",
-        "crontab":  "",
-        "once":  true,
-        "onceDelay":  1.5,
-        "topic":  "",
-        "payload":  42,
-        "payloadType":  "num",
-        "x":  140,
-        "y":  842,
-        "wires":  [
-                      [
-                          "2a12b3146612a39d"
-                      ]
-                  ]
-    },
-    {
-        "id":  "e1545931ecf5a001",
-        "type":  "inject",
-        "z":  "4b33b41269aa03b7",
-        "name":  "[MẪU] Ngưỡng cảnh báo thiếu sáng (%)",
-        "props":  [
-                      {
-                          "p":  "payload"
-                      },
-                      {
-                          "p":  "topic",
-                          "vt":  "str"
-                      }
-                  ],
-        "repeat":  "",
-        "crontab":  "",
-        "once":  true,
-        "onceDelay":  1.5,
-        "topic":  "",
-        "payload":  30,
-        "payloadType":  "num",
-        "x":  120,
-        "y":  890,
-        "wires":  [
-                      [
-                          "04c565e381aeafb2"
-                      ]
-                  ]
-    },
-    {
         "id":  "pmdc117fa1b68a651cda",
         "type":  "comment",
         "z":  "4b33b41269aa03b7",
@@ -387,31 +329,6 @@
         "y":  730,
         "wires":  [
 
-                  ]
-    },
-    {
-        "id":  "pmdtif104b8d3c01a8c61",
-        "type":  "inject",
-        "z":  "4b33b41269aa03b7",
-        "name":  "[MẪU] hiện chữ cho các ô chữ",
-        "props":  [
-                      {
-                          "p":  "payload"
-                      }
-                  ],
-        "repeat":  "",
-        "crontab":  "",
-        "once":  true,
-        "onceDelay":  2,
-        "topic":  "",
-        "payload":  "ok",
-        "payloadType":  "str",
-        "x":  130,
-        "y":  790,
-        "wires":  [
-                      [
-                          "408aa7a21e56ad3b"
-                      ]
                   ]
     },
     {
@@ -552,7 +469,7 @@
         "y":  180,
         "wires":  [
                       [
-
+                          "k5lux0000000001"
                       ]
                   ],
         "l":  true
@@ -707,6 +624,58 @@
         "wires":  [
                       [
                           "72e1034525f775e2"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k5init000000001",
+        "type":  "inject",
+        "z":  "4b33b41269aa03b7",
+        "name":  "khởi động: nạp ngưỡng",
+        "props":  [
+                      {
+                          "vt":  "str",
+                          "p":  "topic"
+                      }
+                  ],
+        "repeat":  "",
+        "crontab":  "",
+        "once":  true,
+        "onceDelay":  "2",
+        "topic":  "init",
+        "x":  160,
+        "y":  930,
+        "wires":  [
+                      [
+                          "k5lux0000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k5lux0000000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – độ sáng phòng",
+        "func":  "// Vào: link in \u0027lux\u0027 ({lux: ADC 0..4095} mỗi 2 s), slider ngưỡng (topic \u0027threshold\u0027), inject \u0027init\u0027\n// Ra: 1 = gauge %, 2 = ô Tình trạng, 3 = đặt lại slider lúc khởi động\nconst LUX_INVERT = true;   // module LDR: càng sáng ADC càng NHỎ -\u003e đảo. Che tay mà % TĂNG thì đổi thành false\n// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật\nlet thr = flow.get(\u0027luxThreshold\u0027) ?? 30;   // Task 3.K2 chuyển ngưỡng sang bảng settings\nif (msg.topic === \u0027init\u0027) return [null, null, { payload: thr }];\nif (msg.topic === \u0027threshold\u0027) {\n    thr = Number(msg.payload);\n    flow.set(\u0027luxThreshold\u0027, thr);\n} else {\n    const raw = msg.payload \u0026\u0026 msg.payload.lux;\n    if (typeof raw !== \u0027number\u0027) return null;\n    context.set(\u0027pct\u0027, Math.round(LUX_INVERT ? 100 - raw / 40.95 : raw / 40.95));\n}\nconst pct = context.get(\u0027pct\u0027);\nif (pct === undefined) return null;\nconst segments = [{ from: 0, color: \u0027#ea5353\u0027 }, { from: thr, color: \u0027#e6e600\u0027 }, { from: Math.min(100, thr + 30), color: \u0027#5cd65c\u0027 }];\nreturn [\n    { payload: pct, ui_update: { segments } },\n    { payload: pct \u003c thr ? `Thiếu sáng (${pct}% \u003c ngưỡng ${thr}%)` : \u0027Đủ sáng\u0027 },\n    null\n];",
+        "outputs":  3,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  760,
+        "y":  860,
+        "wires":  [
+                      [
+                          "2a12b3146612a39d"
+                      ],
+                      [
+                          "408aa7a21e56ad3b"
+                      ],
+                      [
+                          "04c565e381aeafb2"
                       ]
                   ]
     }
