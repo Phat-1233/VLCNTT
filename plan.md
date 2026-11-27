@@ -256,7 +256,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 - [x] Group **Gửi xuống hộp**: `ui-button` "Nhắc nhở (buzzer kêu 3 tiếng)" → `{"type":"beep","times":3}` → link out `to-cmd`; bỏ qua nếu bấm lại trong 5 s. _(23/11: function "ID10 – nhắc nhở (chặn bấm lại 5 s)" → `to-cmd`; bấm 2 lần trong 1 s thì lần 2 bị bỏ qua)_
 - [x] Buổi có board: nối D4184 theo chú thích đầu `buzzer.ino` (GND chung!); bấm nút → kêu đúng 3 tiếng, đồng hồ OLED vẫn chạy. _(28/11: nhóm mua nhầm relay nên dùng module relay 5V thay D4184 (kích mức cao, còi nối **NO**); bấm "Nhắc nhở" → relay tạch 3 lần, còi kêu 3 tiếng rồi im, OLED vẫn chạy. Đã cập nhật `cam_day.md`)_
-- [ ] Commit `ID10: nut nhac nho`.
+- [x] Commit `ID10: nut nhac nho`. _(commit 66b6787)_
 
 ### Task 2.P2 – Hoàn thiện AI service theo wireframe [Phát]
 
@@ -278,7 +278,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Cài: `cycles = max(1, session_min // (study_min + break_min))`; môn ưu tiên được cộng 0.1 vào điểm khung khi giải CSP; `reason` theo thứ tự: TKB có tiết cùng môn 1–2 ngày sau → `"Truoc tiet {mon} {thu}"`; môn ưu tiên → `"Mon uu tien"`; còn lại → `"Kha nang hoan thanh cao ({p}%)"`.
 - [x] `sessions_to_xy` đọc `planned_min` (hợp đồng v2) làm thời lượng, thiếu thì dùng `focus_min`.
 - [x] `python test_ai.py` → in "OK" hết. _(23/11: 7/7 test qua)_
-- [ ] Commit `ID7: cycles, reason, uu tien + test`.
+- [x] Commit `ID7: cycles, reason, uu tien + test`. _(commit 0c52618)_
 
 ### ✅ Mốc M2 – ghép lần 2 [Cả 2, có board]
 - [ ] Vặn núm chỉnh 1 phút / 2 chu kỳ → bấm nút → OLED và 7 đoạn cùng đếm, khớp nhau từng giây.
