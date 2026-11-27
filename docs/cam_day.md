@@ -3,7 +3,7 @@
 > **File bắt buộc.** Mỗi khi cắm thêm, đổi hoặc gỡ một linh kiện thì cập nhật file này **cùng commit đó**, để rút ra cắm lại vẫn đúng.
 > Chân trong file này phải khớp với `firmware/pomodoro/config.h`. Đổi chân thì sửa cả 2 chỗ.
 
-**Cập nhật lần cuối:** 23/11 – Giai đoạn 2 phần Khoa: xong núm xoay + 7 đoạn (ID4), LDR (ID5). Còn buzzer (ID10, Phát).
+**Cập nhật lần cuối:** 28/11 – Phát: buzzer qua module relay (ID10). Đã cắm đủ linh kiện Giai đoạn 2.
 
 ## Quy tắc an toàn (đọc trước khi cắm)
 
@@ -21,7 +21,7 @@
 | Núm xoay KY-040 | ID4 | 2 | ✅ |
 | 7 đoạn TM1637 | ID4 | 2 | ✅ |
 | Quang trở LDR (module 4 chân) | ID5 | 2 | ✅ |
-| MOSFET D4184 + buzzer | ID10 | 2 | ⬜ |
+| Module relay 5V + buzzer chủ động 5V (thay D4184, mua nhầm) | ID10 | 2 | ✅ |
 
 ## Bố trí breadboard
 
@@ -30,7 +30,7 @@
 - Dùng 2 thanh nguồn dọc mép breadboard:
   - Thanh **–** (xanh): nối 1 chân **GND** của ESP32 → làm GND chung.
   - Thanh **+** (đỏ): nối chân **3V3** của ESP32 → nguồn 3,3 V cho OLED, KY-040, TM1637, LDR.
-  - **5V** (chân `VIN`/`5V`) chỉ dùng cho buzzer qua MOSFET, đi dây riêng, **không** nối vào thanh + 3,3 V.
+  - **5V** (board ghi `V5`, có board ghi `5V`/`VIN`, chân cuối hàng `3V3`, sát cổng USB-C) chỉ dùng cho relay + buzzer, đi một hàng riêng, **không** nối vào thanh + 3,3 V.
 
 ## Bảng chân tổng hợp
 
@@ -56,7 +56,13 @@
 | | VCC | 3V3 | Không cắm 5V (AO sẽ vượt 3,3 V) |
 | | GND | GND | |
 | | DO | *để trống* | Không dùng |
-| D4184 | SIG | GPIO 26 | VIN = 5V, OUT → buzzer, GND chung |
+| Relay (phía chân cắm) | IN | **GPIO 26** | Relay kích mức cao: `BUZZER_ON_LEVEL HIGH` trong `buzzer.ino` |
+| | VCC | **V5** | Lấy từ hàng 5V riêng |
+| | GND | GND | |
+| Relay (phía vít) | COM | **V5** | Lấy từ hàng 5V riêng |
+| | NO | buzzer chân dài (+) | **NO, không phải NC** |
+| | NC | *để trống* | |
+| Buzzer | chân ngắn (−) | GND | |
 
 ## Chi tiết từng linh kiện
 
@@ -124,6 +130,23 @@ LDR DO  ── để trống (ngõ ra số so ngưỡng bằng biến trở xanh
 - Biến trở xanh trên module chỉ chỉnh DO, vặn nó **không** ảnh hưởng AO.
 - Kiểm tra: dashboard trang Tổng quan → gauge Độ sáng phòng; che tay lên cảm biến → % tụt.
 
+### Buzzer qua module relay (ID10) ✅
+
+```
+ESP32 V5  ──── hàng 5V riêng ──┬── Relay VCC
+                               └── Relay COM
+ESP32 GND ──── Relay GND
+ESP32 G26 ──── Relay IN
+               Relay NO  ──── Buzzer chân DÀI (+)
+               Relay NC  ──── để trống
+               Buzzer chân NGẮN (−) ──── GND
+```
+
+- Proposal ghi module MOSFET D4184; nhóm mua nhầm relay nên dùng relay thay (cùng vai trò công tắc đóng ngắt buzzer). Relay kêu "tạch" mỗi tiếng còi là bình thường.
+- Còi phải nối **NO** (thường mở). Nối nhầm **NC** thì còi kêu liên tục, chỉ tắt đúng lúc lẽ ra phải kêu.
+- Relay này **kích mức cao** → giữ `#define BUZZER_ON_LEVEL HIGH`. Nếu thay relay kích mức thấp (hoặc gắn lại D4184 thì vẫn `HIGH`) thì đổi `LOW`; code tự thả nổi chân khi tắt.
+- Kiểm tra: dashboard trang Tổng quan → nút "Nhắc nhở" → relay tạch 3 lần, còi kêu 3 tiếng rồi im; OLED vẫn chạy.
+
 ## Lỗi hay gặp
 
 | Triệu chứng | Nguyên nhân |
@@ -132,4 +155,6 @@ LDR DO  ── để trống (ngõ ra số so ngưỡng bằng biến trở xanh
 | `Khong tim thay OLED` | SDA/SCL đảo, lỏng dây, hoặc chưa cấp 3V3 |
 | Vặn núm phải mà số giảm | Đảo 2 dây CLK và DT của KY-040 |
 | LDR luôn ra 0 hoặc 4095 | Cắm nhầm DO thay vì AO, hoặc dùng chân ADC2 |
+| Còi kêu liên tục, bấm "Nhắc nhở" thì ngắt 3 lần | Còi cắm vào **NC** thay vì **NO** của relay |
+| Bấm "Nhắc nhở" mà relay không tạch | Sai `BUZZER_ON_LEVEL` (relay này cần `HIGH`), IN không ở G26, hoặc VCC chưa vào V5 |
 | Nạp code báo `Connecting...` mãi | Giữ nút **BOOT** trên board lúc hiện `Connecting...` |

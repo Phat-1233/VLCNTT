@@ -314,7 +314,9 @@
     "x": 420,
     "y": 676,
     "wires": [
-      []
+      [
+        "pmd_fn_beep"
+      ]
     ]
   },
   {
@@ -2444,6 +2446,26 @@
     "libs": [],
     "x": 680,
     "y": 540,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ]
+    ]
+  },
+  {
+    "id": "pmd_fn_beep",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID10 – nhắc nhở (chặn bấm lại 5 s)",
+    "func": "// Bấm lại trong 5 s thì bỏ qua, tránh buzzer kêu liên tục\nconst now = Date.now();\nconst last = flow.get('lastBeep') || 0;\nif (now - last < 5000) {\n    node.status({fill:'yellow', shape:'ring', text:'bỏ qua (chưa đủ 5 s)'});\n    return null;\n}\nflow.set('lastBeep', now);\nnode.status({fill:'green', shape:'dot', text:'đã gửi ' + new Date().toLocaleTimeString()});\nmsg.payload = { type: 'beep', times: 3 };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 690,
+    "y": 680,
     "wires": [
       [
         "083316ae5717ecb8"
