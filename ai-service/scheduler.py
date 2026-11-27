@@ -6,12 +6,21 @@ Ràng buộc : - không trùng thời khóa biểu (+ thời gian đi lại)
             - các buổi không chồng lên nhau
             - tối đa MAX_PER_DAY buổi mỗi ngày
             - một môn tối đa 1 buổi mỗi ngày
-Thứ tự    : MRV chọn buổi còn ÍT khung hợp lệ nhất; khung có xác suất hoàn thành
-            CAO NHẤT (từ logistic regression) được thử trước.
+Thứ tự    : MRV chọn buổi còn ÍT khung hợp lệ nhất (hòa thì môn ưu tiên trước);
+            khung có xác suất hoàn thành CAO NHẤT (từ logistic regression) được thử
+            trước, môn ưu tiên được cộng PRIORITY_BONUS vào điểm khung.
 """
+import unicodedata
 from dataclasses import dataclass
 
 DAY_NAMES = ["Thu 2", "Thu 3", "Thu 4", "Thu 5", "Thu 6", "Thu 7", "Chu nhat"]
+PRIORITY_BONUS = 0.1
+
+
+def norm(name):
+    """So tên môn không phân biệt hoa/thường, có dấu/không dấu: "Hóa học" == "hoa hoc"."""
+    s = unicodedata.normalize("NFD", str(name or "")).replace("đ", "d").replace("Đ", "D")
+    return "".join(c for c in s if unicodedata.category(c) != "Mn").strip().lower()
 
 
 def to_min(hhmm):
@@ -50,12 +59,20 @@ def build_slots(days, session_min, busy=(), day_start="07:00", day_end="22:30",
     return slots
 
 
-def solve(subjects, slots, score_fn, max_per_day=3, node_limit=200000):
+def solve(subjects, slots, score_fn, max_per_day=3, node_limit=200000, priority=""):
     """subjects: [{"name": "Toan", "sessions": 2}, ...]
     score_fn(slot) -> xác suất hoàn thành 0..1.
+    priority: tên môn ưu tiên (có thể rỗng).
     Trả về (dict biến -> Slot) hoặc None nếu không xếp được."""
     variables = [(s["name"], k) for s in subjects for k in range(int(s["sessions"]))]
     scores = {sl: score_fn(sl) for sl in slots}
+    pri = norm(priority)
+
+    def is_pri(var):
+        return bool(pri) and norm(var[0]) == pri
+
+    def value(var, slot):
+        return scores[slot] + (PRIORITY_BONUS if is_pri(var) else 0.0)
     assign = {}
     nodes = 0
 
@@ -80,10 +97,10 @@ def solve(subjects, slots, score_fn, max_per_day=3, node_limit=200000):
         unassigned = [v for v in variables if v not in assign]
         if not unassigned:
             return True
-        # MRV: chọn biến còn ít giá trị hợp lệ nhất
-        var = min(unassigned, key=lambda v: len(legal_values(v)))
-        # Thử khung có xác suất hoàn thành cao nhất trước
-        for slot in sorted(legal_values(var), key=lambda sl: -scores[sl]):
+        # MRV: chọn biến còn ít giá trị hợp lệ nhất; hòa thì môn ưu tiên chọn trước
+        var = min(unassigned, key=lambda v: (len(legal_values(v)), not is_pri(v)))
+        # Thử khung có điểm (xác suất + thưởng ưu tiên) cao nhất trước
+        for slot in sorted(legal_values(var), key=lambda sl: -value(var, sl)):
             assign[var] = slot
             if backtrack():
                 return True

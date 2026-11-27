@@ -6,6 +6,7 @@ firmware/pomodoro/secrets.h
 # Python
 ai-service/.venv/
 ai-service/model_weights.json
+ai-service/model_meta.json
 __pycache__/
 *.pyc
 

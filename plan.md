@@ -254,8 +254,8 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/phat.json`.
 
-- [ ] Group **Gửi xuống hộp**: `ui-button` "Nhắc nhở (buzzer kêu 3 tiếng)" → `{"type":"beep","times":3}` → link out `to-cmd`; bỏ qua nếu bấm lại trong 5 s.
-- [ ] Buổi có board: nối D4184 theo chú thích đầu `buzzer.ino` (GND chung!); bấm nút → kêu đúng 3 tiếng, đồng hồ OLED vẫn chạy.
+- [x] Group **Gửi xuống hộp**: `ui-button` "Nhắc nhở (buzzer kêu 3 tiếng)" → `{"type":"beep","times":3}` → link out `to-cmd`; bỏ qua nếu bấm lại trong 5 s. _(23/11: function "ID10 – nhắc nhở (chặn bấm lại 5 s)" → `to-cmd`; bấm 2 lần trong 1 s thì lần 2 bị bỏ qua)_
+- [x] Buổi có board: nối D4184 theo chú thích đầu `buzzer.ino` (GND chung!); bấm nút → kêu đúng 3 tiếng, đồng hồ OLED vẫn chạy. _(28/11: nhóm mua nhầm relay nên dùng module relay 5V thay D4184 (kích mức cao, còi nối **NO**); bấm "Nhắc nhở" → relay tạch 3 lần, còi kêu 3 tiếng rồi im, OLED vẫn chạy. Đã cập nhật `cam_day.md`)_
 - [ ] Commit `ID10: nut nhac nho`.
 
 ### Task 2.P2 – Hoàn thiện AI service theo wireframe [Phát]
@@ -267,17 +267,17 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - Mỗi phần tử `plan` trả về thêm: `"cycles": int`, `"reason": str`.
 - `GET /scores` thêm `trained_at` (ISO) và `test_accuracy` (lần huấn luyện gần nhất).
 
-- [ ] Viết test trước trong `test_ai.py` (chạy bằng `python test_ai.py`, chỉ dùng `assert`, gọi qua `app.test_client()`):
+- [x] Viết test trước trong `test_ai.py` (chạy bằng `python test_ai.py`, chỉ dùng `assert`, gọi qua `app.test_client()`): _(thêm `test_reason_truoc_tiet` → 7 test)_
   - `test_khong_trung_tkb`: timetable Thứ 2 07:30–11:30 → không buổi nào của Thứ 2 giao với 07:00–12:00 (đã cộng 30 phút đi lại).
   - `test_mot_mon_mot_ngay`: 2 môn × 3 buổi, 7 ngày rảnh → không ngày nào một môn xuất hiện 2 lần, mỗi ngày ≤ 3 buổi.
   - `test_khong_xep_duoc`: 1 ngày rảnh, 1 môn × 5 buổi → HTTP 200, `ok == False`, có `message`.
   - `test_cycles`: `session_min=90, study_min=25, break_min=5` → mọi `cycles == 3`.
   - `test_uu_tien`: 2 môn cùng số buổi, `priority="Ly"` → điểm trung bình các khung của Lý ≥ môn kia.
   - `test_model_hoc_duoc`: huấn luyện bằng dữ liệu giả → `test_accuracy ≥ 0.7`.
-- [ ] Chạy `python test_ai.py` → thấy FAIL ở các test mới.
-- [ ] Cài: `cycles = max(1, session_min // (study_min + break_min))`; môn ưu tiên được cộng 0.1 vào điểm khung khi giải CSP; `reason` theo thứ tự: TKB có tiết cùng môn 1–2 ngày sau → `"Truoc tiet {mon} {thu}"`; môn ưu tiên → `"Mon uu tien"`; còn lại → `"Kha nang hoan thanh cao ({p}%)"`.
-- [ ] `sessions_to_xy` đọc `planned_min` (hợp đồng v2) làm thời lượng, thiếu thì dùng `focus_min`.
-- [ ] `python test_ai.py` → in "OK" hết.
+- [x] Chạy `python test_ai.py` → thấy FAIL ở các test mới. _(23/11: 3/7 qua, FAIL cycles, uu_tien, reason, scores)_
+- [x] Cài: `cycles = max(1, session_min // (study_min + break_min))`; môn ưu tiên được cộng 0.1 vào điểm khung khi giải CSP; `reason` theo thứ tự: TKB có tiết cùng môn 1–2 ngày sau → `"Truoc tiet {mon} {thu}"`; môn ưu tiên → `"Mon uu tien"`; còn lại → `"Kha nang hoan thanh cao ({p}%)"`.
+- [x] `sessions_to_xy` đọc `planned_min` (hợp đồng v2) làm thời lượng, thiếu thì dùng `focus_min`.
+- [x] `python test_ai.py` → in "OK" hết. _(23/11: 7/7 test qua)_
 - [ ] Commit `ID7: cycles, reason, uu tien + test`.
 
 ### ✅ Mốc M2 – ghép lần 2 [Cả 2, có board]
@@ -453,6 +453,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 ### Task 5.4 – Báo cáo và proposal [Cả 2]
 - [ ] **[Phát]** Đổi mọi chữ "HiveMQ Cloud" → "EMQX Cloud" trong proposal/báo cáo (bảng chức năng, Hình 9 "Trạng thái hệ thống", Hình 10 cột "MQTT Broker"), thêm 1 câu lý do: HiveMQ ngừng gói Serverless free.
+- [ ] **[Phát]** Bảng 2 (Danh sách linh kiện) dòng 14 và luồng ID10: "Mạch công suất MOSFET D4184" → "Module relay 5V" (nhóm mua nhầm, đã dùng relay), cập nhật giá tiền/tổng chi phí cho khớp.
 - [ ] **[Phát]** Sửa proposal theo [docs/lo_trinh_lam_pomodoro.md §9](docs/lo_trinh_lam_pomodoro.md): bỏ câu thừa ở ID2 và ID10, **sửa bảng điểm mục 4** (nâng cao tối đa 4,0, tổng tối đa 10,0).
 - [ ] **[Khoa]** Chụp ảnh/quay video phần cứng + Serial cho ID1, ID3, ID4, ID5, ID6, ID8.
 - [ ] **[Phát]** Chụp 4 trang dashboard thật (đối chiếu wireframe Hình 6–9) cho ID2, ID7, ID9, ID10, ID11.
