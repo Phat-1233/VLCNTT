@@ -416,31 +416,31 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/phat.json`.
 
-- [ ] Nhắc giờ học: `inject` mỗi 60 s → GET `plans?day=eq.<hôm nay>&start_time=eq.<HH:mm:00>` → mỗi dòng gửi qua `to-cmd`: `subject` (tên môn), `msg` "Den gio hoc: {mon} - {cycles} chu ky" (10 s), `beep` 3; ghi `events` type `schedule_reminder` (`dev = "pomo-01"`). Nhớ id đã nhắc để không nhắc 2 lần.
-- [ ] Nút "Huấn luyện lại": GET `sessions?select=start_ts,planned_min,focus_min,completed` → `POST ${AI_URL}/train` → cập nhật "Huấn luyện lần cuối" + "Độ chính xác".
-- [ ] Group **Hôm nay**: Kế hoạch (tổng `cycles` trong `plans` hôm nay), Đã hoàn thành `3 chu kỳ (60%)`, Tổng thời gian học, Buổi tiếp theo `Thứ 4 19:30 – Vật lý 3×25 phút`, Cảnh báo thiếu sáng hôm nay `1 lần (lúc 20:10)`.
-- [ ] Nút "Nhắc nhở" (Task 2.P1) ghi thêm `events` type `parent_beep`.
-- [ ] Kiểm tra: tạo 1 dòng `plans` cho 2 phút tới → đúng giờ hộp kêu + OLED hiện môn; bấm Huấn luyện lại → `real_sessions` > 0.
-- [ ] Commit `ID7: nhac gio hoc + huan luyen lai + the Hom nay`.
+- [x] Nhắc giờ học: `inject` mỗi 60 s → GET `plans?day=eq.<hôm nay>&start_time=eq.<HH:mm:00>` → mỗi dòng gửi qua `to-cmd`: `subject` (tên môn), `msg` "Den gio hoc: {mon} - {cycles} chu ky" (10 s), `beep` 3; ghi `events` type `schedule_reminder` (`dev = "pomo-01"`). Nhớ id đã nhắc để không nhắc 2 lần. _(inject cron mỗi phút giây 00; 28/11 test dòng plans 17:27 → 17:27:00 hộp đổi môn "Vat ly (test nhac)" + lời nhắn + kêu 3, `events` có `schedule_reminder`; đã xóa dòng test)_
+- [x] Nút "Huấn luyện lại": GET `sessions?select=start_ts,planned_min,focus_min,completed` → `POST ${AI_URL}/train` → cập nhật "Huấn luyện lần cuối" + "Độ chính xác". _(làm từ Task 3.P2; GET lọc `dev=eq.pomo-01`)_
+- [x] Group **Hôm nay**: Kế hoạch (tổng `cycles` trong `plans` hôm nay), Đã hoàn thành `3 chu kỳ (60%)`, Tổng thời gian học, Buổi tiếp theo `Thứ 4 19:30 – Vật lý 3×25 phút`, Cảnh báo thiếu sáng hôm nay `1 lần (lúc 20:10)`. _(tải lại khi mở trang, mỗi 5 phút và sau `session` mới; "Buổi tiếp theo" lấy buổi gần nhất từ bây giờ)_
+- [x] Nút "Nhắc nhở" (Task 2.P1) ghi thêm `events` type `parent_beep`. _(28/11: bấm → `events` có `parent_beep`)_
+- [x] Kiểm tra: tạo 1 dòng `plans` cho 2 phút tới → đúng giờ hộp kêu + OLED hiện môn; bấm Huấn luyện lại → `real_sessions` > 0. _(28/11: nhắc đúng 17:27:00; Huấn luyện lại lúc 17:50 → "Huấn luyện lần cuối" 28/11/2026 17:50, độ chính xác 75%)_
+- [x] Commit `ID7: nhac gio hoc + huan luyen lai + the Hom nay`.
 
 ### Task 4.P2 – ID11 Email báo cáo tuần [Phát]
 
 **Files:** Modify `node-red/phat.json`.
 
-- [ ] Group **Email báo cáo hằng tuần**: ô email phụ huynh (nhiều địa chỉ, dấu phẩy; kiểm tra định dạng từng địa chỉ) → "Lưu email" ghi `settings.parent_emails`; text "Tự động gửi: 20:00 tối Chủ nhật"; nút "Gửi thử báo cáo tuần này"; "Lần gửi gần nhất".
-- [ ] `inject` cron 20:00 Chủ nhật (giờ máy = giờ VN) → lấy dữ liệu tuần từ các view + `events` + `plans` tuần tới → function dựng HTML (tổng thời gian, tỉ lệ hoàn thành, kế hoạch vs thực tế, theo môn, số lần thiếu sáng, lịch tuần tới) → node `e-mail` (smtp.gmail.com, 465, TLS, App Password).
-- [ ] Lỗi gửi: `catch` → `delay` 30 phút → gửi lại, tối đa 3 lần; mỗi lần ghi `email_reports` (`week`, `to_email`, `status`, `attempt`). Chưa có email phụ huynh → không gửi, ghi status "Chua co email".
-- [ ] Group **Lịch sử gửi email**: `ui-table` từ `email_reports` (Tuần, Người nhận, Thời điểm gửi, Trạng thái).
-- [ ] Kiểm tra: "Gửi thử" → hộp thư nhận email, số liệu khớp trang Thống kê; dùng App Password sai → `email_reports` có dòng lỗi và tự thử lại (khi test đổi delay thành 1 phút, xong trả lại 30).
-- [ ] Commit `ID11: email bao cao tuan`.
+- [x] Group **Email báo cáo hằng tuần**: ô email phụ huynh (nhiều địa chỉ, dấu phẩy; kiểm tra định dạng từng địa chỉ) → "Lưu email" ghi `settings.parent_emails`; text "Tự động gửi: 20:00 tối Chủ nhật"; nút "Gửi thử báo cáo tuần này"; "Lần gửi gần nhất". _(PATCH `settings.parent_emails`; đọc lại khi mở trang Cài đặt)_
+- [x] `inject` cron 20:00 Chủ nhật (giờ máy = giờ VN) → lấy dữ liệu tuần từ các view + `events` + `plans` tuần tới → function dựng HTML (tổng thời gian, tỉ lệ hoàn thành, kế hoạch vs thực tế, theo môn, số lần thiếu sáng, lịch tuần tới) → node `e-mail` (smtp.gmail.com, 465, TLS, App Password). _(cron `00 20 * * 0`; 8 GET song song → HTML có bảng; không dùng thư viện template)_
+- [x] Lỗi gửi: `catch` → `delay` 30 phút → gửi lại, tối đa 3 lần; mỗi lần ghi `email_reports` (`week`, `to_email`, `status`, `attempt`). Chưa có email phụ huynh → không gửi, ghi status "Chua co email". _(node `complete` bắt gửi thành công → "Da gui"; `catch` → ghi lỗi + `delay` theo `msg.delay`)_
+- [x] Group **Lịch sử gửi email**: `ui-table` từ `email_reports` (Tuần, Người nhận, Thời điểm gửi, Trạng thái).
+- [x] Kiểm tra: "Gửi thử" → hộp thư nhận email, số liệu khớp trang Thống kê; dùng App Password sai → `email_reports` có dòng lỗi và tự thử lại (khi test đổi delay thành 1 phút, xong trả lại 30). _(28/11: gửi tới 1 rồi 2 địa chỉ → nhận được, "Đã gửi". Test lỗi bằng cổng SMTP sai thay vì App Password sai (giữ nguyên credential) + `RETRY_MIN = 1`: 17:43 / 17:44 / 17:45 ghi lần 1, 2, 3 rồi dừng; đã trả lại cổng 465 và 30 phút)_
+- [x] Commit `ID11: email bao cao tuan`.
 
 ### Task 4.P3 – Trạng thái hệ thống [Phát]
 
 **Files:** Modify `node-red/phat.json`.
 
-- [ ] Group **Trạng thái hệ thống**: MQTT – EMQX Cloud (node `status` theo dõi `mqtt in` của tab Chung), Supabase (GET `settings?limit=1` mỗi 60 s), Dịch vụ AI (`GET /health` mỗi 30 s), Gmail ("Đã cấu hình" nếu đã lưu email + lần gửi gần nhất thành công).
-- [ ] Kiểm tra: tắt Flask → trong ≤ 30 s hiện "Không chạy"; bật lại → "Đang chạy".
-- [ ] Commit `dashboard: trang thai he thong`.
+- [x] Group **Trạng thái hệ thống**: MQTT – EMQX Cloud (node `status` theo dõi `mqtt in` của tab Chung), Supabase (GET `settings?limit=1` mỗi 60 s), Dịch vụ AI (`GET /health` mỗi 30 s), Gmail ("Đã cấu hình" nếu đã lưu email + lần gửi gần nhất thành công). _(MQTT: thêm 1 `mqtt in` `pomodoro/ack` ở tab Phát + node `status` vì `status` không theo dõi được node tab Chung; mọi `ui-text` tab Phát đổi sang `msg.payload`)_
+- [x] Kiểm tra: tắt Flask → trong ≤ 30 s hiện "Không chạy"; bật lại → "Đang chạy". _(28/11: Flask tắt → "Không chạy"; bật lại → "Đang chạy")_
+- [x] Commit `dashboard: trang thai he thong`.
 
 ### ✅ Mốc M4 – đủ 11 chức năng [Cả 2]
 - [ ] Chạy trọn kịch bản demo (Task 5.3) trên breadboard; tick từng ID ở bảng tiến độ tổng.

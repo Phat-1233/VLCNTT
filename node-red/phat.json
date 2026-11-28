@@ -337,8 +337,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "5 chu kỳ",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 794,
     "wires": []
@@ -361,8 +361,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "3 chu kỳ (60%)",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 838,
     "wires": []
@@ -385,8 +385,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "1 giờ 29 phút",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 882,
     "wires": []
@@ -409,8 +409,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Thứ 4 19:30 – Vật lý 3×25 phút",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 926,
     "wires": []
@@ -433,8 +433,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "1 lần (lúc 20:10)",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 970,
     "wires": []
@@ -458,35 +458,6 @@
     "x": 420,
     "y": 750,
     "wires": []
-  },
-  {
-    "id": "pmdti71b01169c510bfb5",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] hiện chữ cho các ô chữ",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "",
-    "payload": "ok",
-    "payloadType": "str",
-    "x": 120,
-    "y": 750,
-    "wires": [
-      [
-        "d59dc7e42aef8586",
-        "b3d9b42b53d5a27d",
-        "8f0d36af8ae577bd",
-        "3577f6b1585cdef4",
-        "6c9a68c0f4ee378a"
-      ]
-    ]
   },
   {
     "id": "b605f38a29e7f43c",
@@ -1611,7 +1582,9 @@
     "x": 420,
     "y": 2950,
     "wires": [
-      []
+      [
+        "p42_draft"
+      ]
     ]
   },
   {
@@ -1648,7 +1621,9 @@
     "x": 420,
     "y": 2994,
     "wires": [
-      []
+      [
+        "p42_saveEmail"
+      ]
     ]
   },
   {
@@ -1669,8 +1644,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "20:00 tối Chủ nhật",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3038,
     "wires": []
@@ -1709,7 +1684,9 @@
     "x": 420,
     "y": 3082,
     "wires": [
-      []
+      [
+        "p42_start"
+      ]
     ]
   },
   {
@@ -1730,8 +1707,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Chủ nhật 08/11, 20:00",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3126,
     "wires": []
@@ -1754,8 +1731,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Đã kết nối",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3406,
     "wires": []
@@ -1778,8 +1755,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Đã kết nối",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3450,
     "wires": []
@@ -1802,8 +1779,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Đang chạy",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3494,
     "wires": []
@@ -1826,8 +1803,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "Đã cấu hình",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 3538,
     "wires": []
@@ -1860,35 +1837,6 @@
     ]
   },
   {
-    "id": "56a7c196c08609a8",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] email_reports",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "",
-    "payload": "[{\"Tuần\":\"02/11 – 08/11\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:00\",\"Trạng thái\":\"Thành công\"},{\"Tuần\":\"26/10 – 01/11\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:30\",\"Trạng thái\":\"Thành công (gửi lại lần 1)\"},{\"Tuần\":\"19/10 – 25/10\",\"Người nhận\":\"phuhuynh@example.com\",\"Thời điểm gửi\":\"Chủ nhật 20:00\",\"Trạng thái\":\"Thành công\"}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 3656,
-    "wires": [
-      [
-        "f0a7137b1ce85b21"
-      ]
-    ]
-  },
-  {
     "id": "pmdc9eef8dfd3b96df0a",
     "type": "comment",
     "z": "926f37b61fb23da8",
@@ -1899,32 +1847,6 @@
     "wires": []
   },
   {
-    "id": "pmdti9eef8dfd3b96df0a",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] hiện chữ cho các ô chữ",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "",
-    "payload": "ok",
-    "payloadType": "str",
-    "x": 120,
-    "y": 2906,
-    "wires": [
-      [
-        "20f97421b3e1d7b7",
-        "60905e2b1768cbaa"
-      ]
-    ]
-  },
-  {
     "id": "pmdc81356f266ab752fe",
     "type": "comment",
     "z": "926f37b61fb23da8",
@@ -1933,34 +1855,6 @@
     "x": 420,
     "y": 3362,
     "wires": []
-  },
-  {
-    "id": "pmdti81356f266ab752fe",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] hiện chữ cho các ô chữ",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "",
-    "payload": "ok",
-    "payloadType": "str",
-    "x": 120,
-    "y": 3362,
-    "wires": [
-      [
-        "76af5313576c052b",
-        "e140368cf1cdf5da",
-        "acdcd46a37caf11a",
-        "d0031051fd5b0614"
-      ]
-    ]
   },
   {
     "id": "pmdc46e893fb41a92586",
@@ -2146,26 +2040,6 @@
     ]
   },
   {
-    "id": "pmd_fn_beep",
-    "type": "function",
-    "z": "926f37b61fb23da8",
-    "name": "ID10 – nhắc nhở (chặn bấm lại 5 s)",
-    "func": "// Bấm lại trong 5 s thì bỏ qua, tránh buzzer kêu liên tục\nconst now = Date.now();\nconst last = flow.get('lastBeep') || 0;\nif (now - last < 5000) {\n    node.status({fill:'yellow', shape:'ring', text:'bỏ qua (chưa đủ 5 s)'});\n    return null;\n}\nflow.set('lastBeep', now);\nnode.status({fill:'green', shape:'dot', text:'đã gửi ' + new Date().toLocaleTimeString()});\nmsg.payload = { type: 'beep', times: 3 };\nreturn msg;",
-    "outputs": 1,
-    "timeout": 0,
-    "noerr": 0,
-    "initialize": "",
-    "finalize": "",
-    "libs": [],
-    "x": 690,
-    "y": 680,
-    "wires": [
-      [
-        "083316ae5717ecb8"
-      ]
-    ]
-  },
-  {
     "id": "p9_cmt",
     "type": "comment",
     "z": "926f37b61fb23da8",
@@ -2186,29 +2060,6 @@
     "wires": [
       [
         "p9_route"
-      ]
-    ]
-  },
-  {
-    "id": "p9_route",
-    "type": "function",
-    "z": "926f37b61fb23da8",
-    "name": "Mở trang nào?",
-    "func": "// $pageview: tải lại dữ liệu khi người dùng mở trang\nif (msg.topic !== '$pageview') return null;\nconst path = (msg.payload && msg.payload.page && msg.payload.page.path) || '';\nif (path === '/thong-ke') return [{ payload: 'refresh' }, null];\nif (path === '/lich-hoc') return [null, { payload: 'refresh' }];\nreturn null;",
-    "outputs": 2,
-    "timeout": 0,
-    "noerr": 0,
-    "initialize": "",
-    "finalize": "",
-    "libs": [],
-    "x": 960,
-    "y": 2160,
-    "wires": [
-      [
-        "p9_range"
-      ],
-      [
-        "p7_scoresReq"
       ]
     ]
   },
@@ -2258,7 +2109,8 @@
     "y": 2260,
     "wires": [
       [
-        "p9_range"
+        "p9_range",
+        "p41_todayReq"
       ]
     ]
   },
@@ -2362,7 +2214,7 @@
     "type": "function",
     "z": "926f37b61fb23da8",
     "name": "ID7 – cách 1: ngày rảnh + môn",
-    "func": "const SESSION_MIN = 90, STUDY_MIN = 25, BREAK_MIN = 5;   // 1 buổi 90 phút = 3 × (25 + 5)\n\nconst f = msg.payload || {};\nconst keys = ['t2', 't3', 't4', 't5', 't6', 't7', 'cn'];\nconst free_days = keys.map((k, i) => f[k] ? i : -1).filter(i => i >= 0);\nconst subjects = [], loi = [];\nString(f.mon || '').split(/\\r?\\n/).forEach((line, i) => {\n  const s = line.trim(); if (!s) return;\n  const m = s.match(/^(.*?)[\\s,;:]+(\\d+)$/);            // \"Toán, 2\" hoặc \"Toán 2\"\n  const name = (m ? m[1] : s).trim(), n = m ? +m[2] : 2;  // không ghi số buổi → 2\n  if (!name || n < 1 || n > 7) loi.push(i + 1); else subjects.push({ name, sessions: n });\n});\nif (!free_days.length) return [null, { payload: 'Chọn ít nhất 1 ngày rảnh' }];\nif (loi.length) return [null, { payload: `Dòng ${loi.join(', ')} sai: ghi \"Tên môn, số buổi\" (1–7)` }];\nif (!subjects.length) return [null, { payload: 'Nhập môn cần học, mỗi dòng \"Tên môn, số buổi\"' }];\nreturn [{ payload: { mode: 'free_days', free_days, subjects, priority: String(f.uutien || '').trim(),\n                     session_min: SESSION_MIN, study_min: STUDY_MIN, break_min: BREAK_MIN } }, null];",
+    "func": "const SESSION_MIN = 90, STUDY_MIN = 25, BREAK_MIN = 5;   // 1 buổi 90 phút = 3 × (25 + 5)\n\nconst f = msg.payload || {};\nconst keys = ['t2', 't3', 't4', 't5', 't6', 't7', 'cn'];\nconst free_days = keys.map((k, i) => f[k] ? i : -1).filter(i => i >= 0);\nconst subjects = [], loi = [];\nString(f.mon || '').split(/\\r?\\n/).forEach((line, i) => {\n  const s = line.trim(); if (!s) return;\n  const m = s.match(/^(.*?)[\\s,;:]+(\\d+)\\s*(?:buổi|buoi)?\\.?$/i);   // \"Toán, 2\" / \"Toán 2\" / \"Toán 4 buổi\"\n  const name = (m ? m[1] : s).trim(), n = m ? +m[2] : 2;  // không ghi số buổi → 2\n  if (!name || n < 1 || n > 7) loi.push(i + 1); else subjects.push({ name, sessions: n });\n});\nif (!free_days.length) return [null, { payload: 'Chọn ít nhất 1 ngày rảnh' }];\nif (loi.length) return [null, { payload: `Dòng ${loi.join(', ')} sai: ghi \"Tên môn, số buổi\" (1–7)` }];\nif (!subjects.length) return [null, { payload: 'Nhập môn cần học, mỗi dòng \"Tên môn, số buổi\"' }];\nreturn [{ payload: { mode: 'free_days', free_days, subjects, priority: String(f.uutien || '').trim(),\n                     session_min: SESSION_MIN, study_min: STUDY_MIN, break_min: BREAK_MIN } }, null];",
     "outputs": 2,
     "timeout": 0,
     "noerr": 0,
@@ -2628,7 +2480,7 @@
     "type": "function",
     "z": "926f37b61fb23da8",
     "name": "ID7 – chia kết quả AI",
-    "func": "if (!(msg.statusCode >= 200 && msg.statusCode < 300) && !(msg.payload && msg.payload.message))\n  return [null, null, null, { payload: `Dịch vụ AI trả lỗi HTTP ${msg.statusCode}` }];\nif (msg.kind === 'schedule') return [msg, null, null, null];\nif (msg.kind === 'scores') return [null, msg, null, null];\nif (msg.kind === 'train') return [null, null, msg, null];\nreturn null;",
+    "func": "// Lỗi kết nối (ECONNREFUSED, timeout…): statusCode là chữ, đã có catch báo lỗi\nif (typeof msg.statusCode !== 'number') return null;\nif (!(msg.statusCode >= 200 && msg.statusCode < 300) && !(msg.payload && msg.payload.message))\n  return [null, null, null, { payload: `Dịch vụ AI trả lỗi HTTP ${msg.statusCode}` }];\nif (msg.kind === 'schedule') return [msg, null, null, null];\nif (msg.kind === 'scores') return [null, msg, null, null];\nif (msg.kind === 'train') return [null, null, msg, null];\nreturn null;",
     "outputs": 4,
     "timeout": 0,
     "noerr": 0,
@@ -2657,7 +2509,7 @@
     "type": "function",
     "z": "926f37b61fb23da8",
     "name": "ID7 – hiện lịch tuần",
-    "func": "const d = msg.payload || {};\nif (!d.ok) return [null, { payload: d.message || 'AI không xếp được lịch' }];\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\nconst vnReason = r => {\n  let m = String(r).match(/^Truoc tiet (.+) (Thu [2-7]|Chu nhat)$/);\n  if (m) return `Trước tiết ${m[1]} ${m[2] === 'Chu nhat' ? 'Chủ nhật' : m[2].replace('Thu', 'Thứ')}`;\n  if (r === 'Mon uu tien') return 'Môn ưu tiên';\n  m = String(r).match(/^Kha nang hoan thanh cao \\((\\d+)%\\)$/);\n  return m ? `Khả năng hoàn thành cao (${m[1]}%)` : r;\n};\n// Tuần áp dụng: T2–T6 → tuần này; T7, CN → tuần sau\nconst DAY = 86400000, vn = new Date(Date.now() + 7 * 3600000);\nconst today = Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), vn.getUTCDate());\nconst wd = (vn.getUTCDay() + 6) % 7;                          // 0 = Thứ 2\nconst ws = today - wd * DAY + (wd >= 5 ? 7 * DAY : 0);\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst req = flow.get('aiLastReq') || {};\nconst study = req.study_min || 25;\nconst rows = d.plan.map(p => ({\n  week_start: iso(ws), day: iso(ws + p.day * DAY), start_time: p.start, end_time: p.end,\n  subject: p.subject, cycles: p.cycles, score: p.score, reason: vnReason(p.reason) }));\nflow.set('aiPlan', rows);\nconst dm = s => s.slice(8) + '/' + s.slice(5, 7);\nconst table = d.plan.map((p, i) => ({\n  'Ngày': `${THU[p.day]} ${dm(rows[i].day)}`, 'Giờ': `${p.start}–${p.end}`, 'Môn': p.subject,\n  'Số chu kỳ': `${p.cycles} × ${study} phút`, 'Khả năng hoàn thành': Math.round(p.score * 100) + '%',\n  'Lý do': rows[i].reason }));\nreturn [{ payload: table }, { payload: `AI xếp ${rows.length} buổi cho tuần ${dm(iso(ws))} – bấm \"Lưu lịch\" để lưu` }];",
+    "func": "const d = msg.payload || {};\nif (!d.ok) {\n  flow.set('aiPlan', null);                              // không để lịch cũ gây nhầm\n  const vnMsg = /^Khong xep duoc/.test(d.message || '')\n    ? 'Không xếp được: giảm số buổi hoặc chọn thêm ngày rảnh (mỗi môn tối đa 1 buổi/ngày, mỗi ngày tối đa 3 buổi)'\n    : (d.message || 'AI không xếp được lịch');\n  return [{ payload: [] }, { payload: vnMsg }];\n}\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\nconst vnReason = r => {\n  let m = String(r).match(/^Truoc tiet (.+) (Thu [2-7]|Chu nhat)$/);\n  if (m) return `Trước tiết ${m[1]} ${m[2] === 'Chu nhat' ? 'Chủ nhật' : m[2].replace('Thu', 'Thứ')}`;\n  if (r === 'Mon uu tien') return 'Môn ưu tiên';\n  m = String(r).match(/^Kha nang hoan thanh cao \\((\\d+)%\\)$/);\n  return m ? `Khả năng hoàn thành cao (${m[1]}%)` : r;\n};\n// Tuần áp dụng: T2–T6 → tuần này; T7, CN → tuần sau\nconst DAY = 86400000, vn = new Date(Date.now() + 7 * 3600000);\nconst today = Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), vn.getUTCDate());\nconst wd = (vn.getUTCDay() + 6) % 7;                          // 0 = Thứ 2\nconst ws = today - wd * DAY + (wd >= 5 ? 7 * DAY : 0);\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst req = flow.get('aiLastReq') || {};\nconst study = req.study_min || 25;\nconst rows = d.plan.map(p => ({\n  week_start: iso(ws), day: iso(ws + p.day * DAY), start_time: p.start, end_time: p.end,\n  subject: p.subject, cycles: p.cycles, score: p.score, reason: vnReason(p.reason) }));\nflow.set('aiPlan', rows);\nconst dm = s => s.slice(8) + '/' + s.slice(5, 7);\nconst table = d.plan.map((p, i) => ({\n  'Ngày': `${THU[p.day]} ${dm(rows[i].day)}`, 'Giờ': `${p.start}–${p.end}`, 'Môn': p.subject,\n  'Số chu kỳ': `${p.cycles} × ${study} phút`, 'Khả năng hoàn thành': Math.round(p.score * 100) + '%',\n  'Lý do': rows[i].reason }));\nreturn [{ payload: table }, { payload: `AI xếp ${rows.length} buổi cho tuần ${dm(iso(ws))} – bấm \"Lưu lịch\" để lưu` }];",
     "outputs": 2,
     "timeout": 0,
     "noerr": 0,
@@ -2727,7 +2579,7 @@
     "type": "function",
     "z": "926f37b61fb23da8",
     "name": "ID7 – bước tiếp theo",
-    "func": "const SB = (path, method, body, extra) => {\n  const key = env.get('SUPABASE_KEY');\n  return Object.assign({\n    url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: method || 'GET', payload: body,\n    headers: Object.assign({ apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },\n                           method === 'POST' ? { Prefer: 'return=minimal' } : {}),\n    requestTimeout: 10000 }, extra || {});\n};\nconst ok = msg.statusCode >= 200 && msg.statusCode < 300;\nif (!ok) {\n  node.warn(`ID7 ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 200)}`);\n  return [null, { payload: `Lỗi Supabase (${msg.kind}) HTTP ${msg.statusCode}` }, null];\n}\nif (msg.kind === 'del') return [SB('plans', 'POST', msg.rows, { kind: 'ins', n: msg.rows.length }), null, null];\nif (msg.kind === 'ins') return [null, { payload: `Đã lưu ${msg.n} buổi vào bảng plans` }, null];\nif (msg.kind === 'trainData') {\n  const sessions = Array.isArray(msg.payload) ? msg.payload : [];\n  return [null, null, { url: env.get('AI_URL') + '/train', method: 'POST', payload: { sessions },\n                        headers: { 'Content-Type': 'application/json' }, kind: 'train', requestTimeout: 60000 }];\n}\nreturn null;",
+    "func": "// Lỗi kết nối (ECONNREFUSED, timeout…): statusCode là chữ, đã có catch báo lỗi\nif (typeof msg.statusCode !== 'number') return null;\nconst SB = (path, method, body, extra) => {\n  const key = env.get('SUPABASE_KEY');\n  return Object.assign({\n    url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: method || 'GET', payload: body,\n    headers: Object.assign({ apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },\n                           method === 'POST' ? { Prefer: 'return=minimal' } : {}),\n    requestTimeout: 10000 }, extra || {});\n};\nconst ok = msg.statusCode >= 200 && msg.statusCode < 300;\nif (!ok) {\n  node.warn(`ID7 ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 200)}`);\n  return [null, { payload: `Lỗi Supabase (${msg.kind}) HTTP ${msg.statusCode}` }, null];\n}\nif (msg.kind === 'del') return [SB('plans', 'POST', msg.rows, { kind: 'ins', n: msg.rows.length }), null, null];\nif (msg.kind === 'ins') return [null, { payload: `Đã lưu ${msg.n} buổi vào bảng plans` }, null];\nif (msg.kind === 'trainData') {\n  const sessions = Array.isArray(msg.payload) ? msg.payload : [];\n  return [null, null, { url: env.get('AI_URL') + '/train', method: 'POST', payload: { sessions },\n                        headers: { 'Content-Type': 'application/json' }, kind: 'train', requestTimeout: 60000 }];\n}\nif (msg.kind === 'delOnly') return [null, { payload: `Đã xóa lịch tuần ${msg.ws.slice(8)}/${msg.ws.slice(5, 7)} (trên bảng và trong Supabase)` }, null];\nreturn null;",
     "outputs": 3,
     "timeout": 0,
     "noerr": 0,
@@ -2923,6 +2775,1023 @@
     "y": 1780,
     "wires": [
       []
+    ]
+  },
+  {
+    "id": "p7_btnDelPlan",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "e7d6198390732105",
+    "name": "",
+    "label": "Xóa lịch",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "delete",
+    "iconPosition": "left",
+    "payload": "xoa",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 400,
+    "y": 1772,
+    "wires": [
+      [
+        "p7_delPlan"
+      ]
+    ]
+  },
+  {
+    "id": "p7_delPlan",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – Xóa lịch (bảng + plans tuần đó)",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1772,
+    "wires": [
+      [
+        "ec8d0b5c6c14bb20"
+      ],
+      [
+        "p7_sb_http"
+      ]
+    ],
+    "func": "// Xóa lịch đang hiện và các dòng plans của tuần đó (nếu đã Lưu)\nconst rows = flow.get('aiPlan');\nflow.set('aiPlan', null);\nconst DAY = 86400000, vn = new Date(Date.now() + 7 * 3600000);\nconst today = Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), vn.getUTCDate());\nconst wd = (vn.getUTCDay() + 6) % 7;\nconst ws = rows && rows.length ? rows[0].week_start\n  : new Date(today - wd * DAY + (wd >= 5 ? 7 * DAY : 0)).toISOString().slice(0, 10);\nconst key = env.get('SUPABASE_KEY');\nreturn [{ payload: [] }, { url: env.get('SUPABASE_URL') + '/rest/v1/plans?week_start=eq.' + ws, method: 'DELETE',\n  headers: { apikey: key, Authorization: 'Bearer ' + key }, kind: 'delOnly', ws, requestTimeout: 10000 }];"
+  },
+  {
+    "id": "p4_sbw_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase ghi (ID7/ID10/ID11)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1300,
+    "y": 1000,
+    "wires": [
+      [
+        "p4_sbw_res"
+      ]
+    ]
+  },
+  {
+    "id": "p4_sbw_res",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Kết quả ghi Supabase",
+    "func": "const ok = msg.statusCode >= 200 && msg.statusCode < 300;\nif (!ok) node.warn(`Ghi Supabase (${msg.kind}) lỗi HTTP ${msg.statusCode}: ${JSON.stringify(msg.payload).slice(0, 200)}`);\nif (msg.kind === 'emails') return [ok ? { payload: `Đã lưu ${msg.n} email phụ huynh` } : { payload: 'Lưu email lỗi, xem debug' }, { payload: 'refresh' }];\nif (msg.kind === 'email_log') return [null, { payload: 'refresh' }];\nreturn null;",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1520,
+    "y": 1000,
+    "wires": [
+      [
+        "p7_notify"
+      ],
+      [
+        "p42_loadReq"
+      ]
+    ]
+  },
+  {
+    "id": "p41_cmt",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 (4.P1) – nhắc giờ học mỗi phút, thẻ Hôm nay, Nhắc nhở ghi parent_beep",
+    "info": "",
+    "x": 1000,
+    "y": 760,
+    "wires": []
+  },
+  {
+    "id": "p41_cron",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "mỗi phút (giây 00)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "*/1 * * * *",
+    "once": false,
+    "onceDelay": 3,
+    "topic": "",
+    "payload": "tick",
+    "payloadType": "str",
+    "x": 790,
+    "y": 800,
+    "wires": [
+      [
+        "p41_remindReq"
+      ]
+    ]
+  },
+  {
+    "id": "p41_remindReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – tìm buổi bắt đầu phút này",
+    "func": "const DAY = 86400000, vnNow = new Date(Date.now() + 7 * 3600000);   // getUTC* = giờ VN\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst todayMs = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate());\nconst p2 = n => String(n).padStart(2, '0');\nconst SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst hhmm = `${p2(vnNow.getUTCHours())}:${p2(vnNow.getUTCMinutes())}`;\nreturn { url: SBU(`plans?select=id,subject,cycles,start_time,end_time&day=eq.${iso(todayMs)}&start_time=eq.${hhmm}:00`),\n         method: 'GET', headers: SBH(), requestTimeout: 10000, day: iso(todayMs) };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1030,
+    "y": 800,
+    "wires": [
+      [
+        "p41_http"
+      ]
+    ]
+  },
+  {
+    "id": "p41_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase GET plans (nhắc)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1280,
+    "y": 800,
+    "wires": [
+      [
+        "p41_remind"
+      ]
+    ]
+  },
+  {
+    "id": "p41_remind",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – nhắc giờ học → hộp",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nif (!(msg.statusCode >= 200 && msg.statusCode < 300) || !Array.isArray(msg.payload)) {\n  node.warn(`Nhắc giờ học: HTTP ${msg.statusCode}`); return null;\n}\n// Nhớ id đã nhắc trong ngày để không nhắc 2 lần\nlet r = flow.get('reminded') || {};\nif (r.day !== msg.day) r = { day: msg.day, ids: [] };\nconst cmds = [], evs = [];\nfor (const p of msg.payload) {\n  if (r.ids.includes(p.id)) continue;\n  r.ids.push(p.id);\n  const mon = boDau(p.subject);\n  cmds.push({ payload: { type: 'subject', name: mon.slice(0, 22) } });\n  cmds.push({ payload: { type: 'msg', text: `Den gio hoc: ${mon} - ${p.cycles} chu ky`.slice(0, 120), sec: 10 } });\n  cmds.push({ payload: { type: 'beep', times: 3 } });\n  evs.push({ url: SBU('events'), method: 'POST', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }), kind: 'event',\n             payload: { dev: 'pomo-01', ts: new Date().toISOString(), type: 'schedule_reminder',\n                        detail: { plan_id: p.id, subject: p.subject, start_time: p.start_time, cycles: p.cycles } } });\n  node.status({ fill: 'green', shape: 'dot', text: `đã nhắc ${p.subject} ${p.start_time.slice(0, 5)}` });\n}\nflow.set('reminded', r);\nreturn [cmds, evs];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1520,
+    "y": 800,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ],
+      [
+        "p4_sbw_http"
+      ]
+    ]
+  },
+  {
+    "id": "p41_todayTick",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Hôm nay: khởi động + mỗi 5 phút",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "300",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 6,
+    "topic": "",
+    "payload": "refresh",
+    "payloadType": "str",
+    "x": 820,
+    "y": 860,
+    "wires": [
+      [
+        "p41_todayReq"
+      ]
+    ]
+  },
+  {
+    "id": "p41_todayReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – Hôm nay: 4 request",
+    "func": "const DAY = 86400000, vnNow = new Date(Date.now() + 7 * 3600000);   // getUTC* = giờ VN\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst todayMs = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate());\nconst p2 = n => String(n).padStart(2, '0');\nconst SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst D = iso(todayMs), hhmm = `${p2(vnNow.getUTCHours())}:${p2(vnNow.getUTCMinutes())}:00`;\nconst t0 = encodeURIComponent(D + 'T00:00:00+07:00'), t1 = encodeURIComponent(iso(todayMs + DAY) + 'T00:00:00+07:00');\nconst reqId = Date.now();\nflow.set('todayReq', { id: reqId, got: {} });\nconst q = {\n  plans: `plans?select=cycles,start_time&day=eq.${D}`,\n  sess:  `sessions?select=completed,focus_min&start_ts=gte.${t0}&start_ts=lt.${t1}`,\n  low:   `events?select=ts&type=eq.low_light&ts=gte.${t0}&ts=lt.${t1}&order=ts`,\n  next:  `plans?select=day,start_time,subject,cycles&or=${encodeURIComponent(`(day.gt.${D},and(day.eq.${D},start_time.gte.${hhmm}))`)}&order=day,start_time&limit=1`,\n};\nreturn [Object.entries(q).map(([kind, path]) => ({ url: SBU(path), method: 'GET', headers: SBH(), kind, reqId, requestTimeout: 10000 }))];",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 860,
+    "wires": [
+      [
+        "p41_today_http"
+      ]
+    ]
+  },
+  {
+    "id": "p41_today_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase GET (Hôm nay)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1290,
+    "y": 860,
+    "wires": [
+      [
+        "p41_todayGom"
+      ]
+    ]
+  },
+  {
+    "id": "p41_todayGom",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – gom → thẻ Hôm nay",
+    "func": "const DAY = 86400000, vnNow = new Date(Date.now() + 7 * 3600000);   // getUTC* = giờ VN\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst todayMs = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate());\nconst p2 = n => String(n).padStart(2, '0');\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\n\nconst st = flow.get('todayReq');\nif (!st || msg.reqId !== st.id) return null;\nlet rows = msg.payload;\nif (!(msg.statusCode >= 200 && msg.statusCode < 300) || !Array.isArray(rows)) {\n  node.warn(`Hôm nay ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 150)}`); rows = [];\n}\nst.got[msg.kind] = rows;\nif (Object.keys(st.got).length < 4) { flow.set('todayReq', st); return null; }\nflow.set('todayReq', null);\nconst g = st.got;\nconst P = g.plans.reduce((a, r) => a + (r.cycles || 0), 0);\nconst done = g.sess.filter(r => r.completed).length;\nconst phut = g.sess.reduce((a, r) => a + (r.focus_min || 0), 0);\nconst keHoach = P ? `${P} chu kỳ (${g.plans.length} buổi)` : 'Chưa có lịch hôm nay';\nconst daXong = P ? `${done} chu kỳ (${Math.round(done / P * 100)}%)` : `${done} chu kỳ`;\nconst tong = `${Math.floor(phut / 60)} giờ ${phut % 60} phút`;\nlet tiep = 'Chưa có buổi nào sắp tới';\nif (g.next.length) {\n  const n = g.next[0], dms = Date.parse(n.day);\n  const ngay = n.day === iso(todayMs) ? 'Hôm nay' : `${THU[(new Date(dms).getUTCDay() + 6) % 7]} ${n.day.slice(8)}/${n.day.slice(5, 7)}`;\n  tiep = `${ngay} ${n.start_time.slice(0, 5)} – ${n.subject} ${n.cycles}×25 phút`;\n}\nconst gio = g.low.map(r => { const t = new Date(Date.parse(r.ts) + 7 * 3600000); return `${p2(t.getUTCHours())}:${p2(t.getUTCMinutes())}`; });\nconst thieuSang = gio.length ? `${gio.length} lần (lúc ${gio.join(', ')})` : 'Không';\nnode.status({ fill: 'green', shape: 'dot', text: `${done}/${P} chu kỳ, ${phut} phút` });\nreturn [{ payload: keHoach }, { payload: daXong }, { payload: tong }, { payload: tiep }, { payload: thieuSang }];",
+    "outputs": 5,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1520,
+    "y": 860,
+    "wires": [
+      [
+        "d59dc7e42aef8586"
+      ],
+      [
+        "b3d9b42b53d5a27d"
+      ],
+      [
+        "8f0d36af8ae577bd"
+      ],
+      [
+        "3577f6b1585cdef4"
+      ],
+      [
+        "6c9a68c0f4ee378a"
+      ]
+    ]
+  },
+  {
+    "id": "pmd_fn_beep",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID10 – nhắc nhở (chặn bấm lại 5 s) + ghi parent_beep",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\n// Bấm lại trong 5 s thì bỏ qua, tránh buzzer kêu liên tục\nconst now = Date.now();\nconst last = flow.get('lastBeep') || 0;\nif (now - last < 5000) {\n    node.status({fill:'yellow', shape:'ring', text:'bỏ qua (chưa đủ 5 s)'});\n    return null;\n}\nflow.set('lastBeep', now);\nnode.status({fill:'green', shape:'dot', text:'đã gửi ' + new Date().toLocaleTimeString()});\nreturn [{ payload: { type: 'beep', times: 3 } },\n        { url: SBU('events'), method: 'POST', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }), kind: 'event',\n          payload: { dev: 'pomo-01', ts: new Date(now).toISOString(), type: 'parent_beep', detail: { times: 3 } } }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 690,
+    "y": 680,
+    "wires": [
+      [
+        "083316ae5717ecb8"
+      ],
+      [
+        "p4_sbw_http"
+      ]
+    ]
+  },
+  {
+    "id": "p43_cmt",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "4.P3 – Trạng thái hệ thống: MQTT (status node), Supabase 60 s, AI /health 30 s, Gmail",
+    "info": "",
+    "x": 1000,
+    "y": 3300,
+    "wires": []
+  },
+  {
+    "id": "p43_mqtt",
+    "type": "mqtt in",
+    "z": "926f37b61fb23da8",
+    "name": "theo dõi kết nối EMQX",
+    "topic": "pomodoro/ack",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "brokerHive",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 800,
+    "y": 3406,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "p43_status",
+    "type": "status",
+    "z": "926f37b61fb23da8",
+    "name": "",
+    "scope": [
+      "p43_mqtt"
+    ],
+    "x": 1000,
+    "y": 3406,
+    "wires": [
+      [
+        "p43_mqttTxt"
+      ]
+    ]
+  },
+  {
+    "id": "p43_mqttTxt",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "MQTT → chữ",
+    "func": "const f = msg.status && msg.status.fill;\nmsg.payload = f === 'green' ? 'Đã kết nối' : f === 'yellow' ? 'Đang kết nối…' : 'Mất kết nối';\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1180,
+    "y": 3406,
+    "wires": [
+      [
+        "76af5313576c052b"
+      ]
+    ]
+  },
+  {
+    "id": "p43_sbTick",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "mỗi 60 s",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "60",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 4,
+    "topic": "",
+    "payload": "check",
+    "payloadType": "str",
+    "x": 790,
+    "y": 3450,
+    "wires": [
+      [
+        "p43_sbReq"
+      ]
+    ]
+  },
+  {
+    "id": "p43_sbReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "GET settings?limit=1",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nreturn { url: SBU('settings?select=key&limit=1'), method: 'GET', headers: SBH(), t0: Date.now(), kind: 'sb', requestTimeout: 8000 };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 990,
+    "y": 3450,
+    "wires": [
+      [
+        "p43_sb_http"
+      ]
+    ]
+  },
+  {
+    "id": "p43_sb_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase (kiểm tra)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1200,
+    "y": 3450,
+    "wires": [
+      [
+        "p43_sbTxt"
+      ]
+    ]
+  },
+  {
+    "id": "p43_sbTxt",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase → chữ",
+    "func": "const ok = msg.statusCode >= 200 && msg.statusCode < 300;\nmsg.payload = ok ? `Đang chạy (${Date.now() - msg.t0} ms)`\n  : typeof msg.statusCode === 'number' ? `Lỗi HTTP ${msg.statusCode}` : 'Không kết nối được';\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1400,
+    "y": 3450,
+    "wires": [
+      [
+        "e140368cf1cdf5da"
+      ]
+    ]
+  },
+  {
+    "id": "p43_aiTick",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "mỗi 30 s",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 3,
+    "topic": "",
+    "payload": "check",
+    "payloadType": "str",
+    "x": 790,
+    "y": 3494,
+    "wires": [
+      [
+        "p43_aiReq"
+      ]
+    ]
+  },
+  {
+    "id": "p43_aiReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "GET /health",
+    "func": "return { url: env.get('AI_URL') + '/health', method: 'GET', kind: 'ai', requestTimeout: 3000 };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 970,
+    "y": 3494,
+    "wires": [
+      [
+        "p43_ai_http"
+      ]
+    ]
+  },
+  {
+    "id": "p43_ai_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "AI (kiểm tra)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1180,
+    "y": 3494,
+    "wires": [
+      [
+        "p43_aiTxt"
+      ]
+    ]
+  },
+  {
+    "id": "p43_aiTxt",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "AI → chữ",
+    "func": "msg.payload = (msg.statusCode >= 200 && msg.statusCode < 300) ? 'Đang chạy'\n  : typeof msg.statusCode === 'number' ? `Lỗi HTTP ${msg.statusCode}` : 'Không chạy';\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1360,
+    "y": 3494,
+    "wires": [
+      [
+        "acdcd46a37caf11a"
+      ]
+    ]
+  },
+  {
+    "id": "p43_catch",
+    "type": "catch",
+    "z": "926f37b61fb23da8",
+    "name": "không kết nối được",
+    "scope": [
+      "p43_sb_http",
+      "p43_ai_http"
+    ],
+    "uncaught": false,
+    "x": 1180,
+    "y": 3540,
+    "wires": [
+      [
+        "p43_errTxt"
+      ]
+    ]
+  },
+  {
+    "id": "p43_errTxt",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "lỗi → chữ",
+    "func": "if (msg.kind === 'ai') return [{ payload: 'Không chạy' }, null];\nreturn [null, { payload: 'Không kết nối được' }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1360,
+    "y": 3540,
+    "wires": [
+      [
+        "acdcd46a37caf11a"
+      ],
+      [
+        "e140368cf1cdf5da"
+      ]
+    ]
+  },
+  {
+    "id": "p42_cmt",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 (4.P2) – email báo cáo tuần: 20:00 Chủ nhật / Gửi thử → 8 GET → HTML → e-mail; lỗi thử lại 3 lần",
+    "info": "",
+    "x": 1060,
+    "y": 2880,
+    "wires": []
+  },
+  {
+    "id": "p42_draft",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "giữ email đang gõ",
+    "func": "flow.set('emailDraft', String(msg.payload || ''));\nreturn null;",
+    "outputs": 0,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 2950,
+    "wires": []
+  },
+  {
+    "id": "p42_saveEmail",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – Lưu email (kiểm tra định dạng)",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst raw = String(flow.get('emailDraft') ?? flow.get('parentEmails') ?? '');\nconst list = raw.split(/[,;\\s]+/).map(s => s.trim()).filter(Boolean);\nconst re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;\nconst sai = list.filter(e => !re.test(e));\nif (sai.length) return [null, { payload: `Email sai định dạng: ${sai.join(', ')}` }];\nconst value = list.join(', ');\nflow.set('parentEmails', value);\nreturn [{ url: SBU('settings?key=eq.parent_emails'), method: 'PATCH', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }),\n          payload: { value, updated_at: new Date().toISOString() }, kind: 'emails', n: list.length }, null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 780,
+    "y": 2994,
+    "wires": [
+      [
+        "p4_sbw_http"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p42_init",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "tải email + lịch sử khi khởi động",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 5,
+    "topic": "",
+    "payload": "refresh",
+    "payloadType": "str",
+    "x": 830,
+    "y": 3170,
+    "wires": [
+      [
+        "p42_loadReq"
+      ]
+    ]
+  },
+  {
+    "id": "p42_loadReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – tải email + email_reports",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst reqId = Date.now();\nflow.set('emailLoad', { id: reqId, got: {} });\nreturn [[\n  { url: SBU('settings?select=value&key=eq.parent_emails'), method: 'GET', headers: SBH(), kind: 'emails', reqId, requestTimeout: 10000 },\n  { url: SBU('email_reports?select=sent_at,week,to_email,status,attempt&order=sent_at.desc&limit=20'), method: 'GET', headers: SBH(), kind: 'logs', reqId, requestTimeout: 10000 },\n]];",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1080,
+    "y": 3170,
+    "wires": [
+      [
+        "p42_load_http"
+      ]
+    ]
+  },
+  {
+    "id": "p42_load_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase GET (email)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1300,
+    "y": 3170,
+    "wires": [
+      [
+        "p42_loadGom"
+      ]
+    ]
+  },
+  {
+    "id": "p42_loadGom",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – hiện email + lịch sử",
+    "func": "const st = flow.get('emailLoad');\nif (!st || msg.reqId !== st.id) return null;\nst.got[msg.kind] = (msg.statusCode >= 200 && msg.statusCode < 300 && Array.isArray(msg.payload)) ? msg.payload : [];\nif (Object.keys(st.got).length < 2) { flow.set('emailLoad', st); return null; }\nflow.set('emailLoad', null);\nconst emails = st.got.emails.length ? String(st.got.emails[0].value || '') : '';\nflow.set('parentEmails', emails);\nconst p2 = n => String(n).padStart(2, '0');\nconst vnTime = s => { const t = new Date(Date.parse(s) + 7 * 3600000);\n  return `${p2(t.getUTCDate())}/${p2(t.getUTCMonth() + 1)}/${t.getUTCFullYear()} ${p2(t.getUTCHours())}:${p2(t.getUTCMinutes())}`; };\nconst TT = { 'Da gui': 'Đã gửi', 'Chua co email': 'Chưa có email' };\nconst logs = st.got.logs;\nconst table = logs.map(r => ({ 'Tuần': r.week, 'Người nhận': r.to_email || '—', 'Thời điểm gửi': vnTime(r.sent_at),\n  'Trạng thái': (TT[r.status] || r.status) + (r.attempt > 1 ? ` (lần ${r.attempt})` : '') }));\nconst last = logs[0];\nconst lastTxt = last ? `${vnTime(last.sent_at)} – ${TT[last.status] || last.status}` : 'Chưa gửi lần nào';\nconst lastOk = logs.find(r => r.status === 'Da gui');\nconst gmail = !emails ? 'Chưa có email phụ huynh'\n  : last && last.status !== 'Da gui' ? 'Đã cấu hình – lần gửi gần nhất bị lỗi'\n  : lastOk ? `Đã cấu hình – gửi được lúc ${vnTime(lastOk.sent_at)}` : 'Đã cấu hình – chưa gửi lần nào';\nreturn [{ payload: emails }, { payload: table }, { payload: lastTxt }, { payload: gmail }, { payload: '20:00 tối Chủ nhật hằng tuần' }];",
+    "outputs": 5,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1520,
+    "y": 3170,
+    "wires": [
+      [
+        "2dd6df33cbedee1b"
+      ],
+      [
+        "f0a7137b1ce85b21"
+      ],
+      [
+        "60905e2b1768cbaa"
+      ],
+      [
+        "d0031051fd5b0614"
+      ],
+      [
+        "20f97421b3e1d7b7"
+      ]
+    ]
+  },
+  {
+    "id": "p42_cron",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "20:00 tối Chủ nhật",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "00 20 * * 0",
+    "once": false,
+    "onceDelay": 3,
+    "topic": "",
+    "payload": "auto",
+    "payloadType": "str",
+    "x": 800,
+    "y": 3060,
+    "wires": [
+      [
+        "p42_start"
+      ]
+    ]
+  },
+  {
+    "id": "p42_start",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – dữ liệu tuần: 8 request",
+    "func": "const DAY = 86400000, vnNow = new Date(Date.now() + 7 * 3600000);   // getUTC* = giờ VN\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst todayMs = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate());\nconst p2 = n => String(n).padStart(2, '0');\nconst SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst mode = msg.payload === 'auto' ? 'auto' : 'test';\nconst wd = (vnNow.getUTCDay() + 6) % 7;                    // 0 = Thứ 2\nconst A = todayMs - wd * DAY, B = A + 6 * DAY;              // tuần này\nconst NA = A + 7 * DAY, NB = B + 7 * DAY;                   // tuần tới (lịch)\nconst PA = A - 7 * DAY, PB = B - 7 * DAY;                   // tuần trước\nconst t0 = t => encodeURIComponent(iso(t) + 'T00:00:00+07:00');\nconst r = `day=gte.${iso(A)}&day=lte.${iso(B)}`;\nconst reqId = Date.now();\nflow.set('emailReq', { id: reqId, mode, A: iso(A), B: iso(B), got: {} });\nconst q = {\n  emails:  'settings?select=value&key=eq.parent_emails',\n  daily:   `v_daily_minutes?select=day,minutes&${r}`,\n  subject: `v_subject_minutes?select=subject,minutes&${r}`,\n  pva:     `v_plan_vs_actual?select=planned,actual&${r}`,\n  prev:    `v_daily_minutes?select=minutes&day=gte.${iso(PA)}&day=lte.${iso(PB)}`,\n  sess:    `sessions?select=completed&start_ts=gte.${t0(A)}&start_ts=lt.${t0(B + DAY)}`,\n  low:     `events?select=ts&type=eq.low_light&ts=gte.${t0(A)}&ts=lt.${t0(B + DAY)}`,\n  plans:   `plans?select=day,start_time,end_time,subject,cycles&day=gte.${iso(NA)}&day=lte.${iso(NB)}&order=day,start_time`,\n};\nnode.status({ fill: 'blue', shape: 'dot', text: `${mode} ${iso(A)} → ${iso(B)}` });\nreturn [Object.entries(q).map(([kind, path]) => ({ url: SBU(path), method: 'GET', headers: SBH(), kind, reqId, requestTimeout: 10000 }))];",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 3082,
+    "wires": [
+      [
+        "p42_http"
+      ]
+    ]
+  },
+  {
+    "id": "p42_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase GET (báo cáo)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1290,
+    "y": 3082,
+    "wires": [
+      [
+        "p42_build"
+      ]
+    ]
+  },
+  {
+    "id": "p42_build",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – dựng email HTML",
+    "func": "const THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\nconst SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst st = flow.get('emailReq');\nif (!st || msg.reqId !== st.id) return null;\nlet rows = msg.payload;\nif (!(msg.statusCode >= 200 && msg.statusCode < 300) || !Array.isArray(rows)) {\n  node.warn(`Email ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 150)}`); rows = [];\n}\nst.got[msg.kind] = rows;\nif (Object.keys(st.got).length < 8) { flow.set('emailReq', st); return null; }\nflow.set('emailReq', null);\nconst g = st.got;\nconst dm = s => s.slice(8) + '/' + s.slice(5, 7);\nconst week = `${dm(st.A)}–${dm(st.B)}/${st.B.slice(0, 4)}`;\nconst to = g.emails.length ? String(g.emails[0].value || '').trim() : '';\nconst log = (status, attempt) => ({ url: SBU('email_reports'), method: 'POST', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }),\n  kind: 'email_log', payload: { week, to_email: to, status, attempt } });\nif (!to) return [null, log('Chua co email', 1), { payload: 'Chưa có email phụ huynh – nhập email rồi bấm \"Lưu email\"' }];\n\nconst hm = p => `${Math.floor(p / 60)} giờ ${p % 60} phút`;\nconst tong = g.daily.reduce((a, r) => a + r.minutes, 0), truoc = g.prev.reduce((a, r) => a + r.minutes, 0);\nconst n = g.sess.length, ok = g.sess.filter(r => r.completed).length;\nconst planned = g.pva.reduce((a, r) => a + r.planned, 0), actual = g.pva.reduce((a, r) => a + r.actual, 0);\nconst sm = {}; g.subject.forEach(r => sm[r.subject] = (sm[r.subject] || 0) + r.minutes);\nconst esc = s => String(s).replace(/[&<>\"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;' }[c]));\nconst td = 'style=\"padding:6px 10px;border-bottom:1px solid #e5e5e5\"';\nconst row = (a, b) => `<tr><td ${td}>${a}</td><td ${td}><b>${b}</b></td></tr>`;\nconst diff = tong - truoc;\nconst monRows = Object.entries(sm).sort((a, b) => b[1] - a[1]).map(([m, p]) => row(esc(m), hm(p))).join('') || row('Chưa học môn nào', '');\nconst lich = g.plans.map(p => { const wd = (new Date(Date.parse(p.day)).getUTCDay() + 6) % 7;\n  return row(`${THU[wd]} ${dm(p.day)} ${p.start_time.slice(0, 5)}–${p.end_time.slice(0, 5)}`, `${esc(p.subject)} (${p.cycles} chu kỳ)`); }).join('')\n  || row('Chưa có lịch tuần tới', 'Mở trang Lịch học AI để xếp');\nconst html = `<div style=\"font-family:Arial,sans-serif;max-width:560px;color:#222\">\n<h2 style=\"color:#1565c0;margin-bottom:4px\">Báo cáo học tập tuần ${week}</h2>\n<p style=\"margin-top:0;color:#666\">Đồng hồ Pomodoro để bàn – Nhóm 6</p>\n<h3>Tổng quan</h3><table style=\"border-collapse:collapse;width:100%\">\n${row('Tổng thời gian học', hm(tong))}\n${row('So với tuần trước', diff === 0 ? 'Bằng tuần trước' : (diff > 0 ? '+' : '−') + hm(Math.abs(diff)))}\n${row('Số chu kỳ / tỉ lệ hoàn thành', n ? `${n} chu kỳ · ${Math.round(ok / n * 100)}%` : 'Chưa có chu kỳ nào')}\n${row('Kế hoạch so với thực tế', `${actual}/${planned} buổi`)}\n${row('Số lần cảnh báo thiếu sáng', `${g.low.length} lần`)}</table>\n<h3>Thời gian theo môn</h3><table style=\"border-collapse:collapse;width:100%\">${monRows}</table>\n<h3>Lịch học tuần tới (AI xếp)</h3><table style=\"border-collapse:collapse;width:100%\">${lich}</table>\n<p style=\"color:#999;font-size:12px\">Email tự động gửi lúc 20:00 tối Chủ nhật. Phụ huynh không cần trả lời email này.</p></div>`;\nconst mail = { to, topic: `[Pomodoro] Báo cáo học tập tuần ${week}`, payload: html,\n               plaintext: `Báo cáo tuần ${week}: học ${hm(tong)}, ${n} chu kỳ, ${g.low.length} lần thiếu sáng.`,\n               week, attempt: 1, mode: st.mode };\nflow.set('emailSending', { week, to, attempt: 1 });\nnode.status({ fill: 'blue', shape: 'dot', text: `gửi tới ${to}` });\nreturn [mail, null, { payload: `Đang gửi báo cáo tuần ${week} tới ${to}…` }];",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1520,
+    "y": 3082,
+    "wires": [
+      [
+        "p42_email"
+      ],
+      [
+        "p4_sbw_http"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p42_email",
+    "type": "e-mail",
+    "z": "926f37b61fb23da8",
+    "server": "smtp.gmail.com",
+    "port": "465",
+    "authtype": "BASIC",
+    "saslformat": true,
+    "token": "oauth2Response.access_token",
+    "secure": true,
+    "tls": true,
+    "name": "",
+    "dname": "Gmail SMTP (App Password)",
+    "x": 1780,
+    "y": 3082,
+    "wires": []
+  },
+  {
+    "id": "p42_done",
+    "type": "complete",
+    "z": "926f37b61fb23da8",
+    "name": "gửi xong",
+    "scope": [
+      "p42_email"
+    ],
+    "uncaught": false,
+    "x": 1760,
+    "y": 3130,
+    "wires": [
+      [
+        "p42_ok"
+      ]
+    ]
+  },
+  {
+    "id": "p42_ok",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – ghi 'Da gui'",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nreturn [{ url: SBU('email_reports'), method: 'POST', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }), kind: 'email_log',\n          payload: { week: msg.week, to_email: msg.to, status: 'Da gui', attempt: msg.attempt } },\n        { payload: `Đã gửi báo cáo tuần ${msg.week} tới ${msg.to}` }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1940,
+    "y": 3130,
+    "wires": [
+      [
+        "p4_sbw_http"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p42_catch",
+    "type": "catch",
+    "z": "926f37b61fb23da8",
+    "name": "gửi lỗi",
+    "scope": [
+      "p42_email"
+    ],
+    "uncaught": false,
+    "x": 1760,
+    "y": 3180,
+    "wires": [
+      [
+        "p42_fail"
+      ]
+    ]
+  },
+  {
+    "id": "p42_fail",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID11 – ghi lỗi, thử lại sau 30 phút (tối đa 3 lần)",
+    "func": "const SBH = () => { const k = env.get('SUPABASE_KEY'); return { apikey: k, Authorization: 'Bearer ' + k, 'Content-Type': 'application/json' }; };\nconst SBU = path => env.get('SUPABASE_URL') + '/rest/v1/' + path;\n\nconst RETRY_MIN = 30;                       // khi test đổi thành 1, test xong trả lại 30\nconst err = String((msg.error && msg.error.message) || 'loi').slice(0, 80);\nconst logMsg = { url: SBU('email_reports'), method: 'POST', headers: Object.assign(SBH(), { Prefer: 'return=minimal' }), kind: 'email_log',\n                 payload: { week: msg.week, to_email: msg.to, status: 'Loi: ' + err, attempt: msg.attempt } };\nconst out = [logMsg, null, { payload: `Gửi email lỗi (lần ${msg.attempt}/3): ${err}` }];\nif (msg.attempt < 3) {\n  const again = RED.util.cloneMessage(msg);\n  delete again.error; again.attempt = msg.attempt + 1; again.delay = RETRY_MIN * 60000;\n  out[1] = again;\n  out[2].payload += ` – sẽ thử lại sau ${RETRY_MIN} phút`;\n}\nreturn out;",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1990,
+    "y": 3180,
+    "wires": [
+      [
+        "p4_sbw_http"
+      ],
+      [
+        "p42_delay"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p42_delay",
+    "type": "delay",
+    "z": "926f37b61fb23da8",
+    "name": "chờ thử lại (msg.delay)",
+    "pauseType": "delayv",
+    "timeout": "30",
+    "timeoutUnits": "minutes",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 1780,
+    "y": 3230,
+    "wires": [
+      [
+        "p42_email"
+      ]
+    ]
+  },
+  {
+    "id": "p9_route",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Mở trang nào?",
+    "func": "// $pageview: tải lại dữ liệu khi người dùng mở trang\nif (msg.topic !== '$pageview') return null;\nconst path = (msg.payload && msg.payload.page && msg.payload.page.path) || '';\nif (path === '/thong-ke') return [{ payload: 'refresh' }, null, null, null];\nif (path === '/lich-hoc') return [null, { payload: 'refresh' }, null, null];\nif (path === '/tong-quan') return [null, null, { payload: 'refresh' }, null];\nif (path === '/cai-dat') return [null, null, null, { payload: 'refresh' }];\nreturn null;",
+    "outputs": 4,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 960,
+    "y": 2160,
+    "wires": [
+      [
+        "p9_range"
+      ],
+      [
+        "p7_scoresReq"
+      ],
+      [
+        "p41_todayReq"
+      ],
+      [
+        "p42_loadReq"
+      ]
     ]
   }
 ]
