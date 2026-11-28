@@ -589,11 +589,11 @@
         "rows": null
       },
       {
-        "label": "Môn cần học (mỗi môn một dòng)",
+        "label": "Môn cần học (mỗi dòng: Tên môn, số buổi)",
         "key": "mon",
         "type": "multiline",
         "required": false,
-        "rows": 3
+        "rows": 4
       },
       {
         "label": "Môn ưu tiên",
@@ -627,7 +627,9 @@
     "x": 420,
     "y": 1272,
     "wires": [
-      []
+      [
+        "p7_c1"
+      ]
     ]
   },
   {
@@ -689,7 +691,9 @@
     "x": 420,
     "y": 1390,
     "wires": [
-      []
+      [
+        "p7_addTkb"
+      ]
     ]
   },
   {
@@ -715,72 +719,6 @@
     "className": "",
     "x": 420,
     "y": 1434,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "74b1a14dbf6650a7",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Thời khóa biểu đã nhập",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "",
-    "payload": "[{\"Thứ\":\"Thứ 2\",\"Bắt đầu\":\"07:00\",\"Kết thúc\":\"11:00\",\"Môn\":\"Giải tích\"},{\"Thứ\":\"Thứ 4\",\"Bắt đầu\":\"07:00\",\"Kết thúc\":\"09:30\",\"Môn\":\"Toán rời rạc\"},{\"Thứ\":\"Thứ 5\",\"Bắt đầu\":\"13:00\",\"Kết thúc\":\"16:00\",\"Môn\":\"Vật lý\"}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 1434,
-    "wires": [
-      [
-        "2c0bb099bbbf5875"
-      ]
-    ]
-  },
-  {
-    "id": "271add1e0236d797",
-    "type": "ui-button",
-    "z": "926f37b61fb23da8",
-    "group": "2ee8af9ddaae60e6",
-    "name": "",
-    "label": "Tải lên file CSV theo mẫu",
-    "order": 3,
-    "width": 0,
-    "height": 0,
-    "emulateClick": false,
-    "tooltip": "",
-    "color": "",
-    "bgcolor": "",
-    "className": "",
-    "icon": "upload",
-    "iconPosition": "left",
-    "payload": "Tải lên file CSV theo mẫu",
-    "payloadType": "str",
-    "topic": "topic",
-    "topicType": "msg",
-    "buttonColor": "",
-    "textColor": "",
-    "iconColor": "",
-    "enableClick": true,
-    "enablePointerdown": false,
-    "pointerdownPayload": "",
-    "pointerdownPayloadType": "str",
-    "enablePointerup": false,
-    "pointerupPayload": "",
-    "pointerupPayloadType": "str",
-    "x": 420,
-    "y": 1478,
     "wires": [
       []
     ]
@@ -819,7 +757,9 @@
     "x": 420,
     "y": 1522,
     "wires": [
-      []
+      [
+        "p7_c2"
+      ]
     ]
   },
   {
@@ -847,35 +787,6 @@
     "y": 1640,
     "wires": [
       []
-    ]
-  },
-  {
-    "id": "af09ff9ec0a824fb",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Lịch tuần",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "",
-    "payload": "[{\"Ngày\":\"Thứ 3\",\"Giờ\":\"19:00\",\"Môn\":\"Toán\",\"Số chu kỳ\":\"3 × 25 phút\",\"Khả năng hoàn thành\":\"78%\",\"Lý do\":\"Trước tiết Toán rời rạc sáng Thứ 4\"},{\"Ngày\":\"Thứ 3\",\"Giờ\":\"20:45\",\"Môn\":\"Anh văn\",\"Số chu kỳ\":\"2 × 25 phút\",\"Khả năng hoàn thành\":\"71%\",\"Lý do\":\"Môn tuần trước học ít\"},{\"Ngày\":\"Thứ 4\",\"Giờ\":\"19:30\",\"Môn\":\"Vật lý\",\"Số chu kỳ\":\"3 × 25 phút\",\"Khả năng hoàn thành\":\"74%\",\"Lý do\":\"Trước tiết Vật lý chiều Thứ 5\"}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 1640,
-    "wires": [
-      [
-        "ec8d0b5c6c14bb20"
-      ]
     ]
   },
   {
@@ -912,7 +823,9 @@
     "x": 420,
     "y": 1684,
     "wires": [
-      []
+      [
+        "p7_save"
+      ]
     ]
   },
   {
@@ -949,7 +862,9 @@
     "x": 420,
     "y": 1728,
     "wires": [
-      []
+      [
+        "p7_again"
+      ]
     ]
   },
   {
@@ -975,7 +890,7 @@
     "yAxisProperty": "y",
     "yAxisPropertyType": "property",
     "ymin": "0",
-    "ymax": "",
+    "ymax": "100",
     "bins": 10,
     "action": "replace",
     "stackSeries": false,
@@ -1015,35 +930,6 @@
     ]
   },
   {
-    "id": "eccad0debda30ce9",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Xác suất hoàn thành phiên (%) ·",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Xác suất hoàn thành (%)",
-    "payload": "[{\"x\":\"6h\",\"y\":55},{\"x\":\"7h\",\"y\":58},{\"x\":\"8h\",\"y\":62},{\"x\":\"9h\",\"y\":60},{\"x\":\"10h\",\"y\":52},{\"x\":\"11h\",\"y\":48},{\"x\":\"12h\",\"y\":50},{\"x\":\"13h\",\"y\":53},{\"x\":\"14h\",\"y\":55},{\"x\":\"15h\",\"y\":57},{\"x\":\"16h\",\"y\":60},{\"x\":\"17h\",\"y\":65},{\"x\":\"18h\",\"y\":72},{\"x\":\"19h\",\"y\":78},{\"x\":\"20h\",\"y\":76},{\"x\":\"21h\",\"y\":70},{\"x\":\"22h\",\"y\":60},{\"x\":\"23h\",\"y\":50}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 1846,
-    "wires": [
-      [
-        "510aa7a50dc73d19"
-      ]
-    ]
-  },
-  {
     "id": "d1a97d149eb97ead",
     "type": "ui-text",
     "z": "926f37b61fb23da8",
@@ -1061,8 +947,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "08/11/2026 21:30",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 1890,
     "wires": []
@@ -1085,8 +971,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "81%",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 1934,
     "wires": []
@@ -1125,7 +1011,9 @@
     "x": 420,
     "y": 1978,
     "wires": [
-      []
+      [
+        "p7_trainReq"
+      ]
     ]
   },
   {
@@ -1177,32 +1065,6 @@
     "x": 420,
     "y": 1802,
     "wires": []
-  },
-  {
-    "id": "pmdtic52b7198483b1f1a",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] hiện chữ cho các ô chữ",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "",
-    "payload": "ok",
-    "payloadType": "str",
-    "x": 120,
-    "y": 1802,
-    "wires": [
-      [
-        "d1a97d149eb97ead",
-        "8644c9f3792aa9be"
-      ]
-    ]
   },
   {
     "id": "pmd_fn_toggle",
@@ -1280,8 +1142,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "5 giờ 25 phút",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 2162,
     "wires": []
@@ -1304,8 +1166,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "+40 phút",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 2206,
     "wires": []
@@ -1328,8 +1190,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "13 / 15 phiên (87%)",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 2250,
     "wires": []
@@ -1352,8 +1214,8 @@
     "color": "#717171",
     "wrapText": true,
     "className": "",
-    "value": "3",
-    "valueType": "str",
+    "value": "payload",
+    "valueType": "msg",
     "x": 420,
     "y": 2294,
     "wires": []
@@ -1421,35 +1283,6 @@
     ]
   },
   {
-    "id": "fee20587287a125a",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Phút học ·",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Phút học",
-    "payload": "[{\"x\":\"T2\",\"y\":75},{\"x\":\"T3\",\"y\":50},{\"x\":\"T4\",\"y\":25},{\"x\":\"T5\",\"y\":75},{\"x\":\"T6\",\"y\":25},{\"x\":\"T7\",\"y\":50},{\"x\":\"CN\",\"y\":25}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 2412,
-    "wires": [
-      [
-        "9a349c56b8cfb688"
-      ]
-    ]
-  },
-  {
     "id": "c4eec28fa767e890",
     "type": "ui-chart",
     "z": "926f37b61fb23da8",
@@ -1472,7 +1305,7 @@
     "yAxisProperty": "y",
     "yAxisPropertyType": "property",
     "ymin": "0",
-    "ymax": "180",
+    "ymax": "",
     "bins": 10,
     "action": "replace",
     "stackSeries": false,
@@ -1520,8 +1353,8 @@
     "label": "Số buổi",
     "order": 1,
     "chartType": "bar",
-    "category": "topic",
-    "categoryType": "msg",
+    "category": "series",
+    "categoryType": "property",
     "xAxisLabel": "",
     "xAxisProperty": "x",
     "xAxisPropertyType": "property",
@@ -1536,14 +1369,14 @@
     "ymin": "0",
     "ymax": "",
     "bins": 10,
-    "action": "append",
+    "action": "replace",
     "stackSeries": false,
     "pointShape": "circle",
     "pointRadius": 4,
     "showLegend": true,
     "removeOlder": 1,
     "removeOlderUnit": "3600",
-    "removeOlderPoints": "7",
+    "removeOlderPoints": "",
     "colors": [
       "#0095FF",
       "#2CA02C",
@@ -1574,64 +1407,6 @@
     ]
   },
   {
-    "id": "5e5f57b31529dce9",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Số buổi ·",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Kế hoạch",
-    "payload": "[{\"x\":\"T2\",\"y\":3},{\"x\":\"T3\",\"y\":2},{\"x\":\"T4\",\"y\":2},{\"x\":\"T5\",\"y\":3},{\"x\":\"T6\",\"y\":2},{\"x\":\"T7\",\"y\":2},{\"x\":\"CN\",\"y\":1}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 2648,
-    "wires": [
-      [
-        "84bd8840fd8a7a97"
-      ]
-    ]
-  },
-  {
-    "id": "40983333f673a555",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Số buổi ·",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Thực tế",
-    "payload": "[{\"x\":\"T2\",\"y\":3},{\"x\":\"T3\",\"y\":2},{\"x\":\"T4\",\"y\":1},{\"x\":\"T5\",\"y\":3},{\"x\":\"T6\",\"y\":1},{\"x\":\"T7\",\"y\":2},{\"x\":\"CN\",\"y\":1}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 2648,
-    "wires": [
-      [
-        "84bd8840fd8a7a97"
-      ]
-    ]
-  },
-  {
     "id": "ac26683323344c21",
     "type": "ui-chart",
     "z": "926f37b61fb23da8",
@@ -1653,8 +1428,8 @@
     "yAxisLabel": "",
     "yAxisProperty": "y",
     "yAxisPropertyType": "property",
-    "ymin": "",
-    "ymax": "",
+    "ymin": "0",
+    "ymax": "100",
     "bins": 10,
     "action": "replace",
     "stackSeries": false,
@@ -1694,64 +1469,6 @@
     ]
   },
   {
-    "id": "feb5a2a3107cd105",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Độ sáng (%)",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Độ sáng TB (%)",
-    "payload": "[{\"x\":\"6h\",\"y\":35},{\"x\":\"7h\",\"y\":45},{\"x\":\"8h\",\"y\":60},{\"x\":\"9h\",\"y\":70},{\"x\":\"10h\",\"y\":75},{\"x\":\"11h\",\"y\":70},{\"x\":\"12h\",\"y\":65},{\"x\":\"13h\",\"y\":60},{\"x\":\"14h\",\"y\":62},{\"x\":\"15h\",\"y\":65},{\"x\":\"16h\",\"y\":60},{\"x\":\"17h\",\"y\":55},{\"x\":\"18h\",\"y\":50},{\"x\":\"19h\",\"y\":48},{\"x\":\"20h\",\"y\":45},{\"x\":\"21h\",\"y\":40},{\"x\":\"22h\",\"y\":38},{\"x\":\"23h\",\"y\":35}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 2766,
-    "wires": [
-      [
-        "ac26683323344c21"
-      ]
-    ]
-  },
-  {
-    "id": "pmdsubj00000001",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] Theo môn",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 1.5,
-    "topic": "Phút học",
-    "payload": "[{\"x\":\"Toán\",\"y\":150},{\"x\":\"Anh văn\",\"y\":100},{\"x\":\"Vật lý\",\"y\":75}]",
-    "payloadType": "json",
-    "x": 120,
-    "y": 2530,
-    "wires": [
-      [
-        "c4eec28fa767e890"
-      ]
-    ]
-  },
-  {
     "id": "pmdc4bfb0ab7d187aa70",
     "type": "comment",
     "z": "926f37b61fb23da8",
@@ -1760,34 +1477,6 @@
     "x": 420,
     "y": 2118,
     "wires": []
-  },
-  {
-    "id": "pmdti4bfb0ab7d187aa70",
-    "type": "inject",
-    "z": "926f37b61fb23da8",
-    "name": "[MẪU] hiện chữ cho các ô chữ",
-    "props": [
-      {
-        "p": "payload"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": true,
-    "onceDelay": 2,
-    "topic": "",
-    "payload": "ok",
-    "payloadType": "str",
-    "x": 120,
-    "y": 2118,
-    "wires": [
-      [
-        "e0f3e357448e83ee",
-        "2421cafae1d8d0a7",
-        "9e8478a7d880855d",
-        "38443b8d57b97cc9"
-      ]
-    ]
   },
   {
     "id": "pmdce069b8398f56b7d1",
@@ -1864,7 +1553,9 @@
     "x": 420,
     "y": 2488,
     "wires": [
-      []
+      [
+        "p9_range"
+      ]
     ]
   },
   {
@@ -2309,7 +2000,9 @@
     "x": 470,
     "y": 160,
     "wires": [
-      []
+      [
+        "p9_delay"
+      ]
     ],
     "l": true
   },
@@ -2470,6 +2163,766 @@
       [
         "083316ae5717ecb8"
       ]
+    ]
+  },
+  {
+    "id": "p9_cmt",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "ID9 – Thống kê: chọn khoảng → 7 GET Supabase (views) → 4 biểu đồ + Tổng kết",
+    "info": "",
+    "x": 900,
+    "y": 2080,
+    "wires": []
+  },
+  {
+    "id": "p9_evt",
+    "type": "ui-event",
+    "z": "926f37b61fb23da8",
+    "ui": "b554ed0ebaf56bc9",
+    "name": "Mở trang dashboard",
+    "x": 760,
+    "y": 2160,
+    "wires": [
+      [
+        "p9_route"
+      ]
+    ]
+  },
+  {
+    "id": "p9_route",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Mở trang nào?",
+    "func": "// $pageview: tải lại dữ liệu khi người dùng mở trang\nif (msg.topic !== '$pageview') return null;\nconst path = (msg.payload && msg.payload.page && msg.payload.page.path) || '';\nif (path === '/thong-ke') return [{ payload: 'refresh' }, null];\nif (path === '/lich-hoc') return [null, { payload: 'refresh' }];\nreturn null;",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 960,
+    "y": 2160,
+    "wires": [
+      [
+        "p9_range"
+      ],
+      [
+        "p7_scoresReq"
+      ]
+    ]
+  },
+  {
+    "id": "p9_start",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Tải khi khởi động",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 3,
+    "topic": "",
+    "payload": "refresh",
+    "payloadType": "str",
+    "x": 770,
+    "y": 2210,
+    "wires": [
+      [
+        "p9_range"
+      ]
+    ]
+  },
+  {
+    "id": "p9_delay",
+    "type": "delay",
+    "z": "926f37b61fb23da8",
+    "name": "đợi Khoa ghi xong (3 s)",
+    "pauseType": "delay",
+    "timeout": "3",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 800,
+    "y": 2260,
+    "wires": [
+      [
+        "p9_range"
+      ]
+    ]
+  },
+  {
+    "id": "p9_range",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID9 – tính khoảng ngày → 7 request",
+    "func": "// Tuần này = Thứ 2..CN; Tháng này = ngày 1..cuối tháng (giờ VN).\n// So sánh với CÙNG KỲ trước đó (tuần trước: Thứ 2..cùng thứ hôm nay).\nlet kind = flow.get('tkKind') || 'tuan';\nif (msg.payload === 'tuan' || msg.payload === 'thang') kind = msg.payload;\nflow.set('tkKind', kind);\nconst DAY = 86400000;\nconst vn = new Date(Date.now() + 7 * 3600000);              // getUTC* = giờ VN\nconst y = vn.getUTCFullYear(), mo = vn.getUTCMonth(), dd = vn.getUTCDate();\nconst today = Date.UTC(y, mo, dd);\nlet A, B, PA, PB;\nif (kind === 'tuan') {\n  A = today - ((vn.getUTCDay() + 6) % 7) * DAY;             // Thứ 2\n  B = A + 6 * DAY;\n  PA = A - 7 * DAY; PB = today - 7 * DAY;\n} else {\n  A = Date.UTC(y, mo, 1); B = Date.UTC(y, mo + 1, 0);\n  PA = Date.UTC(y, mo - 1, 1);\n  PB = Date.UTC(y, mo - 1, Math.min(dd, new Date(Date.UTC(y, mo, 0)).getUTCDate()));\n}\nconst d = t => new Date(t).toISOString().slice(0, 10);\nconst t0 = t => encodeURIComponent(d(t) + 'T00:00:00+07:00');\nconst reqId = Date.now();\nflow.set('tkReq', { id: reqId, kind, A: d(A), B: d(B), got: {} });\nconst key = env.get('SUPABASE_KEY');\nconst headers = { apikey: key, Authorization: 'Bearer ' + key };\nconst r = `day=gte.${d(A)}&day=lte.${d(B)}`;\nconst q = {\n  daily:   `v_daily_minutes?select=day,minutes&${r}`,\n  subject: `v_subject_minutes?select=subject,minutes&${r}`,\n  pva:     `v_plan_vs_actual?select=day,planned,actual&${r}`,\n  lux:     `v_lux_hourly?select=hour,lux_avg&${r}`,\n  prev:    `v_daily_minutes?select=minutes&day=gte.${d(PA)}&day=lte.${d(PB)}`,\n  sess:    `sessions?select=completed&start_ts=gte.${t0(A)}&start_ts=lt.${t0(B + DAY)}`,\n  low:     `events?select=id&type=eq.low_light&ts=gte.${t0(A)}&ts=lt.${t0(B + DAY)}`,\n};\nnode.status({ fill: 'blue', shape: 'dot', text: `${kind} ${d(A)} → ${d(B)}` });\nreturn [Object.entries(q).map(([kindReq, path]) => ({\n  url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: 'GET', headers,\n  kind: kindReq, reqId, requestTimeout: 10000 }))];",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 2210,
+    "wires": [
+      [
+        "p9_http"
+      ]
+    ]
+  },
+  {
+    "id": "p9_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase GET (ID9)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1300,
+    "y": 2210,
+    "wires": [
+      [
+        "p9_gom"
+      ]
+    ]
+  },
+  {
+    "id": "p9_gom",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID9 – gom 7 kết quả → biểu đồ",
+    "func": "const st = flow.get('tkReq');\nif (!st || msg.reqId !== st.id) return null;               // kết quả của lần tải cũ\nlet rows = msg.payload;\nif (!(msg.statusCode >= 200 && msg.statusCode < 300) || !Array.isArray(rows)) {\n  node.warn(`ID9 ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 150)}`);\n  rows = [];\n}\nst.got[msg.kind] = rows;\nif (Object.keys(st.got).length < 7) { flow.set('tkReq', st); return null; }\nflow.set('tkReq', null);\nconst g = st.got, DAY = 86400000;\nconst days = [];\nfor (let t = Date.parse(st.A); t <= Date.parse(st.B); t += DAY) days.push(new Date(t).toISOString().slice(0, 10));\nconst TH = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];\nconst label = s => st.kind === 'tuan' ? TH[new Date(s).getUTCDay()] : String(+s.slice(8));\n// 1. Phút học mỗi ngày (ngày không học = 0)\nconst m = {}; g.daily.forEach(r => m[r.day] = r.minutes);\nconst daily = days.map(s => ({ x: label(s), y: m[s] || 0 }));\n// 2. Phút theo môn (cộng dồn cả khoảng)\nconst sm = {}; g.subject.forEach(r => sm[r.subject] = (sm[r.subject] || 0) + r.minutes);\nconst subject = Object.entries(sm).sort((a, b) => b[1] - a[1]).map(([x, y]) => ({ x, y }));\n// 3. Kế hoạch so với thực tế (2 cột mỗi ngày)\nconst pv = {}; g.pva.forEach(r => pv[r.day] = r);\nconst pva = [];\ndays.forEach(s => {\n  const r = pv[s] || { planned: 0, actual: 0 };\n  pva.push({ x: label(s), y: r.planned, series: 'Kế hoạch' });\n  pva.push({ x: label(s), y: r.actual, series: 'Thực tế' });\n});\n// 4. Độ sáng trung bình theo giờ 6h–23h\nconst lh = {}; g.lux.forEach(r => (lh[r.hour] = lh[r.hour] || []).push(r.lux_avg));\nconst lux = [];\nfor (let h = 6; h <= 23; h++) if (lh[h]) lux.push({ x: h + 'h', y: Math.round(lh[h].reduce((a, b) => a + b, 0) / lh[h].length) });\n// Tổng kết\nconst tong = g.daily.reduce((a, r) => a + r.minutes, 0);\nconst truoc = g.prev.reduce((a, r) => a + r.minutes, 0);\nconst hm = p => `${Math.floor(p / 60)} giờ ${p % 60} phút`;\nconst ky = st.kind === 'tuan' ? 'tuần trước' : 'tháng trước';\nconst diff = tong - truoc, sign = diff > 0 ? '+' : '−';\nconst soSanh = diff === 0 ? `Bằng cùng kỳ ${ky}`\n  : `${sign}${hm(Math.abs(diff))}${truoc ? ` (${sign}${Math.round(Math.abs(diff) / truoc * 100)}%)` : ''} so với cùng kỳ ${ky}`;\nconst n = g.sess.length, ok = g.sess.filter(r => r.completed).length;\nconst phien = n ? `${n} chu kỳ · ${Math.round(ok / n * 100)}% hoàn thành` : 'Chưa có chu kỳ nào';\nnode.status({ fill: 'green', shape: 'dot', text: `${st.A} → ${st.B}: ${tong} phút` });\nconst P = (payload, topic) => ({ payload, topic });\nreturn [P(daily, 'Phút học'), P(subject, 'Phút học'), P(pva), P(lux, 'Độ sáng (%)'),\n        P(hm(tong)), P(soSanh), P(phien), P(`${g.low.length} lần`)];",
+    "outputs": 8,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 2310,
+    "wires": [
+      [
+        "9a349c56b8cfb688"
+      ],
+      [
+        "c4eec28fa767e890"
+      ],
+      [
+        "84bd8840fd8a7a97"
+      ],
+      [
+        "ac26683323344c21"
+      ],
+      [
+        "e0f3e357448e83ee"
+      ],
+      [
+        "2421cafae1d8d0a7"
+      ],
+      [
+        "9e8478a7d880855d"
+      ],
+      [
+        "38443b8d57b97cc9"
+      ]
+    ]
+  },
+  {
+    "id": "p7_cmt",
+    "type": "comment",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – Lịch học AI: form → POST ${AI_URL}/schedule → bảng → Lưu vào plans",
+    "info": "",
+    "x": 1100,
+    "y": 1110,
+    "wires": []
+  },
+  {
+    "id": "p7_c1",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – cách 1: ngày rảnh + môn",
+    "func": "const SESSION_MIN = 90, STUDY_MIN = 25, BREAK_MIN = 5;   // 1 buổi 90 phút = 3 × (25 + 5)\n\nconst f = msg.payload || {};\nconst keys = ['t2', 't3', 't4', 't5', 't6', 't7', 'cn'];\nconst free_days = keys.map((k, i) => f[k] ? i : -1).filter(i => i >= 0);\nconst subjects = [], loi = [];\nString(f.mon || '').split(/\\r?\\n/).forEach((line, i) => {\n  const s = line.trim(); if (!s) return;\n  const m = s.match(/^(.*?)[\\s,;:]+(\\d+)$/);            // \"Toán, 2\" hoặc \"Toán 2\"\n  const name = (m ? m[1] : s).trim(), n = m ? +m[2] : 2;  // không ghi số buổi → 2\n  if (!name || n < 1 || n > 7) loi.push(i + 1); else subjects.push({ name, sessions: n });\n});\nif (!free_days.length) return [null, { payload: 'Chọn ít nhất 1 ngày rảnh' }];\nif (loi.length) return [null, { payload: `Dòng ${loi.join(', ')} sai: ghi \"Tên môn, số buổi\" (1–7)` }];\nif (!subjects.length) return [null, { payload: 'Nhập môn cần học, mỗi dòng \"Tên môn, số buổi\"' }];\nreturn [{ payload: { mode: 'free_days', free_days, subjects, priority: String(f.uutien || '').trim(),\n                     session_min: SESSION_MIN, study_min: STUDY_MIN, break_min: BREAK_MIN } }, null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1272,
+    "wires": [
+      [
+        "p7_send"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_addTkb",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – thêm 1 tiết vào TKB",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\n// \"2\"..\"7\", \"T2\", \"Thứ 2\", \"CN\", \"Chủ nhật\" -> 0..6 (0 = Thứ 2)\nconst parseThu = s => {\n  const t = boDau(s).toLowerCase().replace(/\\s+/g, '');\n  if (t === 'cn' || t === 'chunhat' || t === '8') return 6;\n  const m = t.match(/^(?:thu|t)?([2-7])$/);\n  return m ? +m[1] - 2 : -1;\n};\nconst parseGio = s => {\n  const m = String(s || '').trim().match(/^(\\d{1,2})[:h](\\d{2})$/);\n  if (!m || +m[1] > 23 || +m[2] > 59) return null;\n  return m[1].padStart(2, '0') + ':' + m[2];\n};\nconst toTable = tkb => tkb.map(r => ({ 'Thứ': THU[r.day], 'Bắt đầu': r.start, 'Kết thúc': r.end, 'Môn': r.subject }));\n\nconst f = msg.payload || {};\nconst day = parseThu(f.thu), start = parseGio(f.bd), end = parseGio(f.kt), subject = String(f.mon || '').trim();\nif (day < 0 || !start || !end || start >= end || !subject)\n  return [null, { payload: 'Tiết không hợp lệ: Thứ (2–7 hoặc CN), giờ bắt đầu < giờ kết thúc, có tên môn' }];\nconst tkb = flow.get('tkb') || [];\ntkb.push({ day, start, end, subject });\ntkb.sort((a, b) => a.day - b.day || a.start.localeCompare(b.start));\nflow.set('tkb', tkb);\nreturn [{ payload: toTable(tkb) }, { payload: `Đã thêm ${THU[day]} ${start}–${end} ${subject}` }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1390,
+    "wires": [
+      [
+        "2c0bb099bbbf5875"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_file",
+    "type": "ui-file-input",
+    "z": "926f37b61fb23da8",
+    "group": "2ee8af9ddaae60e6",
+    "name": "",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "topic": "topic",
+    "topicType": "msg",
+    "label": "Tải lên file CSV (thu,bat_dau,ket_thuc,mon)",
+    "icon": "upload",
+    "allowMultiple": false,
+    "accept": ".csv,text/csv,text/plain",
+    "className": "",
+    "x": 440,
+    "y": 1478,
+    "wires": [
+      [
+        "p7_csv"
+      ]
+    ]
+  },
+  {
+    "id": "p7_csv",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – đọc CSV thời khóa biểu",
+    "func": "const boDau = s => String(s).normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\n// \"2\"..\"7\", \"T2\", \"Thứ 2\", \"CN\", \"Chủ nhật\" -> 0..6 (0 = Thứ 2)\nconst parseThu = s => {\n  const t = boDau(s).toLowerCase().replace(/\\s+/g, '');\n  if (t === 'cn' || t === 'chunhat' || t === '8') return 6;\n  const m = t.match(/^(?:thu|t)?([2-7])$/);\n  return m ? +m[1] - 2 : -1;\n};\nconst parseGio = s => {\n  const m = String(s || '').trim().match(/^(\\d{1,2})[:h](\\d{2})$/);\n  if (!m || +m[1] > 23 || +m[2] > 59) return null;\n  return m[1].padStart(2, '0') + ':' + m[2];\n};\nconst toTable = tkb => tkb.map(r => ({ 'Thứ': THU[r.day], 'Bắt đầu': r.start, 'Kết thúc': r.end, 'Môn': r.subject }));\n\nlet p = msg.payload;\nif (Buffer.isBuffer(p)) p = p.toString('utf8');\nelse if (p && p.type === 'Buffer' && Array.isArray(p.data)) p = Buffer.from(p.data).toString('utf8');\nelse if (p instanceof ArrayBuffer || ArrayBuffer.isView(p)) p = Buffer.from(p).toString('utf8');\nelse if (typeof p === 'string' && p.startsWith('data:')) p = Buffer.from(p.split(',')[1], 'base64').toString('utf8');\nconst lines = String(p || '').replace(/^\\uFEFF/, '').split(/\\r?\\n/);\nconst tkb = [], loi = [];\nlines.forEach((line, i) => {\n  if (!line.trim()) return;\n  const c = line.split(/[,;]/).map(s => s.trim());\n  if (i === 0 && parseThu(c[0]) < 0 && /thu|day/i.test(boDau(c[0]))) return;   // dòng tiêu đề\n  const day = parseThu(c[0]), start = parseGio(c[1]), end = parseGio(c[2]), subject = (c[3] || '').trim();\n  if (c.length < 4 || day < 0 || !start || !end || start >= end || !subject) loi.push(i + 1);\n  else tkb.push({ day, start, end, subject });\n});\nif (loi.length) return [null, { payload: `CSV sai ở dòng ${loi.join(', ')} – cần: thu,bat_dau,ket_thuc,mon (vd 2,07:30,11:30,Toán). Chưa nạp.` }];\nif (!tkb.length) return [null, { payload: 'File CSV rỗng' }];\ntkb.sort((a, b) => a.day - b.day || a.start.localeCompare(b.start));\nflow.set('tkb', tkb);\nreturn [{ payload: toTable(tkb) }, { payload: `Đã nạp ${tkb.length} tiết từ ${(msg.file && msg.file.name) || 'CSV'}` }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1440,
+    "wires": [
+      [
+        "2c0bb099bbbf5875"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_btnClear",
+    "type": "ui-button",
+    "z": "926f37b61fb23da8",
+    "group": "2ee8af9ddaae60e6",
+    "name": "",
+    "label": "Xóa thời khóa biểu",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "emulateClick": false,
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "delete",
+    "iconPosition": "left",
+    "payload": "clear",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "buttonColor": "",
+    "iconColor": "",
+    "enableClick": true,
+    "enablePointerdown": false,
+    "pointerdownPayload": "",
+    "pointerdownPayloadType": "str",
+    "enablePointerup": false,
+    "pointerupPayload": "",
+    "pointerupPayloadType": "str",
+    "x": 410,
+    "y": 1566,
+    "wires": [
+      [
+        "p7_clearTkb"
+      ]
+    ]
+  },
+  {
+    "id": "p7_clearTkb",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – xóa / hiện TKB",
+    "func": "if (msg.payload === 'clear') flow.set('tkb', []);\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\nmsg.payload = (flow.get('tkb') || []).map(r => ({ 'Thứ': THU[r.day], 'Bắt đầu': r.start, 'Kết thúc': r.end, 'Môn': r.subject }));\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1566,
+    "wires": [
+      [
+        "2c0bb099bbbf5875"
+      ]
+    ]
+  },
+  {
+    "id": "p7_init",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Hiện TKB khi khởi động",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 2,
+    "topic": "",
+    "payload": "show",
+    "payloadType": "str",
+    "x": 160,
+    "y": 1500,
+    "wires": [
+      [
+        "p7_clearTkb"
+      ]
+    ]
+  },
+  {
+    "id": "p7_c2",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – cách 2: TKB → môn cần học",
+    "func": "const SESSION_MIN = 90, STUDY_MIN = 25, BREAK_MIN = 5;   // 1 buổi 90 phút = 3 × (25 + 5)\n\nconst tkb = flow.get('tkb') || [];\nif (!tkb.length) return [null, { payload: 'Chưa có thời khóa biểu: thêm tiết hoặc tải CSV' }];\n// Mỗi môn trên lớp: số buổi tự học = số tiết trong tuần (tối đa 3)\nconst dem = {}; tkb.forEach(r => dem[r.subject] = (dem[r.subject] || 0) + 1);\nconst subjects = Object.entries(dem).map(([name, n]) => ({ name, sessions: Math.min(3, n) }));\nreturn [{ payload: { mode: 'timetable', timetable: tkb, subjects, priority: '',\n                     session_min: SESSION_MIN, study_min: STUDY_MIN, break_min: BREAK_MIN } }, null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1522,
+    "wires": [
+      [
+        "p7_send"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_again",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – sinh lại (dùng yêu cầu trước)",
+    "func": "const body = flow.get('aiLastReq');\nif (!body) return [null, { payload: 'Chưa sinh lịch lần nào' }];\nreturn [{ payload: body }, null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1728,
+    "wires": [
+      [
+        "p7_send"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_send",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – POST /schedule",
+    "func": "flow.set('aiLastReq', msg.payload);\nreturn { url: env.get('AI_URL') + '/schedule', method: 'POST', payload: msg.payload,\n         headers: { 'Content-Type': 'application/json' }, kind: 'schedule', requestTimeout: 15000 };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 1600,
+    "wires": [
+      [
+        "p7_http"
+      ]
+    ]
+  },
+  {
+    "id": "p7_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "AI service (Flask)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1290,
+    "y": 1700,
+    "wires": [
+      [
+        "p7_aiResp"
+      ]
+    ]
+  },
+  {
+    "id": "p7_aiResp",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – chia kết quả AI",
+    "func": "if (!(msg.statusCode >= 200 && msg.statusCode < 300) && !(msg.payload && msg.payload.message))\n  return [null, null, null, { payload: `Dịch vụ AI trả lỗi HTTP ${msg.statusCode}` }];\nif (msg.kind === 'schedule') return [msg, null, null, null];\nif (msg.kind === 'scores') return [null, msg, null, null];\nif (msg.kind === 'train') return [null, null, msg, null];\nreturn null;",
+    "outputs": 4,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1500,
+    "y": 1700,
+    "wires": [
+      [
+        "p7_show"
+      ],
+      [
+        "p7_scoresShow"
+      ],
+      [
+        "p7_trained"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_show",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – hiện lịch tuần",
+    "func": "const d = msg.payload || {};\nif (!d.ok) return [null, { payload: d.message || 'AI không xếp được lịch' }];\nconst THU = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];\nconst vnReason = r => {\n  let m = String(r).match(/^Truoc tiet (.+) (Thu [2-7]|Chu nhat)$/);\n  if (m) return `Trước tiết ${m[1]} ${m[2] === 'Chu nhat' ? 'Chủ nhật' : m[2].replace('Thu', 'Thứ')}`;\n  if (r === 'Mon uu tien') return 'Môn ưu tiên';\n  m = String(r).match(/^Kha nang hoan thanh cao \\((\\d+)%\\)$/);\n  return m ? `Khả năng hoàn thành cao (${m[1]}%)` : r;\n};\n// Tuần áp dụng: T2–T6 → tuần này; T7, CN → tuần sau\nconst DAY = 86400000, vn = new Date(Date.now() + 7 * 3600000);\nconst today = Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), vn.getUTCDate());\nconst wd = (vn.getUTCDay() + 6) % 7;                          // 0 = Thứ 2\nconst ws = today - wd * DAY + (wd >= 5 ? 7 * DAY : 0);\nconst iso = t => new Date(t).toISOString().slice(0, 10);\nconst req = flow.get('aiLastReq') || {};\nconst study = req.study_min || 25;\nconst rows = d.plan.map(p => ({\n  week_start: iso(ws), day: iso(ws + p.day * DAY), start_time: p.start, end_time: p.end,\n  subject: p.subject, cycles: p.cycles, score: p.score, reason: vnReason(p.reason) }));\nflow.set('aiPlan', rows);\nconst dm = s => s.slice(8) + '/' + s.slice(5, 7);\nconst table = d.plan.map((p, i) => ({\n  'Ngày': `${THU[p.day]} ${dm(rows[i].day)}`, 'Giờ': `${p.start}–${p.end}`, 'Môn': p.subject,\n  'Số chu kỳ': `${p.cycles} × ${study} phút`, 'Khả năng hoàn thành': Math.round(p.score * 100) + '%',\n  'Lý do': rows[i].reason }));\nreturn [{ payload: table }, { payload: `AI xếp ${rows.length} buổi cho tuần ${dm(iso(ws))} – bấm \"Lưu lịch\" để lưu` }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1720,
+    "y": 1640,
+    "wires": [
+      [
+        "ec8d0b5c6c14bb20"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_save",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – Lưu lịch: xóa tuần cũ",
+    "func": "const SB = (path, method, body, extra) => {\n  const key = env.get('SUPABASE_KEY');\n  return Object.assign({\n    url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: method || 'GET', payload: body,\n    headers: Object.assign({ apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },\n                           method === 'POST' ? { Prefer: 'return=minimal' } : {}),\n    requestTimeout: 10000 }, extra || {});\n};\nconst rows = flow.get('aiPlan');\nif (!rows || !rows.length) return [null, { payload: 'Chưa có lịch để lưu – bấm \"Sinh lịch tuần bằng AI\" trước' }];\nreturn [SB('plans?week_start=eq.' + rows[0].week_start, 'DELETE', undefined, { kind: 'del', rows }), null];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1684,
+    "wires": [
+      [
+        "p7_sb_http"
+      ],
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_sb_http",
+    "type": "http request",
+    "z": "926f37b61fb23da8",
+    "name": "Supabase (ID7)",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 1060,
+    "y": 1780,
+    "wires": [
+      [
+        "p7_sbResp"
+      ]
+    ]
+  },
+  {
+    "id": "p7_sbResp",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – bước tiếp theo",
+    "func": "const SB = (path, method, body, extra) => {\n  const key = env.get('SUPABASE_KEY');\n  return Object.assign({\n    url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: method || 'GET', payload: body,\n    headers: Object.assign({ apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },\n                           method === 'POST' ? { Prefer: 'return=minimal' } : {}),\n    requestTimeout: 10000 }, extra || {});\n};\nconst ok = msg.statusCode >= 200 && msg.statusCode < 300;\nif (!ok) {\n  node.warn(`ID7 ${msg.kind}: HTTP ${msg.statusCode} ${JSON.stringify(msg.payload).slice(0, 200)}`);\n  return [null, { payload: `Lỗi Supabase (${msg.kind}) HTTP ${msg.statusCode}` }, null];\n}\nif (msg.kind === 'del') return [SB('plans', 'POST', msg.rows, { kind: 'ins', n: msg.rows.length }), null, null];\nif (msg.kind === 'ins') return [null, { payload: `Đã lưu ${msg.n} buổi vào bảng plans` }, null];\nif (msg.kind === 'trainData') {\n  const sessions = Array.isArray(msg.payload) ? msg.payload : [];\n  return [null, null, { url: env.get('AI_URL') + '/train', method: 'POST', payload: { sessions },\n                        headers: { 'Content-Type': 'application/json' }, kind: 'train', requestTimeout: 60000 }];\n}\nreturn null;",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1290,
+    "y": 1780,
+    "wires": [
+      [
+        "p7_sb_http"
+      ],
+      [
+        "p7_notify"
+      ],
+      [
+        "p7_http"
+      ]
+    ]
+  },
+  {
+    "id": "p7_scoresInit",
+    "type": "inject",
+    "z": "926f37b61fb23da8",
+    "name": "Tải /scores khi khởi động",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 5,
+    "topic": "",
+    "payload": "refresh",
+    "payloadType": "str",
+    "x": 780,
+    "y": 1846,
+    "wires": [
+      [
+        "p7_scoresReq"
+      ]
+    ]
+  },
+  {
+    "id": "p7_scoresReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – GET /scores (hôm nay)",
+    "func": "const wd = (new Date(Date.now() + 7 * 3600000).getUTCDay() + 6) % 7;   // 0 = Thứ 2\nreturn { url: `${env.get('AI_URL')}/scores?day=${wd}&session_min=90`, method: 'GET',\n         kind: 'scores', requestTimeout: 8000 };",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1060,
+    "y": 1846,
+    "wires": [
+      [
+        "p7_http"
+      ]
+    ]
+  },
+  {
+    "id": "p7_scoresShow",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – hiện xác suất theo giờ",
+    "func": "const d = msg.payload || {};\nconst chart = (d.scores || []).map(s => ({ x: s.hour + 'h', y: Math.round(s.p * 100) }));\nconst t = d.trained_at ? new Date(d.trained_at) : null;\nconst p2 = n => String(n).padStart(2, '0');\nconst vn = t ? new Date(t.getTime() + 7 * 3600000) : null;\nconst when = vn ? `${p2(vn.getUTCDate())}/${p2(vn.getUTCMonth() + 1)}/${vn.getUTCFullYear()} ${p2(vn.getUTCHours())}:${p2(vn.getUTCMinutes())}` : '—';\nconst acc = d.test_accuracy != null ? Math.round(d.test_accuracy * 100) + '%' : '—';\nreturn [{ payload: chart, topic: 'Xác suất hoàn thành (%)' }, { payload: when }, { payload: acc }];",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1720,
+    "y": 1846,
+    "wires": [
+      [
+        "510aa7a50dc73d19"
+      ],
+      [
+        "d1a97d149eb97ead"
+      ],
+      [
+        "8644c9f3792aa9be"
+      ]
+    ]
+  },
+  {
+    "id": "p7_trainReq",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – lấy sessions để huấn luyện",
+    "func": "const SB = (path, method, body, extra) => {\n  const key = env.get('SUPABASE_KEY');\n  return Object.assign({\n    url: env.get('SUPABASE_URL') + '/rest/v1/' + path, method: method || 'GET', payload: body,\n    headers: Object.assign({ apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },\n                           method === 'POST' ? { Prefer: 'return=minimal' } : {}),\n    requestTimeout: 10000 }, extra || {});\n};\nreturn SB('sessions?select=start_ts,planned_min,focus_min,completed&dev=eq.pomo-01&order=start_ts', 'GET',\n          undefined, { kind: 'trainData' });",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 1978,
+    "wires": [
+      [
+        "p7_sb_http"
+      ]
+    ]
+  },
+  {
+    "id": "p7_trained",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "ID7 – đã huấn luyện xong",
+    "func": "const d = msg.payload || {};\nreturn [{ payload: `Huấn luyện xong: ${d.real_sessions} phiên thật, độ chính xác ${Math.round((d.test_accuracy || 0) * 100)}%` },\n        { payload: 'refresh' }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1720,
+    "y": 1940,
+    "wires": [
+      [
+        "p7_notify"
+      ],
+      [
+        "p7_scoresReq"
+      ]
+    ]
+  },
+  {
+    "id": "p7_catch",
+    "type": "catch",
+    "z": "926f37b61fb23da8",
+    "name": "Lỗi kết nối AI / Supabase",
+    "scope": [
+      "p7_http",
+      "p7_sb_http",
+      "p9_http"
+    ],
+    "uncaught": false,
+    "x": 1310,
+    "y": 1900,
+    "wires": [
+      [
+        "p7_err"
+      ]
+    ]
+  },
+  {
+    "id": "p7_err",
+    "type": "function",
+    "z": "926f37b61fb23da8",
+    "name": "Báo lỗi kết nối",
+    "func": "const src = msg.error && msg.error.source && msg.error.source.id;\nif (src === 'p7_http') msg.payload = `Dịch vụ AI chưa chạy (${env.get('AI_URL')}) – mở ai-service và chạy python app.py`;\nelse msg.payload = 'Không kết nối được Supabase: ' + (msg.error && msg.error.message);\nnode.warn(msg.payload);\nif (src === 'p9_http') return null;            // trang Thống kê: chỉ ghi debug, không bật thông báo\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1500,
+    "y": 1900,
+    "wires": [
+      [
+        "p7_notify"
+      ]
+    ]
+  },
+  {
+    "id": "p7_notify",
+    "type": "ui-notification",
+    "z": "926f37b61fb23da8",
+    "ui": "b554ed0ebaf56bc9",
+    "position": "top right",
+    "colorDefault": true,
+    "color": null,
+    "displayTime": "4",
+    "showCountdown": true,
+    "outputs": 1,
+    "allowDismiss": true,
+    "dismissText": "Đóng",
+    "allowConfirm": false,
+    "confirmText": "OK",
+    "raw": false,
+    "className": "",
+    "name": "Thông báo (Phát)",
+    "x": 1960,
+    "y": 1780,
+    "wires": [
+      []
     ]
   }
 ]

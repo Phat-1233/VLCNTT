@@ -336,17 +336,17 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Create `supabase/views.sql`, `supabase/seed.sql`; Modify `node-red/phat.json`.
 
-- [ ] `views.sql` (giờ VN = `at time zone 'Asia/Ho_Chi_Minh'`):
+- [x] `views.sql` (giờ VN = `at time zone 'Asia/Ho_Chi_Minh'`): _(4 view `security_invoker = true` để RLS vẫn chặn key public)_
   - `v_daily_minutes(day date, minutes int)` – tổng `focus_min` theo ngày
   - `v_subject_minutes(day date, subject text, minutes int)`
   - `v_lux_hourly(day date, hour int, lux_avg real)`
   - `v_plan_vs_actual(day date, planned int, actual int)` – `planned` = số dòng `plans`, `actual` = số cặp (ngày, môn) có ≥ 1 chu kỳ `completed`
-- [ ] `seed.sql`: 4 tuần gần nhất, `dev='pomo-01'`, 3 môn, ~60 chu kỳ (≈ 85% completed, dồn vào 19h–22h), `lux_readings` mỗi giờ, vài `low_light`, `plans` khớp một phần. Dòng đầu ghi cách xóa: `delete from sessions where start_ts < '<ngày bắt đầu dùng thật>';` (tương tự các bảng khác).
-- [ ] Chạy `views.sql` rồi `seed.sql` trên Supabase (báo Khoa trước khi chạy seed).
-- [ ] Trang **Thống kê**: `ui-button-group` Tuần này / Tháng này → tính khoảng ngày → GET các view với `?day=gte.X&day=lte.Y` → 4 `ui-chart` (phút/ngày; phút theo môn; kế hoạch vs thực tế cột đôi; độ sáng TB theo giờ dạng đường) + group **Tổng kết** (tổng thời gian, so với tuần trước, số phiên/tỉ lệ hoàn thành, số lần cảnh báo thiếu sáng).
-- [ ] Tự tải lại khi mở trang và khi có link in `session` mới.
-- [ ] Kiểm tra: so cột "phút/ngày" với `select sum(focus_min) ...` chạy tay trong SQL Editor → khớp; khoảng không có dữ liệu → biểu đồ trống, không báo lỗi.
-- [ ] Commit `ID9: views + seed + trang Thong ke`.
+- [x] `seed.sql`: 4 tuần gần nhất, `dev='pomo-01'`, 3 môn, ~60 chu kỳ (≈ 85% completed, dồn vào 19h–22h), `lux_readings` mỗi giờ, vài `low_light`, `plans` khớp một phần. Dòng đầu ghi cách xóa: `delete from sessions where start_ts < '<ngày bắt đầu dùng thật>';` (tương tự các bảng khác). _(31/10–27/11: 63 chu kỳ, 86% completed, 476 dòng lux, 6 `low_light`, 49 buổi plans)_
+- [x] Chạy `views.sql` rồi `seed.sql` trên Supabase (báo Khoa trước khi chạy seed). _(28/11)_
+- [x] Trang **Thống kê**: `ui-button-group` Tuần này / Tháng này → tính khoảng ngày → GET các view với `?day=gte.X&day=lte.Y` → 4 `ui-chart` (phút/ngày; phút theo môn; kế hoạch vs thực tế cột đôi; độ sáng TB theo giờ dạng đường) + group **Tổng kết** (tổng thời gian, so với tuần trước, số phiên/tỉ lệ hoàn thành, số lần cảnh báo thiếu sáng). _(ID9 – nút Tuần này/Tháng này → 7 GET song song (4 view + tuần trước + sessions + low_light) → gom → 4 chart + 4 ô chữ; so sánh với **cùng kỳ** trước)_
+- [x] Tự tải lại khi mở trang và khi có link in `session` mới. _(`ui-event` $pageview + link in `session` qua delay 3 s)_
+- [x] Kiểm tra: so cột "phút/ngày" với `select sum(focus_min) ...` chạy tay trong SQL Editor → khớp; khoảng không có dữ liệu → biểu đồ trống, không báo lỗi. _(28/11: SQL tay tuần 23–27/11 = 170 phút, dashboard 173 = 170 + 3 phút thật hôm nay; khi chưa có view → biểu đồ trống, chỉ warn ở debug)_
+- [x] Commit `ID9: views + seed + trang Thong ke`.
 
 ### Task 3.P2 – ID7 trang Lịch học AI [Phát]
 
@@ -354,25 +354,25 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Interfaces:** Consumes API của Task 2.P2. Produces dòng bảng `plans` (`week_start, day, start_time, end_time, subject, cycles, score, reason`) – Task 4.P1 và 4.P2 dùng.
 
-- [ ] Group **Chọn cách nhập**: `ui-button-group` "Chọn ngày rảnh và môn cần học" / "Gửi thời khóa biểu trên lớp" → ẩn/hiện form tương ứng.
-- [ ] Cách 1: 7 checkbox Thứ 2…CN, `ui-textarea` môn (mỗi dòng `Ten mon, so buoi`), ô "Môn ưu tiên", nút "Sinh lịch tuần bằng AI", "Xóa".
-- [ ] Cách 2: `ui-file-input` CSV (`day,start,end,subject`) hoặc textarea dán cùng định dạng; dòng sai định dạng → báo số dòng, không gửi.
-- [ ] Gọi `POST ${AI_URL}/schedule` → `ui-table` (Ngày, Giờ, Môn, Số chu kỳ "3 × 25 phút", Khả năng hoàn thành %, Lý do). `ok:false` hoặc AI không chạy → hiện thông báo, không treo.
-- [ ] "Lưu lịch": xóa `plans` của tuần đó (`DELETE ?week_start=eq.X`) rồi POST các dòng mới → "Đã lưu N buổi". "Sinh lại lịch" gọi lại `/schedule`.
-- [ ] Group **Khả năng hoàn thành theo giờ**: `GET /scores` → `ui-chart` cột 6h–23h, hiện "Huấn luyện lần cuối", "Độ chính xác (tập kiểm tra 20%)".
-- [ ] Kiểm tra: tắt Flask rồi bấm sinh lịch → dashboard báo "Dịch vụ AI chưa chạy"; bấm Lưu 2 lần → `plans` không bị nhân đôi.
-- [ ] Commit `ID7: trang Lich hoc AI + luu plans`.
+- [x] Group **Chọn cách nhập**: `ui-button-group` "Chọn ngày rảnh và môn cần học" / "Gửi thời khóa biểu trên lớp" → ẩn/hiện form tương ứng.
+- [x] Cách 1: 7 checkbox Thứ 2…CN, `ui-textarea` môn (mỗi dòng `Ten mon, so buoi`), ô "Môn ưu tiên", nút "Sinh lịch tuần bằng AI", "Xóa". _(form có sẵn; dòng môn nhận `Toán, 2` / `Toán 2` / `Toán 4 buổi`, thiếu số → 2)_
+- [x] Cách 2: `ui-file-input` CSV (`day,start,end,subject`) hoặc textarea dán cùng định dạng; dòng sai định dạng → báo số dòng, không gửi. _(form thêm từng tiết + `ui-file-input` CSV, mẫu `docs/tkb_mau.csv`; số buổi tự học mỗi môn = số tiết/tuần, tối đa 3)_
+- [x] Gọi `POST ${AI_URL}/schedule` → `ui-table` (Ngày, Giờ, Môn, Số chu kỳ "3 × 25 phút", Khả năng hoàn thành %, Lý do). `ok:false` hoặc AI không chạy → hiện thông báo, không treo. _(buổi 90 phút = 3 × (25+5); lý do dịch sang tiếng Việt; AI không xếp được → xóa bảng + báo lý do)_
+- [x] "Lưu lịch": xóa `plans` của tuần đó (`DELETE ?week_start=eq.X`) rồi POST các dòng mới → "Đã lưu N buổi". "Sinh lại lịch" gọi lại `/schedule`. _(tuần áp dụng: T2–T6 → tuần này, T7/CN → tuần sau; thêm nút **Xóa lịch** xóa bảng + `plans` tuần đó)_
+- [x] Group **Khả năng hoàn thành theo giờ**: `GET /scores` → `ui-chart` cột 6h–23h, hiện "Huấn luyện lần cuối", "Độ chính xác (tập kiểm tra 20%)". _(Huấn luyện lại: GET `sessions` → POST `/train` → tải lại `/scores`)_
+- [x] Kiểm tra: tắt Flask rồi bấm sinh lịch → dashboard báo "Dịch vụ AI chưa chạy"; bấm Lưu 2 lần → `plans` không bị nhân đôi. _(28/11: Flask tắt → thông báo "Dịch vụ AI chưa chạy"; Lưu 2 lần → `plans` tuần 30/11 có 10 dòng cùng 1 lần ghi)_
+- [x] Commit `ID7: trang Lich hoc AI + luu plans`.
 
 ### ✅ Mốc M3 – chuyển sang dữ liệu thật [Cả 2]
 - [ ] Mỗi máy dựng đủ hệ thống theo **Quy tắc mục 4** (env var, 3 file flow, credential broker/email, AI `.venv`, firmware nạp được). Làm lần lượt, máy này chạy thì máy kia tắt Node-RED.
   - [ ] Khoa
-  - [ ] Phát
+  - [x] Phát _(28/11: 3 tab, env, broker, firmware có gửi bù, AI `.venv`)_
 - [ ] Trên **từng máy**: học thử 1 chu kỳ 1 phút → `sessions` có dòng mới → trang Thống kê tự cập nhật.
   - [ ] Khoa
-  - [ ] Phát
+  - [x] Phát _(28/11: chu kỳ 1 phút 16:05 → ack → Thống kê tự tăng 1456 → 1457 phút, không F5)_
 - [ ] Trên **từng máy**: xếp lịch → Lưu → thấy trong bảng `plans`.
   - [ ] Khoa
-  - [ ] Phát
+  - [x] Phát _(28/11: 10 buổi tuần 30/11 trong `plans`)_
 
 ---
 
