@@ -74,9 +74,20 @@ Nếu plan này khác lộ trình thì **làm theo plan này** (plan đã chốt
 
 - **Board ESP32:** Khoa giữ trong Giai đoạn 1–3 (phần lớn firmware là của Khoa). Phát test OLED/buzzer ở buổi ghép và dùng **giả lập** khi không có board.
 - **Giả lập** trong `common.json` gửi `"dev":"sim-01"`. Tab của Khoa **bỏ qua mọi bản tin `dev` ≠ `pomo-01`** khi ghi Supabase, nên Phát bấm thử thoải mái mà không làm bẩn dữ liệu.
-- **Chỉ 1 Node-RED chạy tab Khoa tại một thời điểm.** Trước Mốc M3: máy Khoa. Từ Mốc M3 trở đi: **máy chính = laptop Phát** (máy chạy demo), Khoa import `khoa.json` vào đó và **tắt** Node-RED của mình (hoặc Disable tab của mình) khi máy chính đang chạy.
+- **Cả 2 laptop đều phải chạy được toàn bộ hệ thống** (Node-RED đủ 3 tab + AI service + nạp firmware) để mang máy nào đi vấn đáp cũng demo được. Cách dựng 1 máy: mục 4 bên dưới.
+- **Nhưng tại một thời điểm chỉ bật Node-RED trên 1 máy.** Cả 2 máy cùng nghe EMQX nên nếu cùng bật: `events`/`lux_readings` bị ghi đôi, cảnh báo thiếu sáng kêu 2 lần, board nhận 2 ack. Máy nào chạy thì người kia **tắt Node-RED** (hoặc Disable cả 3 tab). Trước Mốc M3 mặc định là máy Khoa.
+- **Git là bản gốc của flow.** Trước khi bật Node-RED: `git pull` rồi import lại file của **người kia** (Replace). Sửa tab của mình xong: export → commit → push, báo người kia pull.
 
-### 4. Git
+### 4. Dựng toàn bộ hệ thống trên 1 máy (cả 2 máy đều làm)
+
+1. Node-RED + palette `@flowfuse/node-red-dashboard`, `node-red-node-email`, `node-red-contrib-telegrambot`.
+2. 5 biến môi trường bằng `setx` (giá trị giống nhau trên 2 máy, gửi riêng cho nhau, **không** commit): `SUPABASE_URL`, `SUPABASE_KEY`, `AI_URL=http://localhost:5000`, `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID` → khởi động lại Node-RED.
+3. Import `common.json` → `khoa.json` → `phat.json` (Replace). Mở node broker EMQX ở tab Chung → nhập lại user/pass `nodered` (credential không đi theo file export). Nhập App Password Gmail vào node email.
+4. AI service: `cd ai-service` → `python -m venv .venv` → `.venv\Scripts\pip install -r requirements.txt` → `.venv\Scripts\python test_ai.py` (7/7) → `.venv\Scripts\python app.py`.
+5. Firmware: Arduino IDE + core esp32 + thư viện (Task 0.3), driver CP2102, `firmware/pomodoro/secrets.h` (WiFi nơi demo + EMQX user `esp32`), Partition Scheme **Huge APP**.
+6. Kiểm tra nhanh: board `online` → dashboard Online; học 1 chu kỳ 1 phút → `sessions` có dòng + Serial có ack; xếp lịch AI ra bảng.
+
+### 5. Git
 
 - Luôn `git pull --rebase` trước khi làm và trước khi push. Commit nhỏ, chỉ add file của mình.
 - Commit message dạng `ID1: ...`, `ID9: ...` để dễ dò lại.
@@ -281,9 +292,9 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `ID7: cycles, reason, uu tien + test`. _(commit 0c52618)_
 
 ### ✅ Mốc M2 – ghép lần 2 [Cả 2, có board]
-- [ ] Vặn núm chỉnh 1 phút / 2 chu kỳ → bấm nút → OLED và 7 đoạn cùng đếm, khớp nhau từng giây.
-- [ ] Che LDR → gauge tụt; bấm "Nhắc nhở" → buzzer kêu 3 tiếng.
-- [ ] `curl` `/schedule` cả 2 cách nhập trả lịch có `cycles`, `reason`.
+- [x] Vặn núm chỉnh 1 phút / 2 chu kỳ → bấm nút → OLED và 7 đoạn cùng đếm, khớp nhau từng giây. _(28/11: cả 2 cùng đọc `timerState.remainSec`; chu kỳ 1 phút hết đúng giờ, gửi session)_
+- [x] Che LDR → gauge tụt; bấm "Nhắc nhở" → buzzer kêu 3 tiếng. _(28/11: máy Khoa phải nạp lại `phat.json` mới (nút "Nhắc nhở" bản cũ chưa nối dây) → Serial `Buzzer: 3 tieng`)_
+- [x] `curl` `/schedule` cả 2 cách nhập trả lịch có `cycles`, `reason`. _(28/11, máy Khoa: `test_ai.py` 7/7; free_days và timetable đều `ok:true`, có `cycles`, `reason`)_
 
 ---
 
@@ -300,26 +311,26 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/khoa.json`.
 
-- [ ] Một function dùng chung trong tab Khoa dựng request: `msg.url = env.get("SUPABASE_URL") + "/rest/v1/<bảng>"`, header `apikey`, `Authorization: Bearer`, `Content-Type: application/json` → `http request` (POST).
-- [ ] Mọi luồng ghi bỏ qua bản tin `dev != "pomo-01"`.
-- [ ] `state` → bảng `events` (`ts` = `new Date(U*1000).toISOString()`, `type` = `event`, `detail` = cả bản tin).
-- [ ] `lux` → gom 60 s (trung bình) → bảng `lux_readings`.
-- [ ] `session` → upsert `sessions` với URL `?on_conflict=dev,start_ts` và header `Prefer: resolution=merge-duplicates` → nếu `statusCode` 2xx → `{"start_ts":U}` qua link out `to-ack`. Lỗi → `debug`, **không** gửi ack.
-- [ ] Kiểm tra: gửi cùng 1 bản tin `session` 3 lần (inject) → bảng `sessions` chỉ có 1 dòng, có 3 ack. Bản tin `sim-01` → không có dòng nào.
-- [ ] Commit `ID8: ghi events/lux/sessions + ack`.
+- [x] Một function dùng chung trong tab Khoa dựng request: `msg.url = env.get("SUPABASE_URL") + "/rest/v1/<bảng>"`, header `apikey`, `Authorization: Bearer`, `Content-Type: application/json` → `http request` (POST).
+- [x] Mọi luồng ghi bỏ qua bản tin `dev != "pomo-01"`.
+- [x] `state` → bảng `events` (`ts` = `new Date(U*1000).toISOString()`, `type` = `event`, `detail` = cả bản tin). _(bỏ `tick`)_
+- [x] `lux` → gom 60 s (trung bình) → bảng `lux_readings`. _(gom % từ đầu ra hàm ID5, cùng `LUX_INVERT`)_
+- [x] `session` → upsert `sessions` với URL `?on_conflict=dev,start_ts` và header `Prefer: resolution=merge-duplicates` → nếu `statusCode` 2xx → `{"start_ts":U}` qua link out `to-ack`. Lỗi → `debug`, **không** gửi ack.
+- [x] Kiểm tra: gửi cùng 1 bản tin `session` 3 lần (inject) → bảng `sessions` chỉ có 1 dòng, có 3 ack. Bản tin `sim-01` → không có dòng nào. _(28/11, Khoa: 1 dòng, Serial in 3 lần `ack start_ts=...`, sim-01 không ghi; đã xóa dòng test. Board thật: `start`/`stop` vào `events`, `lux_readings` có dòng sau 60 s)_
+- [x] Commit `ID8: ghi events/lux/sessions + ack`.
 
 ### Task 3.K2 – ID8 firmware gửi bù + ID5 cảnh báo thiếu sáng [Khoa]
 
 **Files:** Modify `firmware/pomodoro/session_queue.ino`, `node-red/khoa.json`.
 
-- [ ] `session_queue.ino`: mảng vòng 10 `SessionRec` trong RAM (`// ponytail: mất khi rút điện, chuyển sang Preferences nếu cần giữ qua mất nguồn`); đầy thì bỏ bản cũ nhất.
-- [ ] `sessionPush()` thêm vào hàng đợi rồi gửi ngay; `sessionQueueLoop()` mỗi 30 s (và ngay khi MQTT vừa nối lại) gửi lại các bản chưa ack; `sessionAck(ts)` xóa đúng bản có `startTs == ts`.
-- [ ] Lúc bắt đầu mà chưa có giờ NTP (`!timeValid()`): lưu `startMs`; đến lúc gửi mới tính `start_ts = nowTs() - (millis()-startMs)/1000`; vẫn chưa có giờ thì chưa gửi.
-- [ ] Node-RED: luật cảnh báo – `%` < ngưỡng **liên tục 30 s** và trạng thái gần nhất là `study` → gửi `{"type":"msg","text":"Phong thieu sang, hay bat den!","sec":10}` và `{"type":"beep","times":2}` qua `to-cmd`, ghi `events` type `low_light`; tối đa 1 lần / 5 phút.
-- [ ] Ngưỡng đọc/ghi bảng `settings` (`lux_threshold`) thay cho flow context: đọc khi Node-RED khởi động, kéo slider thì PATCH.
-- [ ] Kiểm tra gửi bù: chỉnh 1 phút, bắt đầu học, **tắt WiFi router** đến hết pha, bật lại → trong ≤ 30 s bảng `sessions` có dòng, Serial in đã nhận ack, không có dòng trùng.
-- [ ] Kiểm tra cảnh báo: che LDR khi đang học → sau ~30 s OLED hiện lời nhắc + kêu 2 tiếng; che tiếp 2 phút → không kêu lại.
-- [ ] Commit `ID8: gui bu phien` và `ID5: canh bao thieu sang`.
+- [x] `session_queue.ino`: mảng vòng 10 `SessionRec` trong RAM (`// ponytail: mất khi rút điện, chuyển sang Preferences nếu cần giữ qua mất nguồn`); đầy thì bỏ bản cũ nhất.
+- [x] `sessionPush()` thêm vào hàng đợi rồi gửi ngay; `sessionQueueLoop()` mỗi 30 s (và ngay khi MQTT vừa nối lại) gửi lại các bản chưa ack; `sessionAck(ts)` xóa đúng bản có `startTs == ts`.
+- [x] Lúc bắt đầu mà chưa có giờ NTP (`!timeValid()`): lưu `startMs`; đến lúc gửi mới tính `start_ts = nowTs() - (millis()-startMs)/1000`; vẫn chưa có giờ thì chưa gửi. _(giờ tính được ghi lại vào bản ghi, mọi lần gửi lại dùng cùng `start_ts`; `end_ts` tính tương tự từ `endMs`)_
+- [x] Node-RED: luật cảnh báo – `%` < ngưỡng **liên tục 30 s** và trạng thái gần nhất là `study` → gửi `{"type":"msg","text":"Phong thieu sang, hay bat den!","sec":10}` và `{"type":"beep","times":2}` qua `to-cmd`, ghi `events` type `low_light`; tối đa 1 lần / 5 phút.
+- [x] Ngưỡng đọc/ghi bảng `settings` (`lux_threshold`) thay cho flow context: đọc khi Node-RED khởi động, kéo slider thì PATCH. _(slider chỉ gửi khi thả tay)_
+- [x] Kiểm tra gửi bù: chỉnh 1 phút, bắt đầu học, **tắt WiFi router** đến hết pha, bật lại → trong ≤ 30 s bảng `sessions` có dòng, Serial in đã nhận ack, không có dòng trùng. _(28/11, Khoa: tắt hotspot iPhone; `sessions` không có `start_ts` trùng)_
+- [x] Kiểm tra cảnh báo: che LDR khi đang học → sau ~30 s OLED hiện lời nhắc + kêu 2 tiếng; che tiếp 2 phút → không kêu lại. _(28/11: `events` có 1 dòng `low_light` {pct 7, threshold 30}; slider 40 → `settings.lux_threshold` = 40)_
+- [x] Commit `ID8: gui bu phien` và `ID5: canh bao thieu sang`.
 
 ### Task 3.P1 – Views, dữ liệu mẫu và ID9 biểu đồ [Phát]
 
@@ -353,9 +364,15 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] Commit `ID7: trang Lich hoc AI + luu plans`.
 
 ### ✅ Mốc M3 – chuyển sang dữ liệu thật [Cả 2]
-- [ ] Từ đây **máy chính = laptop Phát**: import `common` → `khoa` → `phat`; Khoa tắt Node-RED của mình.
-- [ ] Học thử 1 chu kỳ 1 phút → `sessions` có dòng mới → trang Thống kê tự cập nhật.
-- [ ] Xếp lịch → Lưu → thấy trong bảng `plans`.
+- [ ] Mỗi máy dựng đủ hệ thống theo **Quy tắc mục 4** (env var, 3 file flow, credential broker/email, AI `.venv`, firmware nạp được). Làm lần lượt, máy này chạy thì máy kia tắt Node-RED.
+  - [ ] Khoa
+  - [ ] Phát
+- [ ] Trên **từng máy**: học thử 1 chu kỳ 1 phút → `sessions` có dòng mới → trang Thống kê tự cập nhật.
+  - [ ] Khoa
+  - [ ] Phát
+- [ ] Trên **từng máy**: xếp lịch → Lưu → thấy trong bảng `plans`.
+  - [ ] Khoa
+  - [ ] Phát
 
 ---
 
@@ -449,7 +466,9 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] 6. Hết phiên → Telegram (ID6), Supabase có dòng (ID8) **[Khoa]**, biểu đồ cập nhật (ID9) **[Phát]**
 - [ ] 7. Lịch học AI → xếp lịch → Lưu (ID7) **[Phát]**
 - [ ] 8. "Gửi thử" email (ID11) **[Phát]**
-- [ ] Chạy trọn kịch bản 2 lần liên tiếp không lỗi.
+- [ ] Chạy trọn kịch bản 2 lần liên tiếp không lỗi, **trên cả 2 máy** (đổi máy: tắt Node-RED máy cũ, `git pull` + import trên máy mới).
+  - [ ] Máy Khoa
+  - [ ] Máy Phát
 
 ### Task 5.4 – Báo cáo và proposal [Cả 2]
 - [ ] **[Phát]** Đổi mọi chữ "HiveMQ Cloud" → "EMQX Cloud" trong proposal/báo cáo (bảng chức năng, Hình 9 "Trạng thái hệ thống", Hình 10 cột "MQTT Broker"), thêm 1 câu lý do: HiveMQ ngừng gói Serverless free.
@@ -460,7 +479,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] **[Cả 2]** Mỗi người tự giải thích được luồng dữ liệu của **mọi** ID (vấn đáp), không chỉ phần mình.
   - [ ] Khoa
   - [ ] Phát
-- [ ] **[Cả 2]** Export lần cuối 3 file Node-RED từ máy chính, commit, tag `v1.0`.
+- [ ] **[Cả 2]** Export lần cuối 3 file Node-RED (mỗi người export tab của mình), commit, pull về **cả 2 máy** và import lại, chạy thử 1 lần mỗi máy → tag `v1.0`.
 
 ---
 

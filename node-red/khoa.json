@@ -227,7 +227,7 @@
         "width":  0,
         "height":  0,
         "passthru":  false,
-        "outs":  "all",
+        "outs":  "end",
         "topic":  "threshold",
         "topicType":  "str",
         "thumbLabel":  true,
@@ -246,7 +246,8 @@
         "y":  890,
         "wires":  [
                       [
-                          "k5lux0000000001"
+                          "k5lux0000000001",
+                          "k9thrsave00001"
                       ]
                   ]
     },
@@ -452,7 +453,9 @@
         "y":  180,
         "wires":  [
                       [
-                          "k1state00000001"
+                          "k1state00000001",
+                          "k8events000001",
+                          "k9low000000001"
                       ]
                   ],
         "l":  true
@@ -486,7 +489,8 @@
         "y":  180,
         "wires":  [
                       [
-                          "k1log000000001"
+                          "k1log000000001",
+                          "k8sess00000001"
                       ]
                   ],
         "l":  true
@@ -631,7 +635,7 @@
         "id":  "k5init000000001",
         "type":  "inject",
         "z":  "4b33b41269aa03b7",
-        "name":  "khởi động: nạp ngưỡng",
+        "name":  "khởi động: đọc ngưỡng từ Supabase",
         "props":  [
                       {
                           "vt":  "str",
@@ -647,7 +651,7 @@
         "y":  930,
         "wires":  [
                       [
-                          "k5lux0000000001"
+                          "k9thrget000001"
                       ]
                   ]
     },
@@ -656,7 +660,7 @@
         "type":  "function",
         "z":  "4b33b41269aa03b7",
         "name":  "ID5 – độ sáng phòng",
-        "func":  "// Vào: link in \u0027lux\u0027 ({lux: ADC 0..4095} mỗi 2 s), slider ngưỡng (topic \u0027threshold\u0027), inject \u0027init\u0027\n// Ra: 1 = gauge %, 2 = ô Tình trạng, 3 = đặt lại slider lúc khởi động\nconst LUX_INVERT = true;   // module LDR: càng sáng ADC càng NHỎ -\u003e đảo. Che tay mà % TĂNG thì đổi thành false\n// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật\nlet thr = flow.get(\u0027luxThreshold\u0027) ?? 30;   // Task 3.K2 chuyển ngưỡng sang bảng settings\nif (msg.topic === \u0027init\u0027) return [null, null, { payload: thr }];\nif (msg.topic === \u0027threshold\u0027) {\n    thr = Number(msg.payload);\n    flow.set(\u0027luxThreshold\u0027, thr);\n} else {\n    const raw = msg.payload \u0026\u0026 msg.payload.lux;\n    if (typeof raw !== \u0027number\u0027) return null;\n    context.set(\u0027pct\u0027, Math.round(LUX_INVERT ? 100 - raw / 40.95 : raw / 40.95));\n}\nconst pct = context.get(\u0027pct\u0027);\nif (pct === undefined) return null;\nconst segments = [{ from: 0, color: \u0027#ea5353\u0027 }, { from: thr, color: \u0027#e6e600\u0027 }, { from: Math.min(100, thr + 30), color: \u0027#5cd65c\u0027 }];\nreturn [\n    { payload: pct, ui_update: { segments } },\n    { payload: pct \u003c thr ? `Thiếu sáng (${pct}% \u003c ngưỡng ${thr}%)` : \u0027Đủ sáng\u0027 },\n    null\n];",
+        "func":  "// Vào: link in \u0027lux\u0027 ({lux: ADC 0..4095} mỗi 2 s), slider ngưỡng (topic \u0027threshold\u0027), inject \u0027init\u0027\n// Ra: 1 = gauge %, 2 = ô Tình trạng, 3 = đặt lại slider lúc khởi động\nconst LUX_INVERT = true;   // module LDR: càng sáng ADC càng NHỎ -\u003e đảo. Che tay mà % TĂNG thì đổi thành false\n// ponytail: ánh xạ tuyến tính, cần hiệu chuẩn với đèn bàn thật\nlet thr = flow.get(\u0027luxThreshold\u0027) ?? 30;   // Task 3.K2 chuyển ngưỡng sang bảng settings\nif (msg.topic === \u0027init\u0027) return [null, null, { payload: thr }];\nif (msg.topic === \u0027threshold\u0027) {\n    thr = Number(msg.payload);\n    flow.set(\u0027luxThreshold\u0027, thr);\n} else {\n    const raw = msg.payload \u0026\u0026 msg.payload.lux;\n    if (typeof raw !== \u0027number\u0027) return null;\n    context.set(\u0027pct\u0027, Math.round(LUX_INVERT ? 100 - raw / 40.95 : raw / 40.95));\n}\nconst pct = context.get(\u0027pct\u0027);\nif (pct === undefined) return null;\nconst segments = [{ from: 0, color: \u0027#ea5353\u0027 }, { from: thr, color: \u0027#e6e600\u0027 }, { from: Math.min(100, thr + 30), color: \u0027#5cd65c\u0027 }];\nreturn [\n    { payload: pct, dev: msg.payload \u0026\u0026 msg.payload.dev, ui_update: { segments } },\n    { payload: pct \u003c thr ? `Thiếu sáng (${pct}% \u003c ngưỡng ${thr}%)` : \u0027Đủ sáng\u0027 },\n    null\n];",
         "outputs":  3,
         "timeout":  0,
         "noerr":  0,
@@ -669,13 +673,314 @@
         "y":  860,
         "wires":  [
                       [
-                          "2a12b3146612a39d"
+                          "2a12b3146612a39d",
+                          "k8lux000000001",
+                          "k9low000000001"
                       ],
                       [
                           "408aa7a21e56ad3b"
                       ],
                       [
                           "04c565e381aeafb2"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8comment00001",
+        "type":  "comment",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ ghi Supabase (events / lux_readings / sessions) + ack phiÃªn vá» há»™p",
+        "info":  "",
+        "x":  300,
+        "y":  1700,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k8events000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ state -\u003e events",
+        "func":  "// ID8 â€“ pomodoro/state -\u003e báº£ng events (bá» nhá»‹p tim \u0027tick\u0027 vÃ  thiáº¿t bá»‹ giáº£ láº­p)\nconst p = msg.payload || {};\nif (p.dev !== \u0027pomo-01\u0027 || p.event === \u0027tick\u0027 || !p.ts) return null;\nreturn {\n    table: \u0027events\u0027,\n    payload: { dev: p.dev, ts: new Date(p.ts * 1000).toISOString(), type: p.event, detail: p }\n};",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  1760,
+        "wires":  [
+                      [
+                          "k8req000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8lux000000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ lux 60 s -\u003e lux_readings",
+        "func":  "// ID8 â€“ gom % Ä‘á»™ sÃ¡ng (tá»« hÃ m ID5, má»—i 2 s) thÃ nh trung bÃ¬nh 60 s -\u003e báº£ng lux_readings\nif (msg.dev !== \u0027pomo-01\u0027 || typeof msg.payload !== \u0027number\u0027) return null;\nconst now = Date.now();\nconst a = context.get(\u0027acc\u0027) || { sum: 0, n: 0, start: now };\na.sum += msg.payload; a.n++;\nif (now - a.start \u003c 60000) { context.set(\u0027acc\u0027, a); return null; }\ncontext.set(\u0027acc\u0027, { sum: 0, n: 0, start: now });\nreturn {\n    table: \u0027lux_readings\u0027,\n    payload: { dev: msg.dev, ts: new Date(now).toISOString(), lux_avg: Math.round(a.sum / a.n * 10) / 10 }\n};",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  1820,
+        "wires":  [
+                      [
+                          "k8req000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8sess00000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ session -\u003e sessions (upsert)",
+        "func":  "// ID8 â€“ pomodoro/session -\u003e upsert báº£ng sessions (gá»­i láº¡i cÃ¹ng start_ts khÃ´ng táº¡o dÃ²ng trÃ¹ng)\nconst p = msg.payload || {};\nif (p.dev !== \u0027pomo-01\u0027 || !p.start_ts) return null;\nconst iso = (u) =\u003e u ? new Date(u * 1000).toISOString() : null;\nreturn {\n    table: \u0027sessions\u0027,\n    query: \u0027?on_conflict=dev,start_ts\u0027,\n    prefer: \u0027resolution=merge-duplicates\u0027,\n    ack_ts: p.start_ts,\n    payload: {\n        dev: p.dev, start_ts: iso(p.start_ts), end_ts: iso(p.end_ts), subject: p.subject,\n        cycle: p.cycle, total: p.total, planned_min: p.planned_min, focus_min: p.focus_min,\n        pauses: p.pauses || 0, pause_sec: p.pause_sec || 0, completed: !!p.completed\n    }\n};",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  1880,
+        "wires":  [
+                      [
+                          "k8req000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8req000000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ request Supabase",
+        "func":  "// ID8 â€“ dá»±ng request REST tá»›i Supabase (dÃ¹ng chung cho má»i luá»“ng ghi)\n// VÃ o: msg.table, msg.payload (1 dÃ²ng), tÃ¹y chá»n msg.query (\"?on_conflict=...\"), msg.prefer\nmsg.url = env.get(\u0027SUPABASE_URL\u0027) + \u0027/rest/v1/\u0027 + msg.table + (msg.query || \u0027\u0027);\nmsg.method = msg.method || \u0027POST\u0027;\nconst key = env.get(\u0027SUPABASE_KEY\u0027);\nmsg.headers = {\n    apikey: key,\n    Authorization: \u0027Bearer \u0027 + key,\n    \u0027Content-Type\u0027: \u0027application/json\u0027,\n    Prefer: (msg.prefer ? msg.prefer + \u0027,\u0027 : \u0027\u0027) + \u0027return=minimal\u0027\n};\nreturn msg;",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  700,
+        "y":  1820,
+        "wires":  [
+                      [
+                          "k8http00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8http00000001",
+        "type":  "http request",
+        "z":  "4b33b41269aa03b7",
+        "name":  "Supabase REST",
+        "method":  "use",
+        "ret":  "txt",
+        "paytoqs":  "ignore",
+        "url":  "",
+        "tls":  "",
+        "persist":  false,
+        "proxy":  "",
+        "insecureHTTPParser":  false,
+        "authType":  "",
+        "senderr":  false,
+        "headers":  [
+
+                    ],
+        "x":  900,
+        "y":  1820,
+        "wires":  [
+                      [
+                          "k8resp00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8resp00000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 â€“ káº¿t quáº£ + ack",
+        "func":  "// ID8 â€“ káº¿t quáº£ ghi Supabase. Ra 1: ack phiÃªn (2xx + cÃ³ ack_ts) -\u003e to-ack. Ra 2: lá»—i -\u003e debug\nconst ok = msg.statusCode \u003e= 200 \u0026\u0026 msg.statusCode \u003c 300;\nif (!ok) {\n    node.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `${msg.table}: ${msg.statusCode}` });\n    return [null, { payload: { table: msg.table, status: msg.statusCode, body: msg.payload } }];\n}\nnode.status({ fill: \u0027green\u0027, shape: \u0027dot\u0027, text: `${msg.table} OK ${new Date().toLocaleTimeString(\u0027vi-VN\u0027)}` });\nif (msg.ack_ts) return [{ payload: { start_ts: msg.ack_ts } }, null];\nreturn null;",
+        "outputs":  2,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  1100,
+        "y":  1820,
+        "wires":  [
+                      [
+                          "25e4b4cb26a4f7e5"
+                      ],
+                      [
+                          "k8debug0000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k8debug0000001",
+        "type":  "debug",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID8 lá»—i Supabase",
+        "active":  true,
+        "tosidebar":  true,
+        "console":  false,
+        "tostatus":  false,
+        "complete":  "payload",
+        "targetType":  "msg",
+        "statusVal":  "",
+        "statusType":  "auto",
+        "x":  1320,
+        "y":  1860,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k9comment00001",
+        "type":  "comment",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – ngưỡng lưu bảng settings + cảnh báo thiếu sáng khi đang học",
+        "info":  "",
+        "x":  330,
+        "y":  2000,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k9thrget000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – đọc ngưỡng (settings)",
+        "func":  "// ID5 – lúc Node-RED khởi động: đọc ngưỡng thiếu sáng từ bảng settings (key = lux_threshold)\nconst key = env.get(\u0027SUPABASE_KEY\u0027);\nmsg.url = env.get(\u0027SUPABASE_URL\u0027) + \u0027/rest/v1/settings?key=eq.lux_threshold\u0026select=value\u0027;\nmsg.method = \u0027GET\u0027;\nmsg.headers = { apikey: key, Authorization: \u0027Bearer \u0027 + key };\nreturn msg;",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  2060,
+        "wires":  [
+                      [
+                          "k9thrhttp00001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k9thrhttp00001",
+        "type":  "http request",
+        "z":  "4b33b41269aa03b7",
+        "name":  "Supabase GET settings",
+        "method":  "use",
+        "ret":  "obj",
+        "paytoqs":  "ignore",
+        "url":  "",
+        "tls":  "",
+        "persist":  false,
+        "proxy":  "",
+        "insecureHTTPParser":  false,
+        "authType":  "",
+        "senderr":  false,
+        "headers":  [
+
+                    ],
+        "x":  660,
+        "y":  2060,
+        "wires":  [
+                      [
+                          "k9thrload00001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k9thrload00001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – nạp ngưỡng",
+        "func":  "// ID5 – nạp ngưỡng vào flow context rồi báo hàm ID5 đặt lại slider (\u0027init\u0027)\nconst v = Array.isArray(msg.payload) \u0026\u0026 msg.payload[0] ? Number(msg.payload[0].value) : NaN;\nif (msg.statusCode === 200 \u0026\u0026 !isNaN(v)) {\n    flow.set(\u0027luxThreshold\u0027, v);\n    node.status({ fill: \u0027green\u0027, shape: \u0027dot\u0027, text: `ngưỡng ${v}% (Supabase)` });\n} else {\n    node.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `lỗi đọc settings (${msg.statusCode}), dùng ${flow.get(\u0027luxThreshold\u0027) ?? 30}%` });\n}\nreturn { topic: \u0027init\u0027 };",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  880,
+        "y":  2060,
+        "wires":  [
+                      [
+                          "k5lux0000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k9thrsave00001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – lưu ngưỡng (PATCH settings)",
+        "func":  "// ID5 – kéo slider xong -\u003e PATCH settings.lux_threshold\nreturn {\n    table: \u0027settings\u0027,\n    query: \u0027?key=eq.lux_threshold\u0027,\n    method: \u0027PATCH\u0027,\n    payload: { value: Number(msg.payload), updated_at: new Date().toISOString() }\n};",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  900,
+        "y":  920,
+        "wires":  [
+                      [
+                          "k8req000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k9low000000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID5 – cảnh báo thiếu sáng",
+        "func":  "// ID5 – cảnh báo thiếu sáng: đang học + % \u003c ngưỡng LIÊN TỤC 30 s -\u003e lời nhắc OLED + còi 2 tiếng + events low_light\n// Tối đa 1 lần / 5 phút. Vào: % độ sáng (đầu ra 1 hàm ID5, có msg.dev) và link in \u0027state\u0027.\nconst HOLD_MS = 30000, GAP_MS = 5 * 60000;\nconst now = Date.now();\nif (msg.topic === \u0027pomodoro/state\u0027 || (msg.payload \u0026\u0026 msg.payload.state)) {\n    if (msg.payload.dev === \u0027pomo-01\u0027) context.set(\u0027state\u0027, msg.payload.state);\n    return null;\n}\nif (msg.dev !== \u0027pomo-01\u0027 || typeof msg.payload !== \u0027number\u0027) return null;\nconst pct = msg.payload, thr = flow.get(\u0027luxThreshold\u0027) ?? 30;\nif (context.get(\u0027state\u0027) !== \u0027study\u0027 || pct \u003e= thr) {\n    context.set(\u0027since\u0027, null);\n    node.status({});\n    return null;\n}\nconst since = context.get(\u0027since\u0027) || now;\ncontext.set(\u0027since\u0027, since);\nnode.status({ fill: \u0027yellow\u0027, shape: \u0027ring\u0027, text: `thiếu sáng ${Math.round((now - since) / 1000)} s` });\nif (now - since \u003c HOLD_MS || now - (context.get(\u0027lastAlert\u0027) || 0) \u003c GAP_MS) return null;\ncontext.set(\u0027lastAlert\u0027, now);\nnode.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `đã cảnh báo ${new Date(now).toLocaleTimeString(\u0027vi-VN\u0027)}` });\nreturn [\n    [{ payload: { type: \u0027msg\u0027, text: \u0027Phong thieu sang, hay bat den!\u0027, sec: 10 } },\n     { payload: { type: \u0027beep\u0027, times: 2 } }],\n    { table: \u0027events\u0027, payload: { dev: \u0027pomo-01\u0027, ts: new Date(now).toISOString(), type: \u0027low_light\u0027, detail: { pct, threshold: thr } } }\n];",
+        "outputs":  2,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  2120,
+        "wires":  [
+                      [
+                          "46f690f23199ac38"
+                      ],
+                      [
+                          "k8req000000001"
                       ]
                   ]
     }
