@@ -364,14 +364,14 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `ID7: trang Lich hoc AI + luu plans`.
 
 ### ✅ Mốc M3 – chuyển sang dữ liệu thật [Cả 2]
-- [ ] Mỗi máy dựng đủ hệ thống theo **Quy tắc mục 4** (env var, 3 file flow, credential broker/email, AI `.venv`, firmware nạp được). Làm lần lượt, máy này chạy thì máy kia tắt Node-RED.
-  - [ ] Khoa
+- [x] Mỗi máy dựng đủ hệ thống theo **Quy tắc mục 4** (env var, 3 file flow, credential broker/email, AI `.venv`, firmware nạp được). Làm lần lượt, máy này chạy thì máy kia tắt Node-RED.
+  - [x] Khoa _(28/11: import `phat.json` mới (205 node, đủ group), env 5 biến, broker, AI `.venv` 7/7, firmware có gửi bù. Còn App Password Gmail khi làm ID11)_
   - [x] Phát _(28/11: 3 tab, env, broker, firmware có gửi bù, AI `.venv`)_
-- [ ] Trên **từng máy**: học thử 1 chu kỳ 1 phút → `sessions` có dòng mới → trang Thống kê tự cập nhật.
-  - [ ] Khoa
+- [x] Trên **từng máy**: học thử 1 chu kỳ 1 phút → `sessions` có dòng mới → trang Thống kê tự cập nhật.
+  - [x] Khoa _(28/11: phiên 16:20 vào `sessions`, Thống kê tự cập nhật)_
   - [x] Phát _(28/11: chu kỳ 1 phút 16:05 → ack → Thống kê tự tăng 1456 → 1457 phút, không F5)_
-- [ ] Trên **từng máy**: xếp lịch → Lưu → thấy trong bảng `plans`.
-  - [ ] Khoa
+- [x] Trên **từng máy**: xếp lịch → Lưu → thấy trong bảng `plans`.
+  - [x] Khoa _(28/11: tuần 30/11 có 3 buổi, 1 lần ghi, Lưu lại không nhân đôi)_
   - [x] Phát _(28/11: 10 buổi tuần 30/11 trong `plans`)_
 
 ---
@@ -388,28 +388,29 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 
 **Files:** Modify `node-red/khoa.json`.
 
-- [ ] link in `state` → lọc `event == "done"` và `dev == "pomo-01"` → nếu `settings.telegram_enabled` → `telegram sender` tới `TELEGRAM_CHAT_ID`: "Đã học xong {total} chu kỳ môn {subject} lúc {HH:mm}".
-- [ ] Group **Telegram** (trang Phụ huynh): `ui-switch` "Báo về điện thoại khi hoàn thành" (ghi `settings`), text "Trạng thái bot" (Đã kết nối / Chưa kết nối theo status của node).
-- [ ] Kiểm tra: chạy hết 1 phiên 1 phút × 1 chu kỳ → điện thoại nhận đúng 1 tin; tắt switch → không nhận.
-- [ ] Commit `ID6: Telegram khi hoan thanh`.
+- [x] link in `state` → lọc `event == "done"` và `dev == "pomo-01"` → nếu `settings.telegram_enabled` → `telegram sender` tới `TELEGRAM_CHAT_ID`: "Đã học xong {total} chu kỳ môn {subject} lúc {HH:mm}". _(gọi thẳng Bot API `sendMessage` bằng `http request` + `env.get('TELEGRAM_TOKEN')` thay node `telegram sender`: không cần credential nên máy nào có env là chạy; token không in ra status/debug)_
+- [x] Group **Telegram** (trang Phụ huynh): `ui-switch` "Báo về điện thoại khi hoàn thành" (ghi `settings`), text "Trạng thái bot" (Đã kết nối / Chưa kết nối theo status của node). _(đọc `settings.telegram_enabled` lúc khởi động; "Trạng thái bot" = `getMe` mỗi 60 s; bỏ chữ "dự phòng" ở tên group)_
+- [x] Kiểm tra: chạy hết 1 phiên 1 phút × 1 chu kỳ → điện thoại nhận đúng 1 tin; tắt switch → không nhận. _(28/11, Khoa: nhận tin "Đã học xong 1 chu kỳ môn Hoa hoc…"; tắt switch → `settings` = false, không nhận)_
+- [x] Commit `ID6: Telegram khi hoan thanh`.
+- [x] _(Thêm)_ Mọi `ui-text` tab Khoa đổi từ giá trị cố định (wireframe) sang `msg.payload` – Dashboard 1.35 hiện chữ cố định và bỏ qua msg; ô "Cảnh báo thiếu sáng" (Trạng thái hộp) lấy từ luật ID5.
 
 ### Task 4.K2 – ID3 WiFiManager [Khoa]
 
 **Files:** Modify `firmware/pomodoro/wifi_setup.ino` (chỉ file này), `secrets.example.h`.
 
-- [ ] `connectWiFi()`: nếu **giữ nút SW của núm xoay lúc cắm điện** → `wm.resetSettings()`; `wm.setConfigPortalTimeout(180)`; `wm.autoConnect("Pomodoro-Setup")`. Hết giờ mà chưa cấu hình → chạy offline (đồng hồ, núm, 7 đoạn vẫn dùng được), MQTT thử lại như cũ.
-- [ ] Khi mở portal: `oledShowMessage("Ket noi WiFi Pomodoro-Setup, mo 192.168.4.1", 60)` rồi gọi `oledLoop()` 1 lần để vẽ.
-- [ ] Bỏ `WIFI_SSID/WIFI_PASS` khỏi `secrets.example.h` (giữ phần MQTT).
-- [ ] Kiểm tra: giữ SW lúc cắm điện → điện thoại thấy WiFi "Pomodoro-Setup" → 192.168.4.1 → chọn WiFi → hộp khởi động lại và online; rút điện cắm lại → tự vào WiFi cũ, không mở portal.
-- [ ] Commit `ID3: WiFiManager`.
+- [x] `connectWiFi()`: nếu **giữ nút SW của núm xoay lúc cắm điện** → `wm.resetSettings()`; `wm.setConfigPortalTimeout(180)`; `wm.autoConnect("Pomodoro-Setup")`. Hết giờ mà chưa cấu hình → chạy offline (đồng hồ, núm, 7 đoạn vẫn dùng được), MQTT thử lại như cũ.
+- [x] Khi mở portal: `oledShowMessage("Ket noi WiFi Pomodoro-Setup, mo 192.168.4.1", 60)` rồi gọi `oledLoop()` 1 lần để vẽ. _(gọi trong `setAPCallback`)_
+- [x] Bỏ `WIFI_SSID/WIFI_PASS` khỏi `secrets.example.h` (giữ phần MQTT). _(`secrets.h` trên máy còn 2 dòng cũ cũng không sao, code không dùng nữa)_
+- [x] Kiểm tra: giữ SW lúc cắm điện → điện thoại thấy WiFi "Pomodoro-Setup" → 192.168.4.1 → chọn WiFi → hộp khởi động lại và online; rút điện cắm lại → tự vào WiFi cũ, không mở portal. _(28/11, Khoa: chọn WiFi `tphats` qua điện thoại → online; bấm EN không giữ núm → tự vào lại. Lưu ý: WiFi đã lưu không có ở nơi demo thì hộp **tự mở** portal, không cần giữ núm)_
+- [x] Commit `ID3: WiFiManager`.
 
 ### Task 4.K3 – Nhật ký học hôm nay từ Supabase [Khoa]
 
 **Files:** Modify `node-red/khoa.json`.
 
-- [ ] Khi mở trang Tổng quan và mỗi khi có `session` mới: GET `sessions` hôm nay (giờ VN) + `events?type=eq.low_light` hôm nay → bảng: Giờ, Môn, Chu kỳ `1/3`, Thời lượng `25/25 phút`, Tạm dừng `1 lần (2 phút)`/`Không`, Kết quả `Hoàn thành`/`Bỏ dở`/`Cảnh báo thiếu sáng`, sắp theo giờ.
-- [ ] Kiểm tra: khớp từng dòng với bảng `sessions` trên Supabase.
-- [ ] Commit `ID1/ID8: nhat ky hoc tu Supabase`.
+- [x] Khi mở trang Tổng quan và mỗi khi có `session` mới: GET `sessions` hôm nay (giờ VN) + `events?type=eq.low_light` hôm nay → bảng: Giờ, Môn, Chu kỳ `1/3`, Thời lượng `25/25 phút`, Tạm dừng `1 lần (2 phút)`/`Không`, Kết quả `Hoàn thành`/`Bỏ dở`/`Cảnh báo thiếu sáng`, sắp theo giờ. _(`ui-event` riêng tab Khoa cho `/tong-quan`; tải lại sau `session` mới và `low_light` (chờ 3 s); bỏ hàm nhật ký giữ trong bộ nhớ cũ. Thêm dòng **"Dừng giữa phiên (x/y chu kỳ)"** khi phiên kết thúc trước khi đủ chu kỳ – gom phiên theo chu kỳ liên tiếp, bỏ qua phiên đang chạy)_
+- [x] Kiểm tra: khớp từng dòng với bảng `sessions` trên Supabase. _(28/11, Khoa: 8 chu kỳ + 1 `low_light` hôm nay khớp Supabase; phiên 14:52 hiện "Dừng giữa phiên (2/4)")_
+- [x] Commit `ID1/ID8: nhat ky hoc tu Supabase`.
 
 ### Task 4.P1 – ID7 nhắc giờ học, huấn luyện lại, thẻ "Hôm nay" [Phát]
 

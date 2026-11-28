@@ -158,3 +158,5 @@ ESP32 G26 ──── Relay IN
 | Còi kêu liên tục, bấm "Nhắc nhở" thì ngắt 3 lần | Còi cắm vào **NC** thay vì **NO** của relay |
 | Bấm "Nhắc nhở" mà relay không tạch | Sai `BUZZER_ON_LEVEL` (relay này cần `HIGH`), IN không ở G26, hoặc VCC chưa vào V5 |
 | Nạp code báo `Connecting...` mãi | Giữ nút **BOOT** trên board lúc hiện `Connecting...` |
+| Serial im hẳn, bấm EN cũng không ra log, nạp báo `No serial data received` (đèn đỏ vẫn sáng) | Chip ESP32 bị kẹt → **rút USB, chờ 5 s, cắm lại**. Vẫn im mới kiểm tra chập nguồn trên breadboard |
+| Cắm điện mà OLED hiện "Ket noi WiFi Pomodoro-Setup..." | Hộp không vào được WiFi đã lưu (hoặc đã giữ nút núm lúc cắm điện) → điện thoại vào WiFi **Pomodoro-Setup**, mở `192.168.4.1` chọn WiFi (ID3) |

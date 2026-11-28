@@ -27,8 +27,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Online",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  444,
         "wires":  [
@@ -53,8 +53,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Đang học",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  488,
         "wires":  [
@@ -79,8 +79,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Anh văn",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  532,
         "wires":  [
@@ -105,8 +105,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "2 / 2",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  576,
         "wires":  [
@@ -131,8 +131,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "18:10",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  620,
         "wires":  [
@@ -157,8 +157,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Không có",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  440,
         "y":  664,
         "wires":  [
@@ -269,8 +269,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Đủ sáng",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  490,
         "y":  790,
         "wires":  [
@@ -374,7 +374,7 @@
         "y":  1716,
         "wires":  [
                       [
-
+                          "k6saveset00001"
                       ]
                   ]
     },
@@ -396,8 +396,8 @@
         "color":  "#717171",
         "wrapText":  true,
         "className":  "",
-        "value":  "Chưa kết nối",
-        "valueType":  "str",
+        "value":  "payload",
+        "valueType":  "msg",
         "x":  420,
         "y":  1760,
         "wires":  [
@@ -408,37 +408,12 @@
         "id":  "pmdcca782e97f96b9386",
         "type":  "comment",
         "z":  "4b33b41269aa03b7",
-        "name":  "▼ Thông báo nhanh (Telegram, dự phòng)  (rộng 6/12 cột)",
+        "name":  "▼ Thông báo nhanh (Telegram)  (rộng 6/12 cột)",
         "info":  "",
         "x":  420,
         "y":  1672,
         "wires":  [
 
-                  ]
-    },
-    {
-        "id":  "pmdtica782e97f96b9386",
-        "type":  "inject",
-        "z":  "4b33b41269aa03b7",
-        "name":  "[MẪU] hiện chữ cho các ô chữ",
-        "props":  [
-                      {
-                          "p":  "payload"
-                      }
-                  ],
-        "repeat":  "",
-        "crontab":  "",
-        "once":  true,
-        "onceDelay":  2,
-        "topic":  "",
-        "payload":  "ok",
-        "payloadType":  "str",
-        "x":  120,
-        "y":  1672,
-        "wires":  [
-                      [
-                          "7b1554ea9fee7ddc"
-                      ]
                   ]
     },
     {
@@ -455,7 +430,8 @@
                       [
                           "k1state00000001",
                           "k8events000001",
-                          "k9low000000001"
+                          "k9low000000001",
+                          "k6done00000001"
                       ]
                   ],
         "l":  true
@@ -489,8 +465,8 @@
         "y":  180,
         "wires":  [
                       [
-                          "k1log000000001",
-                          "k8sess00000001"
+                          "k8sess00000001",
+                          "k3delay0000001"
                       ]
                   ],
         "l":  true
@@ -606,28 +582,6 @@
                       ],
                       [
                           "42ed03e27785dc85"
-                      ]
-                  ]
-    },
-    {
-        "id":  "k1log000000001",
-        "type":  "function",
-        "z":  "4b33b41269aa03b7",
-        "name":  "ID1 – nhật ký hôm nay",
-        "outputs":  1,
-        "timeout":  0,
-        "noerr":  0,
-        "initialize":  "",
-        "finalize":  "",
-        "libs":  [
-
-                 ],
-        "func":  "// Vào: link in \u0027session\u0027 (pomodoro/session, 1 bản tin = 1 chu kỳ học)\n// Ra: bảng Nhật ký học hôm nay. Lưu trong bộ nhớ Node-RED; Task 4.K3 đổi sang đọc bảng sessions (Supabase).\nconst p = msg.payload || {};\nif (!p.start_ts) return null;\nconst today = new Date().toLocaleDateString(\u0027vi-VN\u0027);\nlet log = context.get(\u0027log\u0027);\nif (!log || log.day !== today) log = { day: today, rows: [] };\nconst t = new Date(p.start_ts * 1000);\nconst hhmm = String(t.getHours()).padStart(2, \u00270\u0027) + \u0027:\u0027 + String(t.getMinutes()).padStart(2, \u00270\u0027);\nconst pm = Math.round((p.pause_sec || 0) / 60);\nconst row = {\n    \u0027Giờ\u0027: hhmm,\n    \u0027Môn\u0027: p.subject || \u0027—\u0027,\n    \u0027Chu kỳ\u0027: `${p.cycle}/${p.total}`,\n    \u0027Thời lượng\u0027: `${p.focus_min}/${p.planned_min} phút`,\n    \u0027Tạm dừng\u0027: p.pauses ? `${p.pauses} lần (${pm} phút)` : \u0027Không\u0027,\n    \u0027Kết quả\u0027: p.completed ? \u0027Hoàn thành\u0027 : \u0027Bỏ dở\u0027,\n    _ts: p.start_ts\n};\n// Hộp gửi lại cùng 1 phiên (chưa có ack) -\u003e thay dòng cũ, không thêm trùng\nconst i = log.rows.findIndex(r =\u003e r._ts === p.start_ts);\nif (i \u003e= 0) log.rows[i] = row; else log.rows.push(row);\nlog.rows = log.rows.slice(-100);\ncontext.set(\u0027log\u0027, log);\nreturn { payload: log.rows.map(({ _ts, ...r }) =\u003e r) };",
-        "x":  420,
-        "y":  1532,
-        "wires":  [
-                      [
-                          "72e1034525f775e2"
                       ]
                   ]
     },
@@ -964,8 +918,8 @@
         "type":  "function",
         "z":  "4b33b41269aa03b7",
         "name":  "ID5 – cảnh báo thiếu sáng",
-        "func":  "// ID5 – cảnh báo thiếu sáng: đang học + % \u003c ngưỡng LIÊN TỤC 30 s -\u003e lời nhắc OLED + còi 2 tiếng + events low_light\n// Tối đa 1 lần / 5 phút. Vào: % độ sáng (đầu ra 1 hàm ID5, có msg.dev) và link in \u0027state\u0027.\nconst HOLD_MS = 30000, GAP_MS = 5 * 60000;\nconst now = Date.now();\nif (msg.topic === \u0027pomodoro/state\u0027 || (msg.payload \u0026\u0026 msg.payload.state)) {\n    if (msg.payload.dev === \u0027pomo-01\u0027) context.set(\u0027state\u0027, msg.payload.state);\n    return null;\n}\nif (msg.dev !== \u0027pomo-01\u0027 || typeof msg.payload !== \u0027number\u0027) return null;\nconst pct = msg.payload, thr = flow.get(\u0027luxThreshold\u0027) ?? 30;\nif (context.get(\u0027state\u0027) !== \u0027study\u0027 || pct \u003e= thr) {\n    context.set(\u0027since\u0027, null);\n    node.status({});\n    return null;\n}\nconst since = context.get(\u0027since\u0027) || now;\ncontext.set(\u0027since\u0027, since);\nnode.status({ fill: \u0027yellow\u0027, shape: \u0027ring\u0027, text: `thiếu sáng ${Math.round((now - since) / 1000)} s` });\nif (now - since \u003c HOLD_MS || now - (context.get(\u0027lastAlert\u0027) || 0) \u003c GAP_MS) return null;\ncontext.set(\u0027lastAlert\u0027, now);\nnode.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `đã cảnh báo ${new Date(now).toLocaleTimeString(\u0027vi-VN\u0027)}` });\nreturn [\n    [{ payload: { type: \u0027msg\u0027, text: \u0027Phong thieu sang, hay bat den!\u0027, sec: 10 } },\n     { payload: { type: \u0027beep\u0027, times: 2 } }],\n    { table: \u0027events\u0027, payload: { dev: \u0027pomo-01\u0027, ts: new Date(now).toISOString(), type: \u0027low_light\u0027, detail: { pct, threshold: thr } } }\n];",
-        "outputs":  2,
+        "func":  "// ID5 – cảnh báo thiếu sáng: đang học + % \u003c ngưỡng LIÊN TỤC 30 s -\u003e lời nhắc OLED + còi 2 tiếng + events low_light\n// Tối đa 1 lần / 5 phút. Vào: % độ sáng (đầu ra 1 hàm ID5, có msg.dev) và link in \u0027state\u0027.\n// Ra: 1 = to-cmd, 2 = ghi events, 3 = ô \"Cảnh báo thiếu sáng\" (group Trạng thái hộp)\nconst HOLD_MS = 30000, GAP_MS = 5 * 60000;\nconst now = Date.now();\nif (msg.topic === \u0027pomodoro/state\u0027 || (msg.payload \u0026\u0026 msg.payload.state)) {\n    if (msg.payload.dev === \u0027pomo-01\u0027) { context.set(\u0027state\u0027, msg.payload.state); flow.set(\u0027boxState\u0027, msg.payload.state); }   // boxState: 4.K3 dùng\n    return null;\n}\nif (msg.dev !== \u0027pomo-01\u0027 || typeof msg.payload !== \u0027number\u0027) return null;\nconst pct = msg.payload, thr = flow.get(\u0027luxThreshold\u0027) ?? 30;\nconst last = context.get(\u0027lastAlert\u0027) || 0;\nconst lastTxt = last \u0026\u0026 now - last \u003c GAP_MS\n    ? `Đã cảnh báo lúc ${new Date(last).toLocaleTimeString(\u0027vi-VN\u0027, { hour: \u00272-digit\u0027, minute: \u00272-digit\u0027 })}` : null;\nif (context.get(\u0027state\u0027) !== \u0027study\u0027 || pct \u003e= thr) {\n    context.set(\u0027since\u0027, null);\n    node.status({});\n    return [null, null, { payload: lastTxt || \u0027Không có\u0027 }];\n}\nconst since = context.get(\u0027since\u0027) || now;\ncontext.set(\u0027since\u0027, since);\nconst secs = Math.round((now - since) / 1000);\nnode.status({ fill: \u0027yellow\u0027, shape: \u0027ring\u0027, text: `thiếu sáng ${secs} s` });\nif (now - since \u003c HOLD_MS || now - last \u003c GAP_MS) return [null, null, { payload: lastTxt || `Thiếu sáng ${secs} s (${pct}% \u003c ${thr}%)` }];\ncontext.set(\u0027lastAlert\u0027, now);\nnode.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `đã cảnh báo ${new Date(now).toLocaleTimeString(\u0027vi-VN\u0027)}` });\nreturn [\n    [{ payload: { type: \u0027msg\u0027, text: \u0027Phong thieu sang, hay bat den!\u0027, sec: 10 } },\n     { payload: { type: \u0027beep\u0027, times: 2 } }],\n    { table: \u0027events\u0027, payload: { dev: \u0027pomo-01\u0027, ts: new Date(now).toISOString(), type: \u0027low_light\u0027, detail: { pct, threshold: thr } } },\n    { payload: `Đã cảnh báo lúc ${new Date(now).toLocaleTimeString(\u0027vi-VN\u0027, { hour: \u00272-digit\u0027, minute: \u00272-digit\u0027 })}` }\n];",
+        "outputs":  3,
         "timeout":  0,
         "noerr":  0,
         "initialize":  "",
@@ -980,7 +934,447 @@
                           "46f690f23199ac38"
                       ],
                       [
+                          "k8req000000001",
+                          "k3delay0000001"
+                      ],
+                      [
+                          "08d3f1a5863fe84b"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6comment00001",
+        "type":  "comment",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – Telegram báo phụ huynh khi học xong (Bot API qua http request, token ở env)",
+        "info":  "",
+        "x":  360,
+        "y":  2200,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k6done00000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – done -\u003e tin Telegram",
+        "func":  "// ID6 – học xong cả phiên (event \"done\" của hộp thật) -\u003e tin Telegram cho phụ huynh\n// Gọi thẳng Bot API bằng http request + env TELEGRAM_TOKEN: không cần credential, máy nào có env là chạy.\nconst p = msg.payload || {};\nif (p.dev !== \u0027pomo-01\u0027 || p.event !== \u0027done\u0027) return null;\nif (flow.get(\u0027tgEnabled\u0027) === false) { node.status({ fill: \u0027grey\u0027, shape: \u0027ring\u0027, text: \u0027đang tắt, không gửi\u0027 }); return null; }\nconst hhmm = new Date((p.ts || Date.now() / 1000) * 1000)\n    .toLocaleTimeString(\u0027vi-VN\u0027, { hour: \u00272-digit\u0027, minute: \u00272-digit\u0027, timeZone: \u0027Asia/Ho_Chi_Minh\u0027 });\nconst subject = p.subject \u0026\u0026 p.subject !== \u0027Chua chon mon\u0027 ? p.subject : \u0027(chưa chọn môn)\u0027;\nreturn {\n    kind: \u0027send\u0027,\n    url: `https://api.telegram.org/bot${env.get(\u0027TELEGRAM_TOKEN\u0027)}/sendMessage`,\n    method: \u0027POST\u0027,\n    headers: { \u0027Content-Type\u0027: \u0027application/json\u0027 },\n    payload: { chat_id: env.get(\u0027TELEGRAM_CHAT_ID\u0027), text: `Đã học xong ${p.total} chu kỳ môn ${subject} lúc ${hhmm}` }\n};",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  2260,
+        "wires":  [
+                      [
+                          "k6http00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6pingtick0001",
+        "type":  "inject",
+        "z":  "4b33b41269aa03b7",
+        "name":  "mỗi 60 s",
+        "props":  [
+                      {
+                          "p":  "payload"
+                      }
+                  ],
+        "repeat":  "60",
+        "crontab":  "",
+        "once":  true,
+        "onceDelay":  "3",
+        "topic":  "",
+        "payload":  "",
+        "payloadType":  "date",
+        "x":  170,
+        "y":  2320,
+        "wires":  [
+                      [
+                          "k6ping00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6ping00000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – kiểm tra bot (getMe)",
+        "func":  "// ID6 – mỗi 60 s hỏi bot còn sống không (getMe) -\u003e ô \"Trạng thái bot\"\nreturn { kind: \u0027ping\u0027, url: `https://api.telegram.org/bot${env.get(\u0027TELEGRAM_TOKEN\u0027)}/getMe`, method: \u0027GET\u0027 };",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  2320,
+        "wires":  [
+                      [
+                          "k6http00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6http00000001",
+        "type":  "http request",
+        "z":  "4b33b41269aa03b7",
+        "name":  "Telegram Bot API",
+        "method":  "use",
+        "ret":  "obj",
+        "paytoqs":  "ignore",
+        "url":  "",
+        "tls":  "",
+        "persist":  false,
+        "proxy":  "",
+        "insecureHTTPParser":  false,
+        "authType":  "",
+        "senderr":  false,
+        "headers":  [
+
+                    ],
+        "x":  680,
+        "y":  2290,
+        "wires":  [
+                      [
+                          "k6result000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6result000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – kết quả Telegram",
+        "func":  "context.set(\u0027last\u0027, { kind: msg.kind, status: msg.statusCode, ok: !!(msg.payload \u0026\u0026 msg.payload.ok), at: new Date().toISOString() });\n// ID6 – kết quả gọi Telegram. Ra 1: ô Trạng thái bot. Ra 2: lỗi gửi -\u003e debug (KHÔNG kèm msg.url vì chứa token)\nconst ok = msg.statusCode === 200 \u0026\u0026 msg.payload \u0026\u0026 msg.payload.ok;\nif (msg.kind === \u0027ping\u0027) {\n    const name = ok ? \u0027@\u0027 + msg.payload.result.username : \u0027\u0027;\n    return [{ payload: ok ? `Đã kết nối (${name})` : `Chưa kết nối (${msg.statusCode || \u0027mất mạng\u0027})` }, null];\n}\nif (ok) {\n    node.status({ fill: \u0027green\u0027, shape: \u0027dot\u0027, text: `đã gửi ${new Date().toLocaleTimeString(\u0027vi-VN\u0027)}` });\n    return null;\n}\nnode.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `gửi lỗi ${msg.statusCode}` });\nreturn [null, { payload: { status: msg.statusCode, telegram: msg.payload \u0026\u0026 msg.payload.description } }];",
+        "outputs":  2,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  900,
+        "y":  2290,
+        "wires":  [
+                      [
+                          "7b1554ea9fee7ddc"
+                      ],
+                      [
+                          "k6debug0000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6debug0000001",
+        "type":  "debug",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 lỗi Telegram",
+        "active":  true,
+        "tosidebar":  true,
+        "console":  false,
+        "tostatus":  false,
+        "complete":  "payload",
+        "targetType":  "msg",
+        "statusVal":  "",
+        "statusType":  "auto",
+        "x":  1120,
+        "y":  2320,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k6settick00001",
+        "type":  "inject",
+        "z":  "4b33b41269aa03b7",
+        "name":  "khởi động: đọc công tắc",
+        "props":  [
+                      {
+                          "p":  "payload"
+                      }
+                  ],
+        "repeat":  "",
+        "crontab":  "",
+        "once":  true,
+        "onceDelay":  "3",
+        "topic":  "",
+        "payload":  "",
+        "payloadType":  "date",
+        "x":  190,
+        "y":  2380,
+        "wires":  [
+                      [
+                          "k6getset000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6getset000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – đọc telegram_enabled",
+        "func":  "// ID6 – lúc khởi động: đọc settings.telegram_enabled để đặt công tắc\nconst key = env.get(\u0027SUPABASE_KEY\u0027);\nmsg.url = env.get(\u0027SUPABASE_URL\u0027) + \u0027/rest/v1/settings?key=eq.telegram_enabled\u0026select=value\u0027;\nmsg.method = \u0027GET\u0027;\nmsg.headers = { apikey: key, Authorization: \u0027Bearer \u0027 + key };\nreturn msg;",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  420,
+        "y":  2380,
+        "wires":  [
+                      [
+                          "k6sethttp00001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6sethttp00001",
+        "type":  "http request",
+        "z":  "4b33b41269aa03b7",
+        "name":  "Supabase GET settings",
+        "method":  "use",
+        "ret":  "obj",
+        "paytoqs":  "ignore",
+        "url":  "",
+        "tls":  "",
+        "persist":  false,
+        "proxy":  "",
+        "insecureHTTPParser":  false,
+        "authType":  "",
+        "senderr":  false,
+        "headers":  [
+
+                    ],
+        "x":  660,
+        "y":  2380,
+        "wires":  [
+                      [
+                          "k6loadset00001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6loadset00001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – đặt công tắc",
+        "func":  "// ID6 – nạp trạng thái công tắc (mặc định bật nếu đọc lỗi)\nconst row = Array.isArray(msg.payload) \u0026\u0026 msg.payload[0];\nconst on = row ? row.value !== false : true;\nflow.set(\u0027tgEnabled\u0027, on);\nnode.status({ fill: row ? \u0027green\u0027 : \u0027yellow\u0027, shape: \u0027dot\u0027, text: (on ? \u0027bật\u0027 : \u0027tắt\u0027) + (row ? \u0027 (Supabase)\u0027 : \u0027 (mặc định)\u0027) });\nreturn { payload: on };",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  880,
+        "y":  2380,
+        "wires":  [
+                      [
+                          "9229555ecae062c5"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k6saveset00001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "ID6 – lưu công tắc (PATCH settings)",
+        "func":  "// ID6 – gạt công tắc -\u003e nhớ ngay + PATCH settings.telegram_enabled\nconst on = !!msg.payload;\nflow.set(\u0027tgEnabled\u0027, on);\nreturn { table: \u0027settings\u0027, query: \u0027?key=eq.telegram_enabled\u0027, method: \u0027PATCH\u0027,\n         payload: { value: on, updated_at: new Date().toISOString() } };",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  900,
+        "y":  2440,
+        "wires":  [
+                      [
                           "k8req000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3comment00001",
+        "type":  "comment",
+        "z":  "4b33b41269aa03b7",
+        "name":  "4.K3 – Nhật ký học hôm nay đọc từ Supabase (sessions + low_light)",
+        "info":  "",
+        "x":  330,
+        "y":  2520,
+        "wires":  [
+
+                  ]
+    },
+    {
+        "id":  "k3evt000000001",
+        "type":  "ui-event",
+        "z":  "4b33b41269aa03b7",
+        "ui":  "b554ed0ebaf56bc9",
+        "name":  "mở trang",
+        "x":  150,
+        "y":  2580,
+        "wires":  [
+                      [
+                          "k3route0000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3route0000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "4.K3 – mở Tổng quan?",
+        "func":  "// 4.K3 – mở trang Tổng quan thì tải lại nhật ký\nif (msg.topic !== \u0027$pageview\u0027) return null;\nconst path = (msg.payload \u0026\u0026 msg.payload.page \u0026\u0026 msg.payload.page.path) || \u0027\u0027;\nreturn path === \u0027/tong-quan\u0027 ? { payload: \u0027refresh\u0027 } : null;",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  340,
+        "y":  2580,
+        "wires":  [
+                      [
+                          "k3get000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3delay0000001",
+        "type":  "delay",
+        "z":  "4b33b41269aa03b7",
+        "name":  "chờ Supabase lưu 3 s",
+        "pauseType":  "delay",
+        "timeout":  "3",
+        "timeoutUnits":  "seconds",
+        "rate":  "1",
+        "nbRateUnits":  "1",
+        "rateUnits":  "second",
+        "randomFirst":  "1",
+        "randomLast":  "5",
+        "randomUnits":  "seconds",
+        "drop":  false,
+        "allowrate":  false,
+        "outputs":  1,
+        "x":  360,
+        "y":  2640,
+        "wires":  [
+                      [
+                          "k3get000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3start0000001",
+        "type":  "inject",
+        "z":  "4b33b41269aa03b7",
+        "name":  "khởi động",
+        "props":  [
+                      {
+                          "p":  "payload"
+                      }
+                  ],
+        "repeat":  "",
+        "crontab":  "",
+        "once":  true,
+        "onceDelay":  "4",
+        "topic":  "",
+        "payload":  "",
+        "payloadType":  "date",
+        "x":  150,
+        "y":  2700,
+        "wires":  [
+                      [
+                          "k3get000000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3get000000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "4.K3 – GET hôm nay (giờ VN)",
+        "func":  "// 4.K3 – GET song song sessions + low_light của HÔM NAY (giờ VN, UTC+7) -\u003e 2 request cùng reqId\nconst VN = 7 * 3600e3;\nconst vn = new Date(Date.now() + VN);\nconst from = new Date(Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), vn.getUTCDate()) - VN).toISOString();\nconst key = env.get(\u0027SUPABASE_KEY\u0027), base = env.get(\u0027SUPABASE_URL\u0027) + \u0027/rest/v1/\u0027;\nconst headers = { apikey: key, Authorization: \u0027Bearer \u0027 + key };\nconst reqId = Date.now();\nreturn [[\n    { reqId, part: \u0027sessions\u0027, method: \u0027GET\u0027, headers,\n      url: base + `sessions?dev=eq.pomo-01\u0026start_ts=gte.${from}\u0026select=start_ts,end_ts,subject,cycle,total,planned_min,focus_min,pauses,pause_sec,completed\u0026order=start_ts` },\n    { reqId, part: \u0027low\u0027, method: \u0027GET\u0027, headers: { ...headers },   // 2 msg không dùng chung 1 object\n      url: base + `events?dev=eq.pomo-01\u0026type=eq.low_light\u0026ts=gte.${from}\u0026select=ts,detail\u0026order=ts` }\n]];",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  580,
+        "y":  2610,
+        "wires":  [
+                      [
+                          "k3http00000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3http00000001",
+        "type":  "http request",
+        "z":  "4b33b41269aa03b7",
+        "name":  "Supabase GET",
+        "method":  "use",
+        "ret":  "obj",
+        "paytoqs":  "ignore",
+        "url":  "",
+        "tls":  "",
+        "persist":  false,
+        "proxy":  "",
+        "insecureHTTPParser":  false,
+        "authType":  "",
+        "senderr":  false,
+        "headers":  [
+
+                    ],
+        "x":  790,
+        "y":  2610,
+        "wires":  [
+                      [
+                          "k3build0000001"
+                      ]
+                  ]
+    },
+    {
+        "id":  "k3build0000001",
+        "type":  "function",
+        "z":  "4b33b41269aa03b7",
+        "name":  "4.K3 – ghép bảng nhật ký",
+        "func":  "// 4.K3 – ghép 2 kết quả cùng reqId thành bảng Nhật ký học hôm nay, sắp theo giờ\n// 1 dòng = 1 chu kỳ; thêm 1 dòng \"Dừng giữa phiên\" khi phiên kết thúc trước khi đủ số chu kỳ đã đặt.\nif (msg.statusCode !== 200) {\n    node.status({ fill: \u0027red\u0027, shape: \u0027dot\u0027, text: `${msg.part}: ${msg.statusCode}` });\n    return null;\n}\nconst parts = context.get(\u0027parts\u0027) || {};\nif (parts.reqId !== msg.reqId) { parts.reqId = msg.reqId; parts.sessions = null; parts.low = null; }\nparts[msg.part] = msg.payload || [];\ncontext.set(\u0027parts\u0027, parts);\nif (!parts.sessions || !parts.low) return null;\n\nconst hhmm = (iso) =\u003e new Date(iso).toLocaleTimeString(\u0027vi-VN\u0027, { hour: \u00272-digit\u0027, minute: \u00272-digit\u0027, timeZone: \u0027Asia/Ho_Chi_Minh\u0027 });\nconst subj = (s) =\u003e s \u0026\u0026 s !== \u0027Chua chon mon\u0027 ? s : \u0027(chưa chọn môn)\u0027;\nconst ss = parts.sessions;\nconst rows = ss.map(s =\u003e ({\n    t: s.start_ts,\n    \u0027Giờ\u0027: hhmm(s.start_ts),\n    \u0027Môn\u0027: subj(s.subject),\n    \u0027Chu kỳ\u0027: `${s.cycle}/${s.total}`,\n    \u0027Thời lượng\u0027: `${s.focus_min}/${s.planned_min} phút`,\n    \u0027Tạm dừng\u0027: s.pauses ? `${s.pauses} lần (${Math.round((s.pause_sec || 0) / 60)} phút)` : \u0027Không\u0027,\n    \u0027Kết quả\u0027: s.completed ? \u0027Hoàn thành\u0027 : \u0027Bỏ dở\u0027\n}));\n\n// Gom phiên: chu kỳ sau = chu kỳ trước + 1, cùng tổng, cách nhau \u003c 2 giờ\nconst phien = [];\nfor (const s of ss) {\n    const p = phien[phien.length - 1], last = p \u0026\u0026 p[p.length - 1];\n    const tiep = last \u0026\u0026 s.cycle === last.cycle + 1 \u0026\u0026 s.total === last.total \u0026\u0026\n                 new Date(s.start_ts) - new Date(last.start_ts) \u003c 2 * 3600e3;\n    if (tiep) p.push(s); else phien.push([s]);\n}\nconst boxBusy = [\u0027study\u0027, \u0027break\u0027, \u0027paused\u0027].includes(flow.get(\u0027boxState\u0027));\nphien.forEach((p, i) =\u003e {\n    const last = p[p.length - 1];\n    if (last.cycle \u003e= last.total) return;                       // đủ chu kỳ -\u003e phiên trọn\n    if (i === phien.length - 1 \u0026\u0026 boxBusy) return;              // phiên cuối đang chạy -\u003e chưa kết luận\n    const end = last.end_ts || last.start_ts;\n    rows.push({\n        t: new Date(new Date(end).getTime() + 1).toISOString(),  // ngay sau chu kỳ cuối\n        \u0027Giờ\u0027: hhmm(end), \u0027Môn\u0027: subj(last.subject), \u0027Chu kỳ\u0027: `${last.cycle}/${last.total}`,\n        \u0027Thời lượng\u0027: `${p.reduce((a, s) =\u003e a + (s.focus_min || 0), 0)} phút`, \u0027Tạm dừng\u0027: \u0027—\u0027,\n        \u0027Kết quả\u0027: `Dừng giữa phiên (${last.cycle}/${last.total} chu kỳ)`\n    });\n});\n\nfor (const e of parts.low) rows.push({\n    t: e.ts, \u0027Giờ\u0027: hhmm(e.ts), \u0027Môn\u0027: \u0027—\u0027, \u0027Chu kỳ\u0027: \u0027—\u0027, \u0027Thời lượng\u0027: \u0027—\u0027, \u0027Tạm dừng\u0027: \u0027—\u0027,\n    \u0027Kết quả\u0027: `Cảnh báo thiếu sáng (${e.detail \u0026\u0026 e.detail.pct}%)`\n});\nrows.sort((a, b) =\u003e new Date(a.t) - new Date(b.t));\ncontext.set(\u0027summary\u0027, phien.length + \u0027 phiên\u0027);\nnode.status({ fill: \u0027green\u0027, shape: \u0027dot\u0027, text: `${ss.length} chu kỳ, ${phien.length} phiên, ${parts.low.length} cảnh báo – ${new Date().toLocaleTimeString(\u0027vi-VN\u0027)}` });\nreturn { payload: rows.map(({ t, ...r }) =\u003e r) };",
+        "outputs":  1,
+        "timeout":  0,
+        "noerr":  0,
+        "initialize":  "",
+        "finalize":  "",
+        "libs":  [
+
+                 ],
+        "x":  1000,
+        "y":  2610,
+        "wires":  [
+                      [
+                          "72e1034525f775e2"
                       ]
                   ]
     }

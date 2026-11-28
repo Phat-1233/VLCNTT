@@ -2,9 +2,7 @@
 // secrets.h đã nằm trong .gitignore – KHÔNG đẩy mật khẩu lên GitHub.
 #pragma once
 
-// WiFi tạm thời (giai đoạn 1). Khi làm xong ID3 (WiFiManager) thì bỏ 2 dòng này.
-#define WIFI_SSID "TenWiFiNha"
-#define WIFI_PASS "MatKhauWiFi"
+// WiFi KHÔNG ghi ở đây nữa: cấu hình bằng điện thoại qua WiFi "Pomodoro-Setup" (ID3 – WiFiManager).
 
 // EMQX Cloud Serverless: Overview -> Address (chỉ tên miền, không có mqtts:// và :8883)
 //                        Access Control -> Authentication -> Add user "esp32"
