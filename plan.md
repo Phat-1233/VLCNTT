@@ -443,7 +443,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `dashboard: trang thai he thong`.
 
 ### ✅ Mốc M4 – đủ 11 chức năng [Cả 2]
-- [x] Chạy trọn kịch bản demo (Task 5.3) trên breadboard; tick từng ID ở bảng tiến độ tổng. _(28/11, máy Khoa: đạt cả 11 ID. Lúc đầu nhận 2 tin Telegram vì Node-RED máy Phát cũng đang bật (events/lux ghi đôi từ 18:19) → Phát tắt → còn 1 tin)_
+- [x] Chạy trọn kịch bản demo (Task 5.3) trên breadboard; tick từng ID ở bảng tiến độ tổng. _(28/11, máy Khoa: đạt cả 11 ID. Lúc đầu nhận 2 tin Telegram vì Node-RED máy Phát cũng đang bật (events/lux ghi đôi từ 18:19) → Phát tắt → còn 1 tin)_ _(28/11 tối, máy Phát: chạy lại đủ 8 bước, chỉ bật Node-RED máy Phát, firmware bản `setCACert` → đạt)_
 
 ---
 
