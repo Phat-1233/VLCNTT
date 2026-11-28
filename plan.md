@@ -23,18 +23,18 @@ Nếu plan này khác lộ trình thì **làm theo plan này** (plan đã chốt
 
 | ID | Chức năng | Người làm | Giai đoạn | Xong |
 |---|---|---|---|---|
-| — | Giai đoạn 0: tài khoản, hợp đồng v2, tách file | Cả 2 | 0 | [ ] |
-| ID1 | Nút nhấn → Dashboard | Khoa | 1 | [ ] |
-| ID2 | Dashboard → OLED | Phát | 1 | [ ] |
-| ID4 | Núm xoay → 7 đoạn | Khoa | 2 | [ ] |
-| ID5 | LDR → Dashboard (+ cảnh báo thiếu sáng) | Khoa | 2, 3 | [ ] |
-| ID10 | Dashboard → Buzzer | Phát | 2 | [ ] |
-| ID7 | AI xếp lịch (Flask) | Phát | 2, 3, 4 | [ ] |
-| ID8 | Lưu Supabase + ack + gửi bù | Khoa | 3 | [ ] |
-| ID9 | Biểu đồ thống kê | Phát | 3 | [ ] |
-| ID6 | Telegram | Khoa | 4 | [ ] |
-| ID3 | WiFiManager | Khoa | 4 | [ ] |
-| ID11 | Email báo cáo tuần | Phát | 4 | [ ] |
+| — | Giai đoạn 0: tài khoản, hợp đồng v2, tách file | Cả 2 | 0 | [x] |
+| ID1 | Nút nhấn → Dashboard | Khoa | 1 | [x] |
+| ID2 | Dashboard → OLED | Phát | 1 | [x] |
+| ID4 | Núm xoay → 7 đoạn | Khoa | 2 | [x] |
+| ID5 | LDR → Dashboard (+ cảnh báo thiếu sáng) | Khoa | 2, 3 | [x] |
+| ID10 | Dashboard → Buzzer | Phát | 2 | [x] |
+| ID7 | AI xếp lịch (Flask) | Phát | 2, 3, 4 | [x] |
+| ID8 | Lưu Supabase + ack + gửi bù | Khoa | 3 | [x] |
+| ID9 | Biểu đồ thống kê | Phát | 3 | [x] |
+| ID6 | Telegram | Khoa | 4 | [x] |
+| ID3 | WiFiManager | Khoa | 4 | [x] |
+| ID11 | Email báo cáo tuần | Phát | 4 | [x] |
 | — | Hàn mạch, lắp hộp, demo, báo cáo | Cả 2 | 5 | [ ] |
 
 ### Hiện trạng repo (lúc lập plan, 21/11/2026)
@@ -443,7 +443,7 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [x] Commit `dashboard: trang thai he thong`.
 
 ### ✅ Mốc M4 – đủ 11 chức năng [Cả 2]
-- [ ] Chạy trọn kịch bản demo (Task 5.3) trên breadboard; tick từng ID ở bảng tiến độ tổng.
+- [x] Chạy trọn kịch bản demo (Task 5.3) trên breadboard; tick từng ID ở bảng tiến độ tổng. _(28/11, máy Khoa: đạt cả 11 ID. Lúc đầu nhận 2 tin Telegram vì Node-RED máy Phát cũng đang bật (events/lux ghi đôi từ 18:19) → Phát tắt → còn 1 tin)_
 
 ---
 
@@ -455,8 +455,9 @@ Mục tiêu: sửa `config.h` và `pomodoro.ino` **một lần duy nhất** cho 
 - [ ] **[Khoa]** Hiệu chuẩn lại `LUX_INVERT` và ngưỡng mặc định khi LDR đã nằm trong hộp (ánh sáng qua lỗ nhỏ tối hơn lúc trên breadboard).
 
 ### Task 5.2 – Bảo mật bản nộp [Khoa]
-- [ ] `net.setCACert(rootCA)` thay `setInsecure()` (CA của EMQX Serverless: tải `https://assets.emqx.com/data/emqxsl-ca.crt`, dán vào chuỗi `rootCA`) trong `pomodoro.ino` — báo Phát pull.
-- [ ] Rà Git: `git log -p | grep -iE "service_role|apikey|token|password"` không ra bí mật thật.
+- [x] `net.setCACert(rootCA)` thay `setInsecure()` (CA của EMQX Serverless: tải `https://assets.emqx.com/data/emqxsl-ca.crt`, dán vào chuỗi `rootCA`) trong `pomodoro.ino` — báo Phát pull. _(28/11: CA = DigiCert Global Root G2 (hết hạn 2038), thumbprint khớp chuỗi chứng chỉ thật của broker; nạp board → `Ket noi MQTT (EMQX)... OK`)_
+- [x] Rà Git: `git log -p | grep -iE "service_role|apikey|token|password"` không ra bí mật thật. _(28/11: so cả giá trị thật của key Supabase, token Telegram, mật khẩu EMQX/WiFi với toàn bộ lịch sử → không có; `secrets.h` chưa từng commit)_
+- [x] Xoay token Telegram (token cũ từng lộ trong chat): BotFather `/revoke` → `setx TELEGRAM_TOKEN` trên **cả 2 máy**. _(28/11: token cũ trả 401, token mới `getMe` OK, Node-RED máy Khoa đã dùng token mới. Phát nhớ `setx` token mới)_
 
 ### Task 5.3 – Kịch bản demo [Cả 2]
 - [ ] 1. Giữ SW lúc cắm điện → cấu hình WiFi bằng điện thoại (ID3) **[Khoa]**
